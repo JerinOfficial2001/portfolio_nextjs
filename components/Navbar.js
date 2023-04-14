@@ -14,16 +14,19 @@ export default function Navbar() {
 
   const menus = [
     {
+        id:1,
       title: "HOME",
       to: "/",
       icon: <HomeOutlinedIcon />,
     },
     {
+        id:2,
       title: "MY PROJECTS",
       to: "/project",
       icon: <InventoryOutlinedIcon />,
     },
     {
+        id:3,
       title: "CONTACT",
       to: "/contact",
       icon: <ContactPhoneOutlinedIcon />,
@@ -53,11 +56,12 @@ export default function Navbar() {
           marginTop:{ xl:0,lg:0,md:0,sm:2,xs:2},
         }}
       >
-        {menus.map((menu, index) => {
+        {menus.map((menu, id) => {
           return (
             <>
-              <Stack direction="row" key={index}>
+              <Stack direction="row" >
                 <IconButton
+                key={id}
                   onMouseEnter={() => {
                     setopenBtn(true);
                   }}
@@ -72,7 +76,7 @@ export default function Navbar() {
                 >
                   {menu.icon}
                 </IconButton>
-                {openBtn && (
+                {/* {openBtn && (
                   <Button
                     onMouseLeave={() => {
                       setopenBtn(false);
@@ -80,7 +84,7 @@ export default function Navbar() {
                   >
                     {menu.title}
                   </Button>
-                )}
+                )} */}
               </Stack>
             </>
           );

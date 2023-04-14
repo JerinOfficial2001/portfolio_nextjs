@@ -205,7 +205,7 @@ export default function contact() {
                 cursor: "pointer",
               }}
             >
-              <Button onClick={()=>{router.push("https://youtube.com/@jerin5578")}} sx={{width:"100%",height:'100%',borderRadius: 20}}>Youtube</Button>
+              <Button onClick={()=>{router.push("https://github.com/jerin2001")}} sx={{width:"100%",height:'100%',borderRadius: 20}}>Youtube</Button>
             </Box>
           </Box>
         </Stack>
