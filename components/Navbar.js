@@ -33,34 +33,30 @@ export default function Navbar() {
     },
   ];
   return (
-    <div
-      style={{
-        width: { xl: "5%", lg: "5%", md: "5%", sm: "100%", xs: "100%" },
-      }}
-    >
+    <div>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: {
-            xl: "column",
-            lg: "column",
-            md: "column",
-            sm: "row",
-            xs: "row",
+          display: {
+            sm: "none",
+            xs: "none",
+            lg: "block",
+            md: "block",
+            xl: "block",
           },
           gap: 2,
           position: "fixed",
-          height: { xl: "100vh", lg: "100vh", md: "100vh", sm: 50, xs: 50 },
-          width: "100%",
-          marginTop:{ xl:0,lg:0,md:0,sm:2,xs:2},
+          height: "100vh",
+          width: "5%",
+          marginTop:20,
+          gap:10
         }}
       >
         {menus.map((menu, id) => {
           return (
             <>
-              <Stack direction="row" >
+              
                 <IconButton
+                
                 key={id}
                   onMouseEnter={() => {
                     setopenBtn(true);
@@ -72,23 +68,87 @@ export default function Navbar() {
                     background: "linear-gradient(to right,black,white,blue)",
                     border: "1px solid white",
                     "&:hover": { boxShadow: "0px 0px 5px white" },
+                    marginBottom:2
                   }}
                 >
                   {menu.icon}
                 </IconButton>
-                {/* {openBtn && (
-                  <Button
-                    onMouseLeave={() => {
-                      setopenBtn(false);
-                    }}
-                  >
-                    {menu.title}
-                  </Button>
-                )} */}
-              </Stack>
             </>
           );
         })}
+      </Box>
+{/* small screen */}
+<Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: {
+            sm: "row",
+            xs: "row",
+          },
+          display: {
+            sm: "block",
+            xs: "block",
+            lg: "none",
+            md: "none",
+            xl: "none",
+          },
+          gap: 2,
+          position: "fixed",
+          height: { sm: 50, xs: 50 },
+          width: "100%",
+          marginTop:{sm:2,xs:2},
+        }}
+      >
+       
+              <Stack direction="row" sx={{alignItems:'center',justifyContent:'center',gap:5,width:'90%'}}>
+                <Button
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                  sx={{
+                    background: "linear-gradient(to right,black,white,blue)",
+                    border: "1px solid white",
+                    height:20,
+                    color:'black',
+                    fontSize:10
+                    }}
+                >
+                  HOME
+                </Button>
+                <Button
+                  onClick={() => {
+                    router.push("/project");
+                  }}
+                  sx={{
+                    background: "linear-gradient(to right,black,white,blue)",
+                    border: "1px solid white",
+                    "&:hover": { boxShadow: "0px 0px 5px white" },
+                    height:20,
+                    color:'black',
+                    fontSize:10
+                    }}
+                >
+                  My projects
+                </Button>
+                <Button
+                  onClick={() => {
+                    router.push("/contact");
+                  }}
+                  sx={{
+                    background: "linear-gradient(to right,black,white,blue)",
+                    border: "1px solid white",
+                    "&:hover": { boxShadow: "0px 0px 5px white" },
+                    height:20,
+                    color:'black',
+                    fontSize:10
+                    }}
+                >
+                  Contact
+                </Button>
+               
+              </Stack>
+            
       </Box>
     </div>
   );

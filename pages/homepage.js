@@ -44,10 +44,11 @@ export default function Homepage() {
           sx={{
             width: "60%",
             gap: 4,
-            marginLeft: { xl: 15, lg: 15, md: 15, sm: 0, xs: 0 },
+           
             alignItems: "center",
           }}
         >
+          <Typography>Skills</Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Avatar
               sx={{
