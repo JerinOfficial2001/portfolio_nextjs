@@ -75,6 +75,10 @@ export default function contact() {
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                "&:hover":{
+                  background:
+                  "linear-gradient(to right, green, rgba(0, 0, 0, 0.236),green)"
+                }
               }}
             >
               <Button onClick={()=>{router.push("https://github.com/jerin2001")}} sx={{ width: "100%", height: "100%", borderRadius: 20 }}>
@@ -107,6 +111,10 @@ export default function contact() {
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                "&:hover":{
+                  background:
+                  "linear-gradient(to right, green, rgba(0, 0, 0, 0.236),green)"
+                }
               }}
             >
               <Button onClick={()=>{router.push("https://www.linkedin.com/in/jerin-t-8866581a0")}} sx={{ width: "100%", height: "100%", borderRadius: 20 }}>
@@ -139,6 +147,10 @@ export default function contact() {
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                "&:hover":{
+                  background:
+                  "linear-gradient(to right, green, rgba(0, 0, 0, 0.236),green)"
+                }
               }}
             >
               <Button onClick={()=>{router.push("https://www.instagram.com/jerin_25_01/")}} sx={{ width: "100%", height: "100%", borderRadius: 20 }}>
@@ -172,6 +184,10 @@ export default function contact() {
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                "&:hover":{
+                  background:
+                  "linear-gradient(to right, green, rgba(0, 0, 0, 0.236),green)"
+                }
               }}
             >
               <Button onClick={()=>{router.push("https://wa.me/qr/EMQB2VSLPRJLL1")}} sx={{width:"100%",height:'100%',borderRadius: 20}}>Whatsapp</Button>
@@ -203,6 +219,10 @@ export default function contact() {
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                "&:hover":{
+                  background:
+                  "linear-gradient(to right, green, rgba(0, 0, 0, 0.236),green)"
+                }
               }}
             >
               <Button onClick={()=>{router.push("https://github.com/jerin2001")}} sx={{width:"100%",height:'100%',borderRadius: 20}}>Youtube</Button>
