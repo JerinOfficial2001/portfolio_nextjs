@@ -4,39 +4,29 @@ import Image from "next/image";
 import Stack from "@mui/material/Stack";
 import Navbar from "@/components/Navbar";
 import Box from "@mui/material/Box";
+import Footer from "@/components/Footer";
 
 export default function Layout({ children }) {
   return (
     <>
-      <Container maxWidth="xl">
+      <Container >
         <Stack
           width="100%"
           sx={{
-            flexDirection: {
-              xl: "row",
-              lg: "row",
-              md: "column",
-              sm: "column",
-              xs: "column",
-            },
+            flexDirection: "column",
           }}
         >
           <Navbar />
           <Stack
+         spacing={3}
             sx={{
-              width: {
-                xl: "50%",
-                lg: "50%",
-                md: "50%",
-                sm: "100%",
-                xs: "100%",
-              },
               alignItems: "center",
+            
             }}
           >
             {children}
           </Stack>
-          <Box
+          {/* <Box
             sx={{
               display: {
                 sm: "none",
@@ -57,7 +47,8 @@ export default function Layout({ children }) {
               }}
               src={require("../assets/jshadow.png")}
             />
-          </Box>
+          </Box> */}
+          <Footer/>
         </Stack>
       </Container>
     </>

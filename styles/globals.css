@@ -87,7 +87,7 @@ body {
 
 body {
   color: black;
-  background:linear-gradient(to left, darkblue,white,black);
+  background:#0f0f0f;
   
 }
 
@@ -136,7 +136,7 @@ a {
   background: transparent;
   transform: translateX(-10px) rotateY(-30deg) rotateX(15deg) scale(1.03);
   pointer-events: none;
-  border: var(--bw) solid #000;
+  border: var(--bw) solid #606060;
   box-sizing: content-box;
 }
 

@@ -7,149 +7,97 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useRouter } from "next/router";
+import { Typography } from "@mui/material";
 
 export default function Navbar() {
   const [openBtn, setopenBtn] = useState(false);
   const router = useRouter();
-
+const location =router.pathname
   const menus = [
     {
-        id:1,
-      title: "HOME",
+      id: 1,
+      title: "Home",
       to: "/",
       icon: <HomeOutlinedIcon />,
     },
     {
-        id:2,
-      title: "MY PROJECTS",
+      id: 2,
+      title: "About",
+      to: "/about",
+      icon: <InventoryOutlinedIcon />,
+    },
+    {
+      id: 3,
+      title: "Works",
       to: "/project",
       icon: <InventoryOutlinedIcon />,
     },
     {
-        id:3,
-      title: "CONTACT",
+      id: 4,
+      title: "Contact",
       to: "/contact",
       icon: <ContactPhoneOutlinedIcon />,
     },
   ];
   return (
-    <div>
-      <Box
-        sx={{
-          display: {
-            sm: "none",
-            xs: "none",
-            lg: "block",
-            md: "block",
-            xl: "block",
-          },
-          gap: 2,
-          position: "fixed",
-          height: "100vh",
-          width: "5%",
-          marginTop:20,
-          gap:10
-        }}
+    <Box
+      sx={{
+        display: "flex",
+        gap: 10,
+        width: "100%",
+        justifyContent: "space-between",
+        left: 0,
+       marginTop:5,
+        height: 120,
+      }}
+    >
+      <Typography variant="h4" color="white" fontWeight="bold">
+        JeRin
+      </Typography>
+
+      <Stack
+        direction="row"
+        sx={{ width: "30%", justifyContent: "space-between" }}
       >
         {menus.map((menu, id) => {
           return (
             <>
-              
-                <IconButton
-                
-                key={id}
-                  onMouseEnter={() => {
-                    setopenBtn(true);
-                  }}
-                  onClick={() => {
-                    router.push(menu.to);
-                  }}
-                  sx={{
-                    background: "linear-gradient(to right,black,white,blue)",
-                    border: "1px solid white",
-                    "&:hover": { boxShadow: "0px 0px 5px white" },
-                    marginBottom:2
-                  }}
-                >
-                  {menu.icon}
-                </IconButton>
+            <div  key={id} onClick={()=>{router.push(menu.to)}}>
+              <Typography 
+               
+                sx={{
+                  color:location==menu.to?"white":"#606060",
+                  fontWeight: "bold",
+                  "&:hover": { color: "white" },
+                  cursor:'pointer',
+                  
+                }}
+              >
+            
+                {menu.title}
+              </Typography >
+              </div>
             </>
           );
         })}
-      </Box>
-{/* small screen */}
-<Box
+      </Stack>
+      <Button
+        variant="contained"
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: {
-            sm: "row",
-            xs: "row",
+          color: "white",
+          background: "#323232",
+          borderRadius: 4,
+          "&:hover": {
+            background: "white",
+            color: "#323232",
           },
-          display: {
-            sm: "block",
-            xs: "block",
-            lg: "none",
-            md: "none",
-            xl: "none",
-          },
-          gap: 2,
-          position: "fixed",
-          height: { sm: 50, xs: 50 },
-          width: "100%",
-          marginTop:{sm:2,xs:2},
+          textTransform: "none",
+          height: 43,
+          width: 130,
         }}
       >
-       
-              <Stack direction="row" sx={{alignItems:'center',justifyContent:'center',gap:5,width:'90%'}}>
-                <Button
-                  onClick={() => {
-                    router.push("/");
-                  }}
-                  sx={{
-                    background: "linear-gradient(to right,black,white,blue)",
-                    border: "1px solid white",
-                    height:20,
-                    color:'black',
-                    fontSize:10
-                    }}
-                >
-                  HOME
-                </Button>
-                <Button
-                  onClick={() => {
-                    router.push("/project");
-                  }}
-                  sx={{
-                    background: "linear-gradient(to right,black,white,blue)",
-                    border: "1px solid white",
-                    "&:hover": { boxShadow: "0px 0px 5px white" },
-                    height:20,
-                    color:'black',
-                    fontSize:10
-                    }}
-                >
-                  My projects
-                </Button>
-                <Button
-                  onClick={() => {
-                    router.push("/contact");
-                  }}
-                  sx={{
-                    background: "linear-gradient(to right,black,white,blue)",
-                    border: "1px solid white",
-                    "&:hover": { boxShadow: "0px 0px 5px white" },
-                    height:20,
-                    color:'black',
-                    fontSize:10
-                    }}
-                >
-                  Contact
-                </Button>
-               
-              </Stack>
-            
-      </Box>
-    </div>
+        {"Let's Talk"}
+      </Button>
+    </Box>
   );
 }
