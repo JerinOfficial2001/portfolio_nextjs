@@ -8,11 +8,15 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useRouter } from "next/router";
 import { Typography } from "@mui/material";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 export default function Navbar() {
   const [openBtn, setopenBtn] = useState(false);
+  const [menuBtn, setmenuBtn] = useState(false);
+
   const router = useRouter();
-const location =router.pathname
+  const location = router.pathname;
   const menus = [
     {
       id: 1,
@@ -47,57 +51,164 @@ const location =router.pathname
         width: "100%",
         justifyContent: "space-between",
         left: 0,
-       marginTop:5,
+        marginTop: 5,
         height: 120,
+        position: "relative",
       }}
     >
       <Typography variant="h4" color="white" fontWeight="bold">
         JeRin
       </Typography>
-
+{menuBtn ||
       <Stack
-        direction="row"
-        sx={{ width: "30%", justifyContent: "space-between" }}
-      >
-        {menus.map((menu, id) => {
-          return (
-            <>
-            <div  key={id} onClick={()=>{router.push(menu.to)}}>
-              <Typography 
-               
-                sx={{
-                  color:location==menu.to?"white":"#606060",
-                  fontWeight: "bold",
-                  "&:hover": { color: "white" },
-                  cursor:'pointer',
-                  
-                }}
-              >
-            
-                {menu.title}
-              </Typography >
-              </div>
-            </>
-          );
-        })}
-      </Stack>
-      <Button
-        variant="contained"
         sx={{
-          color: "white",
-          background: "#323232",
-          borderRadius: 4,
-          "&:hover": {
-            background: "white",
-            color: "#323232",
+          width: {
+            xl: "67%",
+            lg: "67%",
+            md: "67%",
+            sm: "100%",
+            xs: "100%",
           },
-          textTransform: "none",
-          height: 43,
-          width: 130,
+          justifyContent: "space-between",
+          flexDirection: {
+            xl: "row",
+            lg: "row",
+            md: "row",
+            sm: "column",
+            xs: "column",
+          },
+          background: {
+            xl: "none",
+            lg: "none",
+            md: "none",
+            sm: "#0f0f0f",
+            xs: "#0f0f0f",
+          },
+          position: {
+            xl: "sticky",
+            lg: "sticky",
+            md: "sticky",
+            sm: "absolute",
+            xs: "absolute",
+          },
+          top: 60,
+          alignItems: {
+            xl: "normal",
+            lg: "normal",
+            md: "normal",
+            sm: "center",
+            xs: "center",
+          },
+          gap: {
+            xl: 0,
+            lg: 0,
+            md: 0,
+            sm: 4,
+            xs: 4,
+          },
+          zIndex: 1000,
         }}
       >
-        {"Let's Talk"}
-      </Button>
+        <Box
+          sx={{
+            height: "100%",
+            display: "flex",
+            width: "45%",
+            justifyContent: "space-between",
+            flexDirection: {
+              xl: "row",
+              lg: "row",
+              md: "row",
+              sm: "column",
+              xs: "column",
+            },
+            alignItems: {
+              xl: "normal",
+              lg: "normal",
+              md: "normal",
+              sm: "center",
+              xs: "center",
+            },
+            gap: {
+              xl: 0,
+              lg: 0,
+              md: 0,
+              sm: 4,
+              xs: 4,
+            },
+          }}
+        >
+          {menus.map((menu, id) => {
+            return (
+              <>
+                <div
+                  key={id}
+                  onClick={() => {
+                    router.push(menu.to);
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: location == menu.to ? "white" : "#606060",
+                      fontWeight: "bold",
+                      "&:hover": { color: "white" },
+                      cursor: "pointer",
+                    }}
+                  >
+                    {menu.title}
+                  </Typography>
+                </div>
+              </>
+            );
+          })}
+        </Box>
+        <Box>
+          <Button
+            onClick={() => {
+              router.push("/contact");
+            }}
+            variant="contained"
+            sx={{
+              color: "white",
+              background: "#323232",
+              borderRadius: 4,
+              "&:hover": {
+                background: "white",
+                color: "#323232",
+              },
+              textTransform: "none",
+              height: 43,
+              width: 130,
+              marginBottom: {
+                xl: 0,
+                lg: 0,
+                md: 0,
+                sm: 3,
+                xs: 3,
+              },
+            }}
+          >
+            {"Let's Talk"}
+          </Button>
+        </Box>
+      </Stack>}
+      <Box sx={{
+        display:{
+          xl: "none",
+                lg: "none",
+                md: "none",
+                sm: "block",
+                xs: "block",
+        }
+      }}>
+        {menuBtn? 
+        <IconButton size="big" onClick={()=>{setmenuBtn(false)}}>
+          <MenuOutlinedIcon sx={{ color: "white", fontSize: 40 }} />
+        </IconButton>:
+        <IconButton size="big" onClick={()=>{setmenuBtn(true)}}>
+          <CloseOutlinedIcon sx={{ color: "white", fontSize: 40 }}/>
+        </IconButton>}
+      </Box>
     </Box>
   );
 }

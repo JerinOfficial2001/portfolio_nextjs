@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 export default function Layout({ children }) {
   return (
     <>
+     <div className="animate__animated animate__fadeInDownBig " >
       <Container >
         <Stack
           width="100%"
@@ -21,7 +22,7 @@ export default function Layout({ children }) {
          spacing={3}
             sx={{
               alignItems: "center",
-            
+           
             }}
           >
             {children}
@@ -51,6 +52,7 @@ export default function Layout({ children }) {
           <Footer/>
         </Stack>
       </Container>
+      </div>
     </>
   );
 }

@@ -5,17 +5,20 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import  Divider  from "@mui/material/Divider";
+import { useRouter } from "next/router";
 
 export default function About() {
+  const router =useRouter()
   return (
     <>
       <Layout>
         <Stack direction="row" spacing={3} width="100%">
+        <div className="animate__animated animate__zoomIn animate__delay-1s" style={{width: "32%",}}>
           <Box
             sx={{
               background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
               height: 370,
-              width: "32%",
+              width: "100%",
               borderRadius: 8,
               display: "flex",
               justifyContent: "center",
@@ -44,6 +47,7 @@ export default function About() {
               />
             </Box>
           </Box>
+          </div>
           <Box
             sx={{
               height: 370,
@@ -54,6 +58,7 @@ export default function About() {
               alignItems: "center",
             }}
           >
+            <div className="animate__animated animate__fadeInUp animate__delay-1s" >
             <Stack
               direction="row"
               sx={{
@@ -64,28 +69,34 @@ export default function About() {
                 gap: 1,
               }}
             >
+              
               <Image
                 placeholder="empty"
                 src={require("../assets/star-2.png")}
                 style={{ height: "47%", width: "50px" }}
               />
+               
               <Typography
                 sx={{ color: "white", fontSize: 70, fontWeight: "bold" }}
               >
                 SELF-SUMMARY
               </Typography>
+             
               <Image
                 placeholder="empty"
                 src={require("../assets/star-2.png")}
                 style={{ height: "47%", width: "50px" }}
               />
+              
             </Stack>
+            </div>
             {/* container  */}
+            <div className="animate__animated animate__zoomIn animate__delay-1s" style={{width: "100%",height:'400px'}}>
             <Stack
               direction="row"
               sx={{
                 width: "100%",
-                height: 400,
+                height:"100%",
                 background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
                 borderRadius: 8,
                 display: "flex",
@@ -93,7 +104,7 @@ export default function About() {
                 alignItems: "center",
                 gap: 2,
                 flexDirection: "column",
-                cursor: "pointer",
+            
               }}
             >
               {/* About*/}
@@ -144,17 +155,19 @@ export default function About() {
                 </Box>
               </Box>
             </Stack>
+            </div>
           </Box>
         </Stack>
         {/* 2nd */}
         <Stack direction="row" spacing={3} width="100%" sx={{ height: 300 }}>
+        <div className="animate__animated animate__zoomIn animate__delay-1s" style={{width: "50%",}}>
           <Box
             sx={{
               background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
               height: "100%",
-              width: "50%",
+              width: "100%",
               borderRadius: 8,
-              cursor: "pointer",
+              
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -242,12 +255,14 @@ export default function About() {
               
             </Stack>
           </Box>
+          </div>
   {/* Education       */}
+  <div className="animate__animated animate__zoomIn animate__delay-1s" style={{width: "50%",}}>
           <Box
             sx={{
               background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
               height: "100%",
-              width: "50%",
+              width: "100%",
               borderRadius: 8,
               gap: 2,
               flexDirection: "column",
@@ -265,24 +280,127 @@ export default function About() {
             <Typography sx={{ color: "white", fontSize: 20 }}>
                 EDUCATION
               </Typography>
-              
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "90%",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "#5a5a5a",
+                    fontSize: 13,
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  2019 - 2023
+                </Typography>
+                <Typography sx={{ color: "white", fontSize: 20 }}>
+                Bachelor Degree in Mechatronics
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "#5a5a5a",
+                    fontSize: 13,
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  SNS College Of Technology
+                </Typography>
+                
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "90%",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "#5a5a5a",
+                    fontSize: 13,
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  2018 - 2019
+                </Typography>
+                <Typography sx={{ color: "white", fontSize: 20 }}>
+                HSC
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "#5a5a5a",
+                    fontSize: 13,
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Saru Matric Higher Secondary School
+                </Typography>
+                
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "90%",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "#5a5a5a",
+                    fontSize: 13,
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  2016 - 2017
+                </Typography>
+                <Typography sx={{ color: "white", fontSize: 20 }}>
+                SSLC
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "#5a5a5a",
+                    fontSize: 13,
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Saru Matric Higher Secondary School
+                </Typography>
+                
+              </Box>
               </Stack>
           </Box>
+          </div>
         </Stack>
         {/* 3rd */}
         <Stack direction="row" spacing={3} width="100%" sx={{ height: 250 }}>
           {/* blog          */}
+          <div className="animate__animated animate__zoomIn animate__delay-1s" style={{width: "25%",}}>
           <Box
             sx={{
               background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
               height: "100%",
-              width: "25%",
+              width: "100%",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               gap: 2,
               flexDirection: "column",
-              cursor: "pointer",
+             
               borderRadius: 8,
             }}
           >
@@ -333,70 +451,80 @@ export default function About() {
               ></Box>
             </Stack>
           </Box>
+          </div>
           {/* specialization */}
-          <Box
-            sx={{
-              background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
-              height: "100%",
-              width: "50%",
-              borderRadius: 8,
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 2,
-              flexDirection: "column",
+          <div
+            className="animate__animated animate__zoomIn animate__delay-1s"
+            style={{ width: "50%" }}
+            onClick={() => {
+              router.push("/contact");
             }}
           >
-            <Stack
-              sx={{
-                height: 100,
-                width: "90%",
-              }}
-            >
-              <Image
-                placeholder="empty"
-                src={require("../assets/icon2.png")}
-                alt="star"
-                style={{ height: "100%", width: "50px" }}
-              />
-            </Stack>
             <Box
               sx={{
-                width: "90%",
-                height: 70,
+                background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+                height: "100%",
+                width: "100%",
+                borderRadius: 8,
+                cursor: "pointer",
                 display: "flex",
                 justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
                 flexDirection: "column",
-                marginBottom: 8,
               }}
             >
-              <Typography
-                sx={{ color: "white", fontSize: 40, fontWeight: "bold" }}
+              <Stack
+                sx={{
+                  height: 80,
+                  width: "90%",
+                }}
               >
-                {"Let's"}
-              </Typography>
-
-              <Box sx={{ display: "flex", gap: 1 }}>
+                <Image
+                  placeholder="empty"
+                  src={require("../assets/icon2.png")}
+                  alt="star"
+                  style={{ height: "100%", width: "50px" }}
+                />
+              </Stack>
+              <Box
+                sx={{
+                  width: "90%",
+                  height: 70,
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  marginBottom: 8,
+                }}
+              >
                 <Typography
                   sx={{ color: "white", fontSize: 40, fontWeight: "bold" }}
                 >
-                  work
+                  {"Let's"}
                 </Typography>
-                <Typography
-                  sx={{ color: "#5b78f6", fontSize: 40, fontWeight: "bold" }}
-                >
-                  together.
-                </Typography>
+
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Typography
+                    sx={{ color: "white", fontSize: 40, fontWeight: "bold" }}
+                  >
+                    work
+                  </Typography>
+                  <Typography
+                    sx={{ color: "#5b78f6", fontSize: 40, fontWeight: "bold" }}
+                  >
+                    together.
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
+          </div>
           {/* profiles          */}
+          <div className="animate__animated animate__zoomIn animate__delay-1s" style={{width: "25%",}}>
           <Box
             sx={{
               background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
               height: "100%",
-              width: "25%",
+              width: "100%",
               borderRadius: 8,
               cursor: "pointer",
               display: "flex",
@@ -448,18 +576,30 @@ export default function About() {
                 </Typography>
               </Box>
               <Box
-                sx={{
-                  width: "20%",
-                  height: "90%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 2,
-                  flexDirection: "column",
-                }}
-              ></Box>
+                  sx={{
+                    width: "20%",
+                    height: "90%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 2,
+                    flexDirection: "column",
+                  }}
+                >
+                  <button
+                        className="batman"
+                       
+                        onClick={() => {
+                          router.push("/credentials");
+                        }}
+                        
+                      >
+                        
+                        </button>
+                </Box>
             </Stack>
           </Box>
+          </div>
         </Stack>
       </Layout>
     </>

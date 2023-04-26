@@ -58,8 +58,16 @@ export default function Footer() {
       </Typography>
     <Stack
       direction="row"
-      sx={{ width: "30%", justifyContent: "space-between" }}
+      sx={{
+        width: {
+        xl: "67%",
+        lg: "67%",
+        md: "67%",
+        sm: "80%",
+        xs: "80%",
+      }, justifyContent: "space-between" }}
     >
+      
       {menus.map((menu, id) => {
         return (
           <>

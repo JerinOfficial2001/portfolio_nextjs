@@ -12,10 +12,9 @@ import Button from "@mui/material/Button";
 import Image from "next/image";
 import React, { useState } from "react";
 import Card from "@/components/Card";
-import  Grid  from "@mui/material/Grid";
+import Grid from "@mui/material/Grid";
 
 export default function Project() {
-
   const projects = [
     {
       title: "Gallery",
@@ -53,26 +52,40 @@ export default function Project() {
             alignItems: "center",
           }}
         >
-          <Box sx={{ borderBottom: "5px solid red",marginBottom:5 }}>
-            <Typography
+          <div className="animate__animated animate__fadeInUp animate__delay-1s">
+            <Stack
+              direction="row"
               sx={{
-                fontWeight: "bold",
-                color: "white",
-                fontSize: { xl: 60, lg: 60, md: 60, sm: 20, xs: 20 },
-                fontFamily: "cursive",
-                " -webkit-text-stroke-color": "black",
-                
+                height: 100,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 1,
               }}
             >
-              MY PROJECTS
-            </Typography>
-          </Box>
+              <Image
+                placeholder="empty"
+                src={require("../assets/star-2.png")}
+                style={{ height: "47%", width: "50px" }}
+              />
+
+              <Typography
+                sx={{ color: "white", fontSize: 70, fontWeight: "bold" }}
+              >
+                MY PROJECTS
+              </Typography>
+
+              <Image
+                placeholder="empty"
+                src={require("../assets/star-2.png")}
+                style={{ height: "47%", width: "50px" }}
+              />
+            </Stack>
+          </div>
           <Grid container direction="row" rowGap={2} columnGap={2} columns={8}>
-          {projects.map((project, index) => {
-            return (
-              <Card project={project} key={index}/>
-            );
-          })}
+            {projects.map((project, index) => {
+              return <Card project={project} key={index} />;
+            })}
           </Grid>
         </Stack>
       </Layout>
