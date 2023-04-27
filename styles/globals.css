@@ -219,7 +219,7 @@ a {
  
  .firstrow{
   background: linear-gradient(to right,#1e1e1e,#1a1a1a,#141414);
-  height: 330px;
+  height: 310px;
   width: 50%;
   border-radius: 40px;
   cursor: pointer;
@@ -229,11 +229,30 @@ a {
   gap: 10px;
   margin-top:15px;
  }
+ .secondrow{
+  width: 50%;
+ }
+ .thirdrow{
+  width: 25%;
+ }
+ .thirtytwo{
+  width: 32%;
+ }
  @media (max-width:899px){
   .firstrow{
     width: 100%;
 
   }
+  .secondrow{
+    width: 100%;
+
+  }
+  .thirdrow{
+    width: 100%;
+   }
+   .thirtytwo{
+    width: 70%;
+   }
  }
  
  

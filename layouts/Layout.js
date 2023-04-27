@@ -22,33 +22,12 @@ export default function Layout({ children }) {
          spacing={3}
             sx={{
               alignItems: "center",
-           
+
             }}
           >
             {children}
           </Stack>
-          {/* <Box
-            sx={{
-              display: {
-                sm: "none",
-                xs: "none",
-                lg: "block",
-                md: "block",
-                xl: "block",
-              },
-            }}
-          >
-            <Image
-              placeholder="blur"
-              alt="img"
-              style={{
-                height: "550px",
-                width: "40%",
-                position: "fixed",
-              }}
-              src={require("../assets/jshadow.png")}
-            />
-          </Box> */}
+    
           <Footer/>
         </Stack>
       </Container>
