@@ -373,6 +373,7 @@ setinputData({
                     borderRadius: 3,
                     "& fieldset": { border: "none" },
                     input: { color: "white" },
+                    color:'white'
                   }}
                   label="Message*"
                   InputLabelProps={{

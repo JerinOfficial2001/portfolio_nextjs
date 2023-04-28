@@ -21,8 +21,14 @@ export default function Credentials() {
             }, }}>
         
       <ProfileCard/>
-        <Box sx={{ width: "60%",display:'flex',justifyContent:'center'}}>
-                  <Stack sx={{width:'90%',gap:5}}>
+        <Box sx={{ width: {
+          xl: "60%",
+          lg: "60%",
+          md: "60%",
+          sm: "100%",
+          xs: "100%",
+        },display:'flex',justifyContent:'center'}}>
+                  <Stack sx={{width:'100%',gap:5}}>
                   <Box
                 sx={{
                   width: "90%",
@@ -72,7 +78,7 @@ export default function Credentials() {
               <Stack sx={{
              
              height: "90%",
-             width: "90%",
+             width: "100%",
              gap: 1,
            }}>
             <Typography sx={{ color: "white", fontSize: 20 }}>
@@ -185,7 +191,7 @@ export default function Credentials() {
               <Stack sx={{
              
              height: "90%",
-             width: "90%",
+             width: "100%",
              gap: 1,
            }}>
             
@@ -203,8 +209,9 @@ export default function Credentials() {
              <Stack sx={{
             height: "90%",
             width: "100%",
-            gap: 1,
-            flexDirection:'row'
+            gap: 10,
+            flexDirection:'row',
+           
             
           }}>
                <Box sx={{

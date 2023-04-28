@@ -99,7 +99,7 @@ export default function FirstrowAbout() {
                     lg: 70,
                     md: 70,
                     sm: 30,
-                    xs: 25,
+                    xs: 20,
                   },
                   fontWeight: "bold",
                 }}
