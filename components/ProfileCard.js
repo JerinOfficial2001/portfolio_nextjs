@@ -31,7 +31,7 @@ export default function ProfileCard() {
               borderRadius: 8,
               justifyContent: "center",
               alignItems: "center",
-             
+              border:'1px solid #232323',
               
             }}
           >
@@ -111,6 +111,7 @@ export default function ProfileCard() {
                     height: "100%",
                     width: "10%",
                     borderRadius: "50%",
+                    border:'1px solid #232323',
                     "&:hover": {
                       background: "white",
                       color: "#323232",
@@ -129,6 +130,7 @@ export default function ProfileCard() {
                     height: "100%",
                     width: "10%",
                     borderRadius: "50%",
+                    border:'1px solid #232323',
                     "&:hover": {
                       background: "white",
                       color: "#323232",
@@ -146,6 +148,7 @@ export default function ProfileCard() {
                     height: "100%",
                     width: "10%",
                     borderRadius: "50%",
+                    border:'1px solid #232323',
                     "&:hover": {
                       background: "white",
                       color: "#323232",

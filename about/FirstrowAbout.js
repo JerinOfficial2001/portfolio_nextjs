@@ -33,6 +33,8 @@ export default function FirstrowAbout() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              border:'1px solid #232323'
+
             }}
           >
             <Box
@@ -131,6 +133,8 @@ export default function FirstrowAbout() {
                 alignItems: "center",
                 gap: 2,
                 flexDirection: "column",
+              border:'1px solid #232323'
+
               }}
             >
               {/* About*/}

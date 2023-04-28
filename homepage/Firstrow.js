@@ -38,6 +38,8 @@ export default function Firstrow() {
              alignItems: "center",
              gap: "10px",
              marginTop:"15px",
+             border:'1px solid #232323'
+
           }}>
           <Box
             sx={{
@@ -46,6 +48,7 @@ export default function Firstrow() {
               background: "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
               borderRadius: "40px 0px 40px 0px",
               boxShadow: "0px 0px 5px black",
+              
             }}
           >
             <Image
@@ -169,8 +172,36 @@ export default function Firstrow() {
                 background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
                 borderRadius: 8,
                 cursor: "pointer",
+              border:'1px solid #232323',
+              justifyContent:'center',
+              alignItems:'center'
+
               }}
-            ></Stack>
+            >
+               <marquee width="90%" direction="left" behavior="scroll">
+              <Typography
+                sx={{
+                  color: "#5a5a5a",
+                  fontSize: {
+                    xl: 15,
+                  lg: 15,
+                  md: 15,
+                  sm: 15,
+                  xs: 10,
+                  },
+                  fontWeight: "bold",
+                  textTransform: "uppercase",
+                }}
+              >
+                
+                <span style={{color:'white'}}>  *  </span>I am  <span style={{color:'white'}}> Jerin </span> from Coimbatore <span style={{color:'white'}}>  *  </span>
+                I am a <span style={{color:'white'}}> Web Developer </span> from Coimbatore <span style={{color:'white'}}>  *  </span>
+                I am  <span style={{color:'white'}}> Jerin </span> from Coimbatore <span style={{color:'white'}}>  *  </span>
+                I am a <span style={{color:'white'}}> Web Developer </span> from Coimbatore <span style={{color:'white'}}>  *  </span>
+              </Typography>
+              </marquee>
+             
+            </Stack>
           </div>
           {/* container  */}
           <Stack
@@ -217,6 +248,8 @@ export default function Firstrow() {
                   gap: 2,
                   flexDirection: "column",
                   cursor: "pointer",
+              border:'1px solid #232323'
+
                 }}
               >
                 <Image
@@ -307,6 +340,8 @@ export default function Firstrow() {
                   gap: 2,
                   flexDirection: "column",
                   cursor: "pointer",
+              border:'1px solid #232323'
+
                 }}
               >
                 <Stack

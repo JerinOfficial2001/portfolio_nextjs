@@ -40,6 +40,8 @@ export default function SecondrowAbout() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
+            border:'1px solid #232323'
+
           }}
         >
           <Stack
@@ -240,6 +242,8 @@ export default function SecondrowAbout() {
             alignItems: "center",
             justifyContent: "center",
             display: "flex",
+            border:'1px solid #232323'
+
           }}
         >
           <Stack

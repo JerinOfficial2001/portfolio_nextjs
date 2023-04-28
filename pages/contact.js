@@ -139,6 +139,7 @@ export default function contact() {
                     },
                     width: 100,
                     borderRadius: "50%",
+                      border:'1px solid #232323',
                     "&:hover": {
                       background: "white",
                       color: "#323232",
@@ -165,6 +166,7 @@ export default function contact() {
                     },
                     width: 100,
                     borderRadius: "50%",
+                      border:'1px solid #232323',
                     "&:hover": {
                       background: "white",
                       color: "#323232",
@@ -190,6 +192,7 @@ export default function contact() {
                     },
                     width: 100,
                     borderRadius: "50%",
+                    border:'1px solid #232323',
                     "&:hover": {
                       background: "white",
                       color: "#323232",
@@ -225,6 +228,8 @@ export default function contact() {
                     sm: 2,
                     xs: 2,
                   },
+              border:'1px solid #232323'
+
                 }}
               >
                 <Stack

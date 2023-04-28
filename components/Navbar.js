@@ -57,9 +57,12 @@ export default function Navbar() {
       }}
     >
       <div onClick={()=>{router.push('/auth')}} style={{cursor:'pointer'}}>
-      <Typography variant="h4" color="white" fontWeight="bold">
+        <Button sx={{textTransform:'none'}}>
+        <Typography variant="h4" color="white" fontWeight="bold">
         JeRin
       </Typography>
+        </Button>
+      
       </div>
      {menuBtn && <ResNav/>}
       <Stack direction="row"

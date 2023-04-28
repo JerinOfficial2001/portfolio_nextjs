@@ -41,6 +41,8 @@ export default function Thirdrow() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
+            border:'1px solid #232323'
+
           }}
         ></Box>
       </div>
@@ -69,6 +71,8 @@ export default function Thirdrow() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
+            border:'1px solid #232323'
+
           }}
         >
           <Stack

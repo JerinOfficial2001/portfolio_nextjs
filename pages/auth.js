@@ -129,6 +129,7 @@ setinputData({
             </Stack>
                
                 <TextField
+                type="email"
                   variant="outlined"
                   sx={{
                     width: "100%",
@@ -154,6 +155,7 @@ setinputData({
                 />
                
                <TextField
+               type="password"
                   variant="outlined"
                   sx={{
                     width: "100%",

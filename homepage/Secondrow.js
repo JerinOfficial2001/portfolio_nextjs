@@ -2,9 +2,10 @@ import Box from "@mui/material/Box";
 import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Image from "next/image";
 import "animate.css";
 import { useRouter } from "next/router";
+import * as icon from "react-icons/ai";
+import Button from "@mui/material/Button";
 
 export default function Secondrow() {
   const router = useRouter();
@@ -44,9 +45,28 @@ export default function Secondrow() {
             flexDirection: "column",
             cursor: "pointer",
             borderRadius: 8,
+            border:'1px solid #232323'
+
           }}
         >
-          <Stack sx={{ height: 130, width: "100%" }}></Stack>
+          <Stack sx={{
+              height: 130,
+              width: {
+                xl: "90%",
+                lg: "90%",
+                md: "90%",
+                sm: "80%",
+                xs: "60%",
+              },
+              background: "linear-gradient(to left,#1e1e1e,#1a1a1a,#141414)",
+              marginTop: 5,
+              alignItems: "center",
+              justifyContent: "center",
+              border:'1px solid #232323',
+              borderRadius:8
+            }}>
+            <Typography sx={{color: "white",fontWeight:'bold',fontSize:50}}>BLOG</Typography>
+          </Stack>
 
           <Stack
             direction="row"
@@ -122,6 +142,8 @@ export default function Secondrow() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
+            border:'1px solid #232323'
+
           }}
         >
           <Stack sx={{ height: 130, width: "100%" }}></Stack>
@@ -186,7 +208,6 @@ export default function Secondrow() {
                 alignItems: "center",
                 gap: 2,
                 flexDirection: "column",
-                
               }}
             >
               <button
@@ -219,9 +240,84 @@ export default function Secondrow() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
+            border:'1px solid #232323'
+            
           }}
         >
-          <Stack sx={{ height: 130, width: "100%" }}></Stack>
+          <Stack
+            sx={{
+              height: 130,
+              width: {
+                xl: "90%",
+                lg: "90%",
+                md: "90%",
+                sm: "80%",
+                xs: "60%",
+              },
+              background: "linear-gradient(to left,#1e1e1e,#1a1a1a,#141414)",
+              marginTop: 5,
+              alignItems: "center",
+              justifyContent: "center",
+              border:'1px solid #232323',
+              borderRadius:8
+            }}
+          >
+            <div
+              className="animate__animated animate__zoomIn animate__delay-1s"
+              style={{
+                height: "80%",
+                width: "100%",
+                display: "flex",
+                gap: "15px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Button
+              
+                onClick={() => {
+                  router.push("https://www.linkedin.com/in/jerin-t-8866581a0");
+                }}
+                sx={{
+                  color: "white",
+                  background:
+                    "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+                  height: "100%",
+                  width: "40%",
+                  borderRadius: "50%",
+              border:'1px solid #232323',
+
+                  "&:hover": {
+                    background: "white",
+                    color: "#323232",
+                  },
+                }}
+              >
+                <icon.AiOutlineLinkedin size="50px" />
+              </Button>
+
+              <Button
+                onClick={() => {
+                  router.push("https://wa.me/qr/EMQB2VSLPRJLL1");
+                }}
+                sx={{
+                  color: "white",
+                  background:
+                    "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+                  height: "100%",
+                  width: "40%",
+                  borderRadius: "50%",
+                  border:'1px solid #232323',
+                  "&:hover": {
+                    background: "white",
+                    color: "#323232",
+                  },
+                }}
+              >
+                <icon.AiOutlineWhatsApp size="50px" />
+              </Button>
+            </div>
+          </Stack>
 
           <Stack
             direction="row"
@@ -275,7 +371,7 @@ export default function Secondrow() {
               <button
                 className="batman"
                 onClick={() => {
-                  router.push("/");
+                  router.push("/credentials");
                 }}
               ></button>
             </Box>

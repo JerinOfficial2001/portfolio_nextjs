@@ -13,13 +13,7 @@ export default function AdminCard({dataBase}) {
   return (
     <Stack
       sx={{
-        height: {
-          xl: 250,
-          lg: 250,
-          md: 250,
-          sm: 250,
-          xs: 210,
-        },
+        minHeight:250,
         width: "100%",
         background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
         borderRadius: 10,
