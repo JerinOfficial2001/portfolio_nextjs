@@ -7,6 +7,7 @@ import "animate.css";
 import { useRouter } from "next/router";
 
 export default function Secondrow() {
+  const router = useRouter();
   return (
     <Stack
       width="100%"
@@ -81,7 +82,7 @@ export default function Secondrow() {
                   lg: 60,
                   md: 60,
                   sm: 150,
-                  xs: 150,
+                  xs: 100,
                 },
                 height: "90%",
                 display: "flex",
@@ -129,7 +130,13 @@ export default function Secondrow() {
             direction="row"
             sx={{
               height: "35%",
-              width: "100%",
+              width: {
+                xl: "100%",
+                lg: "100%",
+                md: "100%",
+                sm: "100%",
+                xs: "90%",
+              },
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -140,8 +147,8 @@ export default function Secondrow() {
                   xl: "80%",
                   lg: "80%",
                   md: "80%",
-                  sm: 360,
-                  xs: 360,
+                  sm: 400,
+                  xs: 400,
                 },
 
                 height: "80%",
@@ -171,7 +178,7 @@ export default function Secondrow() {
                   lg: 60,
                   md: 60,
                   sm: 150,
-                  xs: 150,
+                  xs: 220,
                 },
                 height: "90%",
                 display: "flex",
@@ -179,6 +186,7 @@ export default function Secondrow() {
                 alignItems: "center",
                 gap: 2,
                 flexDirection: "column",
+                
               }}
             >
               <button
@@ -254,7 +262,7 @@ export default function Secondrow() {
                   lg: 60,
                   md: 60,
                   sm: 150,
-                  xs: 150,
+                  xs: 100,
                 },
                 height: "90%",
                 display: "flex",

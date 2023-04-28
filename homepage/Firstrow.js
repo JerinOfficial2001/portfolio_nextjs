@@ -7,6 +7,7 @@ import "animate.css";
 import { useRouter } from "next/router";
 
 export default function Firstrow() {
+  const router = useRouter();
   return (
     <>
       <Stack
@@ -26,7 +27,18 @@ export default function Firstrow() {
         }}
       >
         {/* 1st */}
-        <div className="animate__animated animate__zoomIn animate__delay-1s firstrow">
+        <div className="animate__animated animate__zoomIn animate__delay-1s  secondrow">
+          <Stack direction='row' sx={{
+             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+             height: "310px",
+             width: "100%",
+             borderRadius: "40px",
+             cursor: "pointer",
+             justifyContent: "center",
+             alignItems: "center",
+             gap: "10px",
+             marginTop:"15px",
+          }}>
           <Box
             sx={{
               height: "70%",
@@ -68,7 +80,13 @@ export default function Firstrow() {
               <Typography
                 sx={{
                   color: "#5a5a5a",
-                  fontSize: 15,
+                  fontSize: {
+                    xl: 15,
+                  lg: 15,
+                  md: 15,
+                  sm: 15,
+                  xs: 10,
+                  },
                   fontWeight: "bold",
                   textTransform: "uppercase",
                 }}
@@ -76,14 +94,26 @@ export default function Firstrow() {
                 A Web Developer
               </Typography>
               <Typography
-                sx={{ color: "white", fontSize: 40, fontWeight: "bold" }}
+                sx={{ color: "white", fontSize: {
+                  xl: 40,
+                  lg: 40,
+                  md: 40,
+                  sm: 40,
+                  xs: 20,
+                }, fontWeight: "bold" }}
               >
                 Jerin T
               </Typography>
               <Typography
                 sx={{
                   color: "white",
-                  fontSize: 15,
+                  fontSize: {
+                    xl: 15,
+                  lg: 15,
+                  md: 15,
+                  sm: 15,
+                  xs: 10,
+                  },
                   fontWeight: "bold",
                   marginBottom: 2,
                 }}
@@ -93,7 +123,13 @@ export default function Firstrow() {
               <Typography
                 sx={{
                   color: "#5a5a5a",
-                  fontSize: 15,
+                  fontSize: {
+                    xl: 15,
+                  lg: 15,
+                  md: 15,
+                  sm: 15,
+                  xs: 10,
+                  },
                   fontWeight: "bold",
                   textTransform: "uppercase",
                 }}
@@ -102,7 +138,9 @@ export default function Firstrow() {
               </Typography>
             </Box>
           </Box>
+          </Stack>
         </div>
+       
         {/* 2nd */}
         <Box
           sx={{
@@ -168,7 +206,7 @@ export default function Firstrow() {
                     lg: 235,
                     md: 235,
                     sm: 300,
-                    xs: 300,
+                    xs: 250,
                   },
                   background:
                     "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
@@ -229,7 +267,7 @@ export default function Firstrow() {
                             lg: 60,
                             md:60,
                             sm: 150,
-                            xs: 150,
+                            xs: 100,
                           },
                       height: "90%",
                       display: "flex",
@@ -330,7 +368,7 @@ export default function Firstrow() {
                         lg: 60,
                         md:60,
                         sm: 150,
-                        xs: 150,
+                        xs: 100,
                       },
                       height: "90%",
                       display: "flex",

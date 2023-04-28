@@ -7,6 +7,7 @@ import "animate.css";
 import { useRouter } from "next/router";
 
 export default function Thirdrow() {
+  const router = useRouter();
   return (
     <Stack
       width="100%"
@@ -120,19 +121,21 @@ export default function Thirdrow() {
             <Stack
             direction="row"
             sx={{
-              height: "35%",
+              height: "40%",
               width: "100%",
-              justifyContent: "center",
+              justifyContent: "space-around",
               alignItems: "center",
+              
             }}
           >
             <Box
               sx={{
-                width: "90%",
+                width: "60%",
                 height: 100,
                 display: "flex",
                 justifyContent: "center",
                 flexDirection: "column",
+              
               }}
             >
             
@@ -145,14 +148,15 @@ export default function Thirdrow() {
                     lg: 60,
                     md:60,
                     sm: 150,
-                    xs: 150,
+                    xs: 100,
                   },
-                height: "90%",
+                height: "100%",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 gap: 2,
                 flexDirection: "column",
+                
               }}
             >
               <button

@@ -22,7 +22,7 @@ export default function Layout({ children }) {
          spacing={3}
             sx={{
               alignItems: "center",
-
+              
             }}
           >
             {children}

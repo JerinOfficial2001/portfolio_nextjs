@@ -61,10 +61,42 @@ export default function ContactInfo() {
             gap:0.5
           }}
         >
-           <Typography color="#5b5b5b" fontSize="14px" fontWeight="bold">{info.title}</Typography>
-           <Typography color="white" fontSize="14px" fontWeight="bold">{info.contact1}</Typography>
-           <Typography color="white" fontSize="14px" fontWeight="bold">{info.contact2}</Typography>
-           <Typography color="white" fontSize="14px" fontWeight="bold">{info.contact3}</Typography>
+           <Typography sx={{
+            fontSize: {
+              xl: 14,
+              lg: 14,
+              md: 14,
+              sm: 14,
+              xs: 12,
+            },
+           }} color="#5b5b5b"  fontWeight="bold">{info.title}</Typography>
+           <Typography sx={{
+            fontSize: {
+              xl: 14,
+              lg: 14,
+              md: 14,
+              sm: 14,
+              xs: 12,
+            },
+           }} color="white"  fontWeight="bold">{info.contact1}</Typography>
+           <Typography sx={{
+            fontSize: {
+              xl: 14,
+              lg: 14,
+              md: 14,
+              sm: 14,
+              xs: 12,
+            },
+           }} color="white"  fontWeight="bold">{info.contact2}</Typography>
+           <Typography sx={{
+            fontSize: {
+              xl: 14,
+              lg: 14,
+              md: 14,
+              sm: 14,
+              xs: 10,
+            },
+           }} color="white" fontWeight="bold">{info.contact3}</Typography>
 
 
         </Stack>

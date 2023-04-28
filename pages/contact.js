@@ -10,10 +10,11 @@ import TextField from "@mui/material/TextField";
 import { inputLabelClasses } from "@mui/material";
 import ContactInfo from "@/components/ContactInfo";
 import * as icon from "react-icons/ai"
+import supabase from "@/config/Supabase";
 
 export default function contact() {
   const router = useRouter();
-
+const [dataBase, setdataBase] = useState([])
   const [inputData, setinputData] = useState({
     name: "",
     email: "",
@@ -21,27 +22,65 @@ export default function contact() {
     message: "",
   });
   const { name, email, subject, message } = inputData;
+
+const submitHandler=async()=>{
+  if(name !=="" && email !=="" && subject !=="" && message !==""){
+const {error,data}=await supabase.from('portfolio').insert({name, email, subject, message})
+if(data){
+  setdataBase(data)
+}else{
+  console.log(error);
+}  
+setinputData({
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+})
+}
+  
+}
+
   return (
     <>
       <Layout>
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: {
+              xl: "row",
+              lg: "row",
+              md: "row",
+              sm: "column",
+              xs: "column",
+            },
             justifyContent: "center",
             alignItems: "center",
             gap: 5,
-            height: "80vh",
+            height: {
+              xl: "80vh",
+            lg: "80vh",
+            md: "80vh",
+            },
             width: "100%",
+           
           }}
         >
           <Stack
             sx={{
               height: "100%",
-              width: 300,
+              width: {
+                xl: 300,
+                lg: 300,
+                md: 300,
+                sm: "80%",
+                xs: "80%",
+              },
+             
+              
             }}
           >
-            <div className="animate__animated animate__bounceInUp animate__delay-1s">
+            <div className="animate__animated animate__bounceInUp animate__delay-1s" >
               <Typography sx={{ color: "white", fontWeight: "bold" }}>
                 CONTACT INFO
               </Typography>
@@ -67,6 +106,7 @@ export default function contact() {
                 height: "22%",
                 width: "100%",
                 justifyContent: "space-between",
+                
               }}
             >
               <div className="animate__animated animate__bounceInUp animate__delay-1s">
@@ -80,8 +120,9 @@ export default function contact() {
                   height: "80%",
                   width: "100%",
                   display: "flex",
-                  gap: "15px",
-                }}
+                  justifyContent:'space-between',
+                  gap:10
+                    }}
               >
                 <Button
                 onClick={()=>{router.push("https://www.linkedin.com/in/jerin-t-8866581a0")}}
@@ -89,8 +130,14 @@ export default function contact() {
                     color: "white",
                     background:
                       "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
-                    height: "100%",
-                    width: "29%",
+                    height: {
+                      xl: 100,
+                      lg: 100,
+                      md: 100,
+                      sm: 100,
+                      xs: 80,
+                    },
+                    width: 100,
                     borderRadius: "50%",
                     "&:hover": {
                       background: "white",
@@ -107,8 +154,14 @@ export default function contact() {
                     color: "white",
                     background:
                       "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
-                    height: "100%",
-                    width: "29%",
+                      height: {
+                        xl: 100,
+                        lg: 100,
+                        md: 100,
+                        sm: 100,
+                        xs: 80,
+                      },
+                    width: 100,
                     borderRadius: "50%",
                     "&:hover": {
                       background: "white",
@@ -124,8 +177,14 @@ export default function contact() {
                     color: "white",
                     background:
                       "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
-                    height: "100%",
-                    width: "29%",
+                      height: {
+                        xl: 100,
+                        lg: 100,
+                        md: 100,
+                        sm: 100,
+                        xs: 80,
+                      },
+                    width: 100,
                     borderRadius: "50%",
                     "&:hover": {
                       background: "white",
@@ -139,10 +198,12 @@ export default function contact() {
             </Box>
           </Stack>
           {/* contact input field          */}
-          <Stack sx={{ height: "100%", width: "70%" }}>
-            <div
-              className="animate__animated animate__zoomIn animate__delay-1s"
-              style={{
+          <Stack sx={{ height: "100%", width: "100%" }}>
+          <div  className="animate__animated animate__zoomIn animate__delay-1s"
+          style={{width:'100%',height:'100%'}}
+          >
+            <Box
+              sx={{
                 background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
                 height: "98%",
                 width: "95%",
@@ -151,7 +212,13 @@ export default function contact() {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
-                marginLeft: "40px",
+                marginLeft: {
+                  xl: "40px",
+                  lg: "40px",
+                  md: "40px",
+                  sm: 2,
+                  xs: 2,
+                },
               }}
             >
               <Stack
@@ -171,17 +238,41 @@ export default function contact() {
                   }}
                 >
                   <Typography
-                    sx={{ color: "white", fontSize: 40, fontWeight: "bold" }}
+                    sx={{ color: "white", fontSize: {
+                      xl: 40,
+                      lg: 40,
+                      md: 40,
+                      sm: 40,
+                      xs: 20,
+                    }, fontWeight: "bold" }}
                   >
                     {"Let's"} work
                   </Typography>
                   <Typography
-                    sx={{ color: "#5b78f6", fontSize: 40, fontWeight: "bold" }}
+                    sx={{ color: "#5b78f6", fontSize: {
+                      xl: 40,
+                      lg: 40,
+                      md: 40,
+                      sm: 40,
+                      xs: 20,
+                    }, fontWeight: "bold" }}
                   >
                     together.
                   </Typography>
                 </Box>
-                <Box sx={{ height: "100%", width: "37px" }}>
+                <Box sx={{ height: {
+                      xl: "100%",
+                      lg: "100%",
+                      md: "100%",
+                      sm: "100%",
+                      xs: "90%",
+                    }, width: {
+                      xl: "37px%",
+                      lg: "37px",
+                      md: "37px",
+                      sm: "37px",
+                      xs: "50px"
+                    } }}>
                   <Image
                     placeholder="empty"
                     src={require("../assets/icon2.png")}
@@ -300,6 +391,9 @@ export default function contact() {
                   }}
                 />
                 <Button
+                onClick={()=>{
+                  submitHandler()
+                }}
                   variant="contained"
                   sx={{
                     color: "white",
@@ -312,11 +406,19 @@ export default function contact() {
                     textTransform: "none",
                     width: "100%",
                     height: "50px",
+                    marginBottom: {
+                      xl: 0,
+                      lg: 0,
+                      md: 0,
+                      sm: 3,
+                      xs: 3,
+                    },
                   }}
                 >
                   Send Message
                 </Button>
               </Box>
+            </Box>
             </div>
           </Stack>
         </Box>

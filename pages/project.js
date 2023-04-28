@@ -1,14 +1,11 @@
 import Layout from "@/layouts/Layout";
 import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import gallery from "../assets/gallery.jpeg";
 import student from "../assets/student.jpeg";
 import blog from "../assets/blog.jpeg";
 import recipebook from "../assets/recipebook.jpeg";
 import shopify from "../assets/shopify.jpeg";
-import { useRouter } from "next/router";
-import Button from "@mui/material/Button";
 import Image from "next/image";
 import React, { useState } from "react";
 import Card from "@/components/Card";
@@ -70,7 +67,16 @@ export default function Project() {
               />
 
               <Typography
-                sx={{ color: "white", fontSize: 70, fontWeight: "bold" }}
+                sx={{
+                  color: "white",
+                  fontSize:{
+                    xl: 70,
+                    lg: 70,
+                    md: 70,
+                    sm: 30,
+                    xs: 25,},
+                  fontWeight: "bold",
+                }}
               >
                 MY PROJECTS
               </Typography>

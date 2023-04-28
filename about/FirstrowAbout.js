@@ -3,25 +3,27 @@ import React from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
-
+import { useRouter } from "next/router";
 
 export default function FirstrowAbout() {
+  const router = useRouter();
   return (
     <>
-    <Stack  width="100%" 
-    sx={{
-        flexDirection: {
-          xl: "row",
-          lg: "row",
-          md: "row",
-          sm: "column",
-          xs: "column",
-        },
-        gap: 3,
-        alignItems: "center",
-     
-      }}>
-        <div className="animate__animated animate__zoomIn animate__delay-1s thirtytwo" >
+      <Stack
+        width="100%"
+        sx={{
+          flexDirection: {
+            xl: "row",
+            lg: "row",
+            md: "row",
+            sm: "column",
+            xs: "column",
+          },
+          gap: 3,
+          alignItems: "center",
+        }}
+      >
+        <div className="animate__animated animate__zoomIn animate__delay-1s thirtytwo">
           <Box
             sx={{
               background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
@@ -55,27 +57,26 @@ export default function FirstrowAbout() {
               />
             </Box>
           </Box>
-          </div>
-          <Box
-            sx={{
-              height: 370,
-              width: {
-                xl: "65%",
-                lg: "65%",
-                md: "65%",
-                sm: "100%",
-                xs: "100%",
-              },
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              
-            }}
-          >
-            <div className="animate__animated animate__fadeInUp animate__delay-1s" >
+        </div>
+        <Box
+          sx={{
+            height: 370,
+            width: {
+              xl: "65%",
+              lg: "65%",
+              md: "65%",
+              sm: "100%",
+              xs: "100%",
+            },
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div className="animate__animated animate__fadeInUp animate__delay-1s">
             <Stack
-             direction="row"
+              direction="row"
               sx={{
                 height: 100,
                 width: "100%",
@@ -84,40 +85,45 @@ export default function FirstrowAbout() {
                 gap: 1,
               }}
             >
-              
               <Image
                 placeholder="empty"
                 src={require("../assets/star-2.png")}
                 style={{ height: "47%", width: "50px" }}
               />
-               
+
               <Typography
-                sx={{ color: "white", fontSize:{
-                  xl: 70,
-                  lg: 70,
-                  md: 70,
-                  sm: 50,
-                  xs: 50,
-               }, fontWeight: "bold" }}
+                sx={{
+                  color: "white",
+                  fontSize: {
+                    xl: 70,
+                    lg: 70,
+                    md: 70,
+                    sm: 30,
+                    xs: 25,
+                  },
+                  fontWeight: "bold",
+                }}
               >
                 SELF-SUMMARY
               </Typography>
-             
+
               <Image
                 placeholder="empty"
                 src={require("../assets/star-2.png")}
                 style={{ height: "47%", width: "50px" }}
               />
-              
             </Stack>
-            </div>
-            {/* container  */}
-            <div className="animate__animated animate__zoomIn animate__delay-1s" style={{width: "100%",height:'400px'}}>
+          </div>
+          {/* container  */}
+          <div
+            className="animate__animated animate__zoomIn animate__delay-1s"
+            style={{ width: "100%", height: "400px" }}
+          >
             <Stack
               direction="row"
               sx={{
                 width: "100%",
-                height:"100%",
+                height: "100%",
                 background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
                 borderRadius: 8,
                 display: "flex",
@@ -125,7 +131,6 @@ export default function FirstrowAbout() {
                 alignItems: "center",
                 gap: 2,
                 flexDirection: "column",
-            
               }}
             >
               {/* About*/}
@@ -153,7 +158,7 @@ export default function FirstrowAbout() {
                     placeholder="empty"
                     src={require("../assets/star.jpeg")}
                     alt="star"
-                    style={{ height: "100%", width: "50px" }}
+                    style={{ height: "100%", width: "50px",borderRadius:"12px 0px 0px 0px" }}
                   />
                 </Stack>
                 <Box
@@ -165,20 +170,38 @@ export default function FirstrowAbout() {
                   }}
                 >
                   <Typography
-                    sx={{ color: "white", fontSize: 35, fontWeight: "bold" }}
+                    sx={{
+                      color: "white",
+                      fontSize: {
+                        xl: 35,
+                        lg: 35,
+                        md: 35,
+                        sm: 35,
+                        xs: 30,
+                      },
+                      fontWeight: "bold",
+                    }}
                   >
                     Jerin
                   </Typography>
-                  <Typography sx={{ color: "#9c9c9c", fontSize: 20 }}>
+                  <Typography sx={{ color: "#9c9c9c", 
+                  fontSize: {
+                        xl: 20,
+                        lg: 20,
+                        md: 20,
+                        sm: 20,
+                        xs: 15,
+                      },
+                      }}>
                     I am from Coimbatore.Currently pursuing BE-MCT (final year).
                     Building immersive web experiences with React.
                   </Typography>
                 </Box>
               </Box>
             </Stack>
-            </div>
-          </Box>
-        </Stack>
-        </>
-  )
+          </div>
+        </Box>
+      </Stack>
+    </>
+  );
 }
