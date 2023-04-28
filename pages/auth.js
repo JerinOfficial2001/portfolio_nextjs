@@ -6,11 +6,15 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import{ inputLabelClasses} from "@mui/material";
 import  Container from "@mui/material/Container";
-
 import supabase from "@/config/Supabase";
 import Image from "next/image";
+import { useSession } from "@supabase/auth-helpers-react";
+import Admin from "./admin";
+import { useRouter } from "next/router";
 
 export default function Auth() {
+  const router =useRouter()
+  const session =useSession()
     const [dataBase, setdataBase] = useState([])
   const [inputData, setinputData] = useState({
     password: "",
@@ -21,11 +25,12 @@ export default function Auth() {
 
 const submitHandler=async()=>{
   if(password !=="" && email !=="" ){
-const {error,data}=await supabase.from('portfolio').insert({name, email, subject, message})
-if(data){
-  setdataBase(data)
-}else{
-  console.log(error);
+const {error}=await supabase.auth.signInWithPassword({
+  email:email,
+  password:password
+})
+if(error){
+  console.log("AUTH",error);
 }  
 setinputData({
     password: "",
@@ -37,6 +42,8 @@ setinputData({
 }
 
   return (
+    <>
+    {!session?
     <Container
       sx={{
         height: "100vh",
@@ -47,8 +54,20 @@ setinputData({
     >
         <Box
                 sx={{
-                  width: "70%",
-                  height: "70%",
+                  width: {
+                    xl:'50%',
+                    lg:'50%',
+                    md:'50%',
+                    sm:'80%',
+                    xs:'90%'
+                  },
+                  height: {
+                    xl:'70%',
+                    lg:'70%',
+                    md:'70%',
+                    sm:'70%',
+                    xs:'60%'
+                  },
                   display: "flex",
                   justifyContent: "center",
                   flexDirection: "column",
@@ -57,7 +76,13 @@ setinputData({
                   background:
                       "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
                       borderRadius:10,
-                      padding:5,
+                      padding:{
+                        xl:5,
+                        lg:5,
+                        md:5,
+                        sm:5,
+                        xs:2
+                      },
                 position:'relative',
 
                 }}
@@ -147,9 +172,9 @@ setinputData({
                       },
                     },
                   }}
-                  value={name}
+                  value={password}
                   onChange={(e) => {
-                    setinputData({ ...inputData, name: e.target.value });
+                    setinputData({ ...inputData, password: e.target.value });
                   }}
                 />
                 <Button
@@ -167,13 +192,58 @@ setinputData({
                     },
                     textTransform: "none",
                     width: "30%",
-                    height: "50px",
+                    height: {
+                      xl:'50px',
+                      lg:'50px',
+                      md:'50px',
+                      sm:'50px',
+                      xs:'30px'
+                    },
                    
                   }}
                 >
                  Login
                 </Button>
+                <Button
+                onClick={()=>{
+                  router.push("/")
+                }}
+                  variant="outlined"
+                  sx={{
+                    color: "white",
+                    background: "#323232",
+                    borderRadius: 2,
+                    "&:hover": {
+                      background: "white",
+                      color: "#323232",
+                    },
+                    textTransform: "none",
+                    width: "20%",
+                    height: {
+                      xl:'30px',
+                      lg:'30px',
+                      md:'30px',
+                      sm:'30px',
+                      xs:'20px'
+                    },
+                   fontSize:{
+                    xl:'10px',
+                    lg:'10px',
+                    md:'10px',
+                    sm:'10px',
+                    xs:'8px'
+                   },
+                   position:"absolute",
+                   bottom:20
+                  }}
+                >
+                 Home
+                </Button>
               </Box>
     </Container>
+  :
+  <Admin/>
+  }
+  </>
   );
 }

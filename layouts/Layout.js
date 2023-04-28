@@ -1,9 +1,7 @@
 import Container from "@mui/material/Container";
 import React from "react";
-import Image from "next/image";
 import Stack from "@mui/material/Stack";
 import Navbar from "@/components/Navbar";
-import Box from "@mui/material/Box";
 import Footer from "@/components/Footer";
 
 export default function Layout({ children }) {
