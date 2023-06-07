@@ -1,214 +1,452 @@
 import Layout from "@/layouts/Layout";
 import Box from "@mui/material/Box";
-import React from "react";
+import React, {  useState } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import linkedin from "../assets/linkedin.jpg";
 import Image from "next/image";
-import github from "../assets/GitHub.jpg";
-import yt from "../assets/yt.png";
-import insta from "../assets/insta.jpeg";
-import wp from "../assets/watsapp.jpg";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
+import TextField from "@mui/material/TextField";
+import { inputLabelClasses } from "@mui/material";
+import ContactInfo from "@/components/ContactInfo";
+import * as icon from "react-icons/ai";
+import supabase from "@/config/Supabase";
+
 
 export default function contact() {
-    const router =useRouter()
+  const router = useRouter();
+
+  const [inputData, setinputData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const { name, email, subject, message } = inputData;
+
+  const submitHandler = async () => {
+    if (name !== "" && email !== "" && subject !== "" && message !== "") {
+      const { error, data } = await supabase
+        .from("portfolio")
+        .insert({ name, email, subject, message });
+      if (error) {
+        console.log("INSERT",error);
+      }
+      setinputData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    }
+  };
+ 
   return (
     <>
       <Layout>
         <Box
           sx={{
-            height: 200,
             display: "flex",
+            flexDirection: {
+              xl: "row",
+              lg: "row",
+              md: "row",
+              sm: "column",
+              xs: "column",
+            },
             justifyContent: "center",
             alignItems: "center",
-            flexDirection: "column",
-            gap: 2,
+            gap: 5,
+            height: {
+              xl: "80vh",
+              lg: "80vh",
+              md: "80vh",
+            },
+            width: "100%",
           }}
         >
-          <Box sx={{ borderBottom: "5px solid red", cursor: "pointer" }}>
-            <Typography
+          <Stack
+            sx={{
+              height: "100%",
+              width: {
+                xl: 300,
+                lg: 300,
+                md: 300,
+                sm: "80%",
+                xs: "80%",
+              },
+            }}
+          >
+            <div className="animate__animated animate__bounceInUp animate__delay-1s">
+              <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                CONTACT INFO
+              </Typography>
+            </div>
+
+            <Box
               sx={{
-                fontWeight: "bold",
-                color: "white",
-                fontSize: {xl:40,lg:40,md:40,sm:20,xs:20},
-                fontFamily: "cursive",
-                " -webkit-text-stroke-color": "black",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 5,
+                height: "72%",
+                width: "100%",
               }}
             >
-              CONTACT DETAILS
-            </Typography>
-          </Box>
+              <ContactInfo />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 3,
+                height: "22%",
+                width: "100%",
+                justifyContent: "space-between",
+              }}
+            >
+              <div className="animate__animated animate__bounceInUp animate__delay-1s">
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  SOCIAL INFO
+                </Typography>
+              </div>
+              <div
+                className="animate__animated animate__zoomIn animate__delay-1s"
+                style={{
+                  height: "80%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 10,
+                }}
+              >
+                <Button
+                  onClick={() => {
+                    router.push(
+                      "https://www.linkedin.com/in/jerin-t-8866581a0"
+                    );
+                  }}
+                  sx={{
+                    color: "white",
+                    background:
+                      "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+                    height: {
+                      xl: 100,
+                      lg: 100,
+                      md: 100,
+                      sm: 100,
+                      xs: 80,
+                    },
+                    width: 100,
+                    borderRadius: "50%",
+                      border:'1px solid #232323',
+                    "&:hover": {
+                      background: "white",
+                      color: "#323232",
+                    },
+                  }}
+                >
+                  <icon.AiOutlineLinkedin size="50px" />
+                </Button>
+
+                <Button
+                  onClick={() => {
+                    router.push("https://github.com/jerin2001");
+                  }}
+                  sx={{
+                    color: "white",
+                    background:
+                      "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+                    height: {
+                      xl: 100,
+                      lg: 100,
+                      md: 100,
+                      sm: 100,
+                      xs: 80,
+                    },
+                    width: 100,
+                    borderRadius: "50%",
+                      border:'1px solid #232323',
+                    "&:hover": {
+                      background: "white",
+                      color: "#323232",
+                    },
+                  }}
+                >
+                  <icon.AiOutlineGithub size="50px" />
+                </Button>
+                <Button
+                  onClick={() => {
+                    router.push("https://wa.me/qr/EMQB2VSLPRJLL1");
+                  }}
+                  sx={{
+                    color: "white",
+                    background:
+                      "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+                    height: {
+                      xl: 100,
+                      lg: 100,
+                      md: 100,
+                      sm: 100,
+                      xs: 80,
+                    },
+                    width: 100,
+                    borderRadius: "50%",
+                    border:'1px solid #232323',
+                    "&:hover": {
+                      background: "white",
+                      color: "#323232",
+                    },
+                  }}
+                >
+                  <icon.AiOutlineWhatsApp size="50px" />
+                </Button>
+              </div>
+            </Box>
+          </Stack>
+          {/* contact input field          */}
+          <Stack sx={{ height: "100%", width: "100%" }}>
+            <div
+              className="animate__animated animate__zoomIn animate__delay-1s"
+              style={{ width: "100%", height: "100%" }}
+            >
+              <Box
+                sx={{
+                  background:
+                    "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+                  height: "98%",
+                  width: "95%",
+                  borderRadius: "40px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  marginLeft: {
+                    xl: "40px",
+                    lg: "40px",
+                    md: "40px",
+                    sm: 2,
+                    xs: 2,
+                  },
+              border:'1px solid #232323'
+
+                }}
+              >
+                <Stack
+                  direction="row"
+                  sx={{
+                    height: 100,
+                    width: "100%",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "83%",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                      margin: "40px 0px 0px 40px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "white",
+                        fontSize: {
+                          xl: 40,
+                          lg: 40,
+                          md: 40,
+                          sm: 40,
+                          xs: 20,
+                        },
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {"Let's"} work
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: "#5b78f6",
+                        fontSize: {
+                          xl: 40,
+                          lg: 40,
+                          md: 40,
+                          sm: 40,
+                          xs: 20,
+                        },
+                        fontWeight: "bold",
+                      }}
+                    >
+                      together.
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      height: {
+                        xl: "100%",
+                        lg: "100%",
+                        md: "100%",
+                        sm: "100%",
+                        xs: "90%",
+                      },
+                      width: {
+                        xl: "37px%",
+                        lg: "37px",
+                        md: "37px",
+                        sm: "37px",
+                        xs: "50px",
+                      },
+                    }}
+                  >
+                    <Image
+                      placeholder="empty"
+                      src={require("../assets/icon2.png")}
+                      alt="star"
+                      style={{ height: "95%", width: "100%" }}
+                    />
+                  </Box>
+                </Stack>
+                <Box
+                  sx={{
+                    width: "90%",
+                    height: "90%",
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <TextField
+                    variant="outlined"
+                    sx={{
+                      width: "100%",
+                      outline: "none",
+                      background: "#252525",
+                      borderRadius: 3,
+                      "& fieldset": { border: "none" },
+                      input: { color: "white" },
+                    }}
+                    label="Name*"
+                    InputLabelProps={{
+                      sx: {
+                        color: "#6b756b",
+                        [`&.${inputLabelClasses.shrink}`]: {
+                          display: "none",
+                        },
+                      },
+                    }}
+                    value={name}
+                    onChange={(e) => {
+                      setinputData({ ...inputData, name: e.target.value });
+                    }}
+                  />
+                  <TextField
+                    variant="outlined"
+                    sx={{
+                      width: "100%",
+                      outline: "none",
+                      background: "#252525",
+                      borderRadius: 3,
+                      "& fieldset": { border: "none" },
+                      input: { color: "white" },
+                    }}
+                    label="Email*"
+                    InputLabelProps={{
+                      sx: {
+                        color: "#6b756b",
+                        [`&.${inputLabelClasses.shrink}`]: {
+                          display: "none",
+                        },
+                      },
+                    }}
+                    value={email}
+                    onChange={(e) => {
+                      setinputData({ ...inputData, email: e.target.value });
+                    }}
+                  />
+                  <TextField
+                    variant="outlined"
+                    sx={{
+                      width: "100%",
+                      outline: "none",
+                      background: "#252525",
+                      borderRadius: 3,
+                      "& fieldset": { border: "none" },
+                      input: { color: "white" },
+                    }}
+                    label="Subject*"
+                    InputLabelProps={{
+                      sx: {
+                        color: "#6b756b",
+                        [`&.${inputLabelClasses.shrink}`]: {
+                          display: "none",
+                        },
+                      },
+                    }}
+                    value={subject}
+                    onChange={(e) => {
+                      setinputData({ ...inputData, subject: e.target.value });
+                    }}
+                  />
+                  <TextField
+                    variant="outlined"
+                    sx={{
+                      width: "100%",
+                      outline: "none",
+                      background: "#252525",
+                      borderRadius: 3,
+                      "& fieldset": { border: "none" },
+                      input: { color: "white" },
+                      color: "white",
+                    }}
+                    label="Message*"
+                    InputLabelProps={{
+                      sx: {
+                        color: "#6b756b",
+                        [`&.${inputLabelClasses.shrink}`]: {
+                          display: "none",
+                        },
+                      },
+                    }}
+                    multiline
+                    rows={5}
+                    value={message}
+                    onChange={(e) => {
+                      setinputData({ ...inputData, message: e.target.value });
+                    }}
+                  />
+                  <Button
+                    onClick={() => {
+                      submitHandler();
+                    }}
+                    variant="contained"
+                    sx={{
+                      color: "white",
+                      background: "#323232",
+                      borderRadius: 2,
+                      "&:hover": {
+                        background: "white",
+                        color: "#323232",
+                      },
+                      textTransform: "none",
+                      width: "100%",
+                      height: "50px",
+                      marginBottom: {
+                        xl: 0,
+                        lg: 0,
+                        md: 0,
+                        sm: 3,
+                        xs: 3,
+                      },
+                    }}
+                  >
+                    Send Message
+                  </Button>
+                </Box>
+              </Box>
+            </div>
+          </Stack>
         </Box>
-        <Stack
-          sx={{
-            width: "60%",
-            gap: 4,
-            marginLeft:{xl: 15,lg:15,md:15,sm:0,xs:0},
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Avatar
-              sx={{
-                border: "1px solid white",
-                position: "absolute",
-                cursor: "pointer",
-              }}
-            >
-              <Image
-                alt="linkedin"
-                src={github}
-                style={{ height: 42, width: 70 }}
-              />
-            </Avatar>
-            <Box
-              sx={{
-                background:
-                  "linear-gradient(to right, white,white, rgba(0, 0, 0, 0.236))",
-                borderRadius: 20,
-                height: 30,
-                width: "200px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-            >
-              <Button onClick={()=>{router.push("https://github.com/jerin2001")}} sx={{ width: "100%", height: "100%", borderRadius: 20 }}>
-                GitHub
-              </Button>
-            </Box>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Avatar
-              sx={{
-                border: "1px solid black",
-                position: "absolute",
-                cursor: "pointer",
-              }}
-            >
-              <Image
-                alt="linkedin"
-                src={linkedin}
-                style={{ height: 50, width: 60 }}
-              />
-            </Avatar>
-            <Box
-              sx={{
-                background:
-                  "linear-gradient(to right, white,white, rgba(0, 0, 0, 0.236))",
-                borderRadius: 20,
-                height: 30,
-                width: "200px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-            >
-              <Button onClick={()=>{router.push("https://www.linkedin.com/in/jerin-t-8866581a0")}} sx={{ width: "100%", height: "100%", borderRadius: 20 }}>
-                Linkedin
-              </Button>
-            </Box>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Avatar
-              sx={{
-                border: "1px solid black",
-                position: "absolute",
-                cursor: "pointer",
-              }}
-            >
-              <Image
-                alt="linkedin"
-                src={insta}
-                style={{ height: 40, width: 50 }}
-              />
-            </Avatar>
-            <Box
-              sx={{
-                background:
-                  "linear-gradient(to right, white,white, rgba(0, 0, 0, 0.236))",
-                borderRadius: 20,
-                height: 30,
-                width: "200px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-            >
-              <Button onClick={()=>{router.push("https://www.instagram.com/jerin_25_01/")}} sx={{ width: "100%", height: "100%", borderRadius: 20 }}>
-                Instagram
-              </Button>
-            </Box>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Avatar
-             
-              sx={{
-                border: "1px solid black",
-                position: "absolute",
-                cursor: "pointer",
-              }}
-            >
-              <Image
-                alt="whatsapp"
-                src={wp}
-                style={{ height: 40, width: 50 }}
-              />
-            </Avatar>
-            <Box
-              sx={{
-                background:
-                  "linear-gradient(to right, white,white, rgba(0, 0, 0, 0.236))",
-                borderRadius: 20,
-                height: 30,
-                width: "200px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-            >
-              <Button onClick={()=>{router.push("https://wa.me/qr/EMQB2VSLPRJLL1")}} sx={{width:"100%",height:'100%',borderRadius: 20}}>Whatsapp</Button>
-            </Box>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Avatar
-             
-              sx={{
-                border: "1px solid black",
-                position: "absolute",
-                cursor: "pointer",
-              }}
-            >
-              <Image
-                alt="youtube"
-                src={yt}
-                style={{ height: 40, width: 40 }}
-              />
-            </Avatar>
-            <Box
-              sx={{
-                background:
-                  "linear-gradient(to right, white,white, rgba(0, 0, 0, 0.236))",
-                borderRadius: 20,
-                height: 30,
-                width: "200px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-            >
-              <Button onClick={()=>{router.push("https://github.com/jerin2001")}} sx={{width:"100%",height:'100%',borderRadius: 20}}>Youtube</Button>
-            </Box>
-          </Box>
-        </Stack>
       </Layout>
     </>
   );

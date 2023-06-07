@@ -1,19 +1,17 @@
 import Layout from "@/layouts/Layout";
 import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import gallery from "../assets/gallery.jpeg";
 import student from "../assets/student.jpeg";
+import blog from "../assets/blog.jpeg";
 import recipebook from "../assets/recipebook.jpeg";
 import shopify from "../assets/shopify.jpeg";
-import { useRouter } from "next/router";
-import Button from "@mui/material/Button";
 import Image from "next/image";
 import React, { useState } from "react";
 import Card from "@/components/Card";
+import Grid from "@mui/material/Grid";
 
 export default function Project() {
-
   const projects = [
     {
       title: "Gallery",
@@ -35,6 +33,11 @@ export default function Project() {
       to: "https://shopifymedia.vercel.app/",
       image: shopify,
     },
+    {
+      title: "Blog",
+      to: "https://blogpage-nextjs-git-jerin-jerin2001.vercel.app/",
+      image: blog,
+    },
   ];
 
   return (
@@ -44,27 +47,52 @@ export default function Project() {
           sx={{
             width: "100%",
             alignItems: "center",
-            marginTop: { xl: 5, lg: 5, md: 5, sm: 10, xs: 10 },
           }}
         >
-          <Box sx={{ borderBottom: "5px solid red" }}>
-            <Typography
+          <div className="animate__animated animate__fadeInUp animate__delay-1s">
+            <Stack
+              direction="row"
               sx={{
-                fontWeight: "bold",
-                color: "white",
-                fontSize: { xl: 60, lg: 60, md: 60, sm: 20, xs: 20 },
-                fontFamily: "cursive",
-                " -webkit-text-stroke-color": "black",
+                height: 100,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 1,
               }}
             >
-              MY PROJECTS
-            </Typography>
-          </Box>
-          {projects.map((project, index) => {
-            return (
-              <Card project={project} key={index}/>
-            );
-          })}
+              <Image
+                placeholder="empty"
+                src={require("../assets/star-2.png")}
+                style={{ height: "47%", width: "50px" }}
+              />
+
+              <Typography
+                sx={{
+                  color: "white",
+                  fontSize:{
+                    xl: 70,
+                    lg: 70,
+                    md: 70,
+                    sm: 30,
+                    xs: 25,},
+                  fontWeight: "bold",
+                }}
+              >
+                MY PROJECTS
+              </Typography>
+
+              <Image
+                placeholder="empty"
+                src={require("../assets/star-2.png")}
+                style={{ height: "47%", width: "50px" }}
+              />
+            </Stack>
+          </div>
+          <Grid container direction="row" rowGap={2} columnGap={2} columns={8}>
+            {projects.map((project, index) => {
+              return <Card project={project} key={index} />;
+            })}
+          </Grid>
         </Stack>
       </Layout>
     </>

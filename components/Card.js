@@ -11,11 +11,12 @@ export default function Card({ project }) {
     <>
       <Box
         sx={{
-          width: "100%",
-          height: "280px",
+         width:276,
+          height: "210px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+         
         }}
       >
         <div
