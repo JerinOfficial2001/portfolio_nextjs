@@ -12,9 +12,9 @@ export default function Homepage() {
   return (
     <>
       <Layout>
-        <Firstrow/>
-        <Secondrow/>
-        <Thirdrow/>
+        <Firstrow />
+        <Secondrow />
+        <Thirdrow />
       </Layout>
     </>
   );
