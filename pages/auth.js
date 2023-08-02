@@ -6,9 +6,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { inputLabelClasses } from "@mui/material";
 import Container from "@mui/material/Container";
-import supabase from "@/config/Supabase";
 import Image from "next/image";
-import { useSession } from "@supabase/auth-helpers-react";
 import Admin from "./admin";
 import { useRouter } from "next/router";
 
