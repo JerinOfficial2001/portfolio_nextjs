@@ -11,26 +11,25 @@ export default function Card({ project }) {
     <>
       <Box
         sx={{
-         width:276,
+          width: 276,
           height: "210px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-         
         }}
       >
         <div
           onClick={() => {
-            router.push(project.to);
+            router.push(project.link);
           }}
           className="wrapper"
         >
           <div className="card">
-            <Image
+            <img
               onMouseEnter={() => {
                 sethover(true);
               }}
-              src={project.image}
+              src={project.image.url}
               alt="loading..."
               style={{
                 height: "100%",
@@ -40,11 +39,11 @@ export default function Card({ project }) {
             />
             {hover && (
               <div
-              onMouseLeave={() => {
-                sethover(false);
-              }}
+                onMouseLeave={() => {
+                  sethover(false);
+                }}
                 style={{
-                    display:"flex",
+                  display: "flex",
                   position: "relative",
                   width: "100%",
                   height: "100%",
@@ -58,6 +57,7 @@ export default function Card({ project }) {
                   sx={{
                     color: "white",
                     border: "2px solid white",
+                    textTransform:"none"
                   }}
                 >
                   {project.title}

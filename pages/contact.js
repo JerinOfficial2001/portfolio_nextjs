@@ -1,6 +1,6 @@
 import Layout from "@/layouts/Layout";
 import Box from "@mui/material/Box";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
@@ -10,8 +10,6 @@ import TextField from "@mui/material/TextField";
 import { inputLabelClasses } from "@mui/material";
 import ContactInfo from "@/components/ContactInfo";
 import * as icon from "react-icons/ai";
-import supabase from "@/config/Supabase";
-
 
 export default function contact() {
   const router = useRouter();
@@ -26,12 +24,12 @@ export default function contact() {
 
   const submitHandler = async () => {
     if (name !== "" && email !== "" && subject !== "" && message !== "") {
-      const { error, data } = await supabase
-        .from("portfolio")
-        .insert({ name, email, subject, message });
-      if (error) {
-        console.log("INSERT",error);
-      }
+      // const { error, data } = await supabase
+      //   .from("portfolio")
+      //   .insert({ name, email, subject, message });
+      // if (error) {
+      //   console.log("INSERT",error);
+      // }
       setinputData({
         name: "",
         email: "",
@@ -40,7 +38,7 @@ export default function contact() {
       });
     }
   };
- 
+
   return (
     <>
       <Layout>
@@ -139,7 +137,7 @@ export default function contact() {
                     },
                     width: 100,
                     borderRadius: "50%",
-                      border:'1px solid #232323',
+                    border: "1px solid #232323",
                     "&:hover": {
                       background: "white",
                       color: "#323232",
@@ -166,7 +164,7 @@ export default function contact() {
                     },
                     width: 100,
                     borderRadius: "50%",
-                      border:'1px solid #232323',
+                    border: "1px solid #232323",
                     "&:hover": {
                       background: "white",
                       color: "#323232",
@@ -192,7 +190,7 @@ export default function contact() {
                     },
                     width: 100,
                     borderRadius: "50%",
-                    border:'1px solid #232323',
+                    border: "1px solid #232323",
                     "&:hover": {
                       background: "white",
                       color: "#323232",
@@ -228,8 +226,7 @@ export default function contact() {
                     sm: 2,
                     xs: 2,
                   },
-              border:'1px solid #232323'
-
+                  border: "1px solid #232323",
                 }}
               >
                 <Stack

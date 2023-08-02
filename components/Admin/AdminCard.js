@@ -1,4 +1,3 @@
-import supabase from "@/config/Supabase";
 import Typography  from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import React, { useEffect, useState } from "react";
