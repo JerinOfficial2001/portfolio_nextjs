@@ -22,17 +22,22 @@ export default function Thirdrow() {
         },
       }}
     >
-      <div className="animate__animated animate__zoomIn animate__delay-1s secondrow">
+      <div
+        onClick={() => {
+          router.push("/resume");
+        }}
+        className="animate__animated animate__zoomIn animate__delay-1s secondrow"
+      >
         <Box
           sx={{
             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
             height: {
-                xl: 250,
-                lg: 250,
-                md: 250,
-                sm: 300,
-                xs: 300,
-              },
+              xl: 250,
+              lg: 250,
+              md: 250,
+              sm: 300,
+              xs: 300,
+            },
             width: "100%",
             borderRadius: 8,
             cursor: "pointer",
@@ -41,12 +46,16 @@ export default function Thirdrow() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
-            border:'1px solid #232323'
-
+            border: "1px solid #232323",
+            color: "white",
+            fontSize: 100,
+            fontWeight: "bold",
           }}
-        ></Box>
+        >
+          RESUME
+        </Box>
       </div>
-      
+
       <div
         className="animate__animated animate__zoomIn animate__delay-1s secondrow"
         onClick={() => {
@@ -57,12 +66,12 @@ export default function Thirdrow() {
           sx={{
             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
             height: {
-                xl: 250,
-                lg: 250,
-                md: 250,
-                sm: 300,
-                xs: 300,
-              },
+              xl: 250,
+              lg: 250,
+              md: 250,
+              sm: 300,
+              xs: 300,
+            },
             width: "100%",
             borderRadius: 8,
             cursor: "pointer",
@@ -71,8 +80,7 @@ export default function Thirdrow() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
-            border:'1px solid #232323'
-
+            border: "1px solid #232323",
           }}
         >
           <Stack
@@ -94,7 +102,7 @@ export default function Thirdrow() {
               height: {
                 xl: 85,
                 lg: 85,
-                md:85,
+                md: 85,
                 sm: 140,
                 xs: 140,
               },
@@ -123,56 +131,49 @@ export default function Thirdrow() {
               </Typography>
             </Box>
             <Stack
-            direction="row"
-            sx={{
-              height: "40%",
-              width: "100%",
-              justifyContent: "space-around",
-              alignItems: "center",
-              
-            }}
-          >
-            <Box
+              direction="row"
               sx={{
-                width: "60%",
-                height: 100,
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-              
+                height: "40%",
+                width: "100%",
+                justifyContent: "space-around",
+                alignItems: "center",
               }}
             >
-            
-             
-            </Box>
-            <Box
-              sx={{
-                width: {
+              <Box
+                sx={{
+                  width: "60%",
+                  height: 100,
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+              ></Box>
+              <Box
+                sx={{
+                  width: {
                     xl: 60,
                     lg: 60,
-                    md:60,
+                    md: 60,
                     sm: 150,
                     xs: 100,
                   },
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 2,
-                flexDirection: "column",
-                
-              }}
-            >
-              <button
-                className="batman"
-                onClick={() => {
-                  router.push("/");
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 2,
+                  flexDirection: "column",
                 }}
-              ></button>
-            </Box>
-          </Stack>
+              >
+                <button
+                  className="batman"
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                ></button>
+              </Box>
+            </Stack>
           </Box>
-          
         </Box>
       </div>
     </Stack>

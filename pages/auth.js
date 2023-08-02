@@ -6,15 +6,13 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { inputLabelClasses } from "@mui/material";
 import Container from "@mui/material/Container";
-import supabase from "@/config/Supabase";
 import Image from "next/image";
-import { useSession } from "@supabase/auth-helpers-react";
 import Admin from "./admin";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 export default function Auth() {
   const router = useRouter();
-  const [dataBase, setdataBase] = useState([]);
   const [inputData, setinputData] = useState({
     password: "",
     email: "",
@@ -22,7 +20,7 @@ export default function Auth() {
   const { password, email } = inputData;
 
   const submitHandler = async () => {
-    if (password !== "" && email !== "") {
+    if (password === "Jerin@2001" && email === "jerin_25_01") {
       // const {error}=await supabase.auth.signInWithPassword({
       //   email:email,
       //   password:password
@@ -30,6 +28,8 @@ export default function Auth() {
       // if(error){
       //   console.log("AUTH",error);
       // }
+      toast.success("Logged in Successfully");
+      router.push("/admin");
       setinputData({
         password: "",
         email: "",

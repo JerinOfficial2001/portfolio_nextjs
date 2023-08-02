@@ -93,7 +93,7 @@ export default function Firstrow() {
                     textTransform: "uppercase",
                   }}
                 >
-                  A Web Developer
+                  Mern stack Developer
                 </Typography>
                 <Typography
                   sx={{
@@ -140,7 +140,7 @@ export default function Firstrow() {
                     textTransform: "uppercase",
                   }}
                 >
-                  I am a Web Developer from Coimbatore
+                  An Aspiring MERN stack Developer
                 </Typography>
               </Box>
             </Box>
@@ -197,13 +197,16 @@ export default function Firstrow() {
                 >
                   <span style={{ color: "white" }}> * </span>I am{" "}
                   <span style={{ color: "white" }}> Jerin </span> from
-                  Coimbatore <span style={{ color: "white" }}> * </span>I am a{" "}
-                  <span style={{ color: "white" }}> Web Developer </span> from
-                  Coimbatore <span style={{ color: "white" }}> * </span>I am{" "}
-                  <span style={{ color: "white" }}> Jerin </span> from
-                  Coimbatore <span style={{ color: "white" }}> * </span>I am a{" "}
-                  <span style={{ color: "white" }}> Web Developer </span> from
                   Coimbatore <span style={{ color: "white" }}> * </span>
+                  <span style={{ color: "white" }}> MERN stack Developer </span>{" "}
+                  <span style={{ color: "white" }}> * </span>I am{" "}
+                  <span style={{ color: "white" }}> Jerin </span> from
+                  Coimbatore <span style={{ color: "white" }}> * </span>
+                  <span style={{ color: "white" }}> MERN stack Developer </span>{" "}
+                  <span style={{ color: "white" }}> * </span>I am{" "}
+                  <span style={{ color: "white" }}> Jerin </span> from
+                  Coimbatore <span style={{ color: "white" }}> * </span>
+                  <span style={{ color: "white" }}> MERN stack Developer </span>{" "}
                 </Typography>
               </marquee>
             </Stack>

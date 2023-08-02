@@ -32,7 +32,7 @@ export default function Projects({ setclicky, clicky }) {
           return (
             <div
               key={i._id}
-              className="h-[250px] bg-[black] rounded-md flex-col flex gap-1 p-2 justify-center items-center"
+              className=" bg-[black] rounded-md flex-col flex gap-1 p-2 justify-center items-center"
             >
               <div
                 style={{

@@ -1,10 +1,11 @@
-import { getProjects } from "./actions";
+import { getProjects, getResume } from "./actions";
 
 const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
   dataBase: [],
   projects: [],
+  resume: [],
   createStatus: null,
   status: null,
 };
@@ -27,6 +28,16 @@ const counterSlice = createSlice({
       state.createStatus = "success";
     },
     [getProjects.rejected]: (state, action) => {
+      state.createStatus = "rejected";
+    },
+    [getResume.pending]: (state, action) => {
+      state.createStatus = "pending";
+    },
+    [getResume.fulfilled]: (state, { payload }) => {
+      state.resume = payload;
+      state.createStatus = "success";
+    },
+    [getResume.rejected]: (state, action) => {
       state.createStatus = "rejected";
     },
   },
