@@ -19,34 +19,34 @@ export default function Project() {
     dispatch(getProjects());
   }, []);
 
-  const projects = useSelector((state) => state.counter.projects);
-  // const projects = [
-  //   {
-  //     title: "Gallery",
-  //     to: "https://image-gallery-sand.vercel.app/",
-  //     image: gallery,
-  //   },
-  //   {
-  //     title: "Student Management",
-  //     to: "https://studentmanagement-supabase.vercel.app/",
-  //     image: student,
-  //   },
-  //   {
-  //     title: "Recipebook",
-  //     to: "https://recipe-supabase.vercel.app/",
-  //     image: recipebook,
-  //   },
-  //   {
-  //     title: "Shopify",
-  //     to: "https://shopifymedia.vercel.app/",
-  //     image: shopify,
-  //   },
-  //   {
-  //     title: "Blog",
-  //     to: "https://blogpage-nextjs-git-jerin-jerin2001.vercel.app/",
-  //     image: blog,
-  //   },
-  // ];
+  // const projects = useSelector((state) => state.counter.projects);
+  const projects = [
+    {
+      title: "Gallery",
+      to: "https://image-gallery-sand.vercel.app/",
+      image: gallery,
+    },
+    {
+      title: "Student Management",
+      to: "https://studentmanagement-supabase.vercel.app/",
+      image: student,
+    },
+    {
+      title: "Recipebook",
+      to: "https://recipe-supabase.vercel.app/",
+      image: recipebook,
+    },
+    {
+      title: "Shopify",
+      to: "https://shopifymedia.vercel.app/",
+      image: shopify,
+    },
+    {
+      title: "Blog",
+      to: "https://blogpage-nextjs-git-jerin-jerin2001.vercel.app/",
+      image: blog,
+    },
+  ];
 
   return (
     <>
@@ -98,7 +98,7 @@ export default function Project() {
             </Stack>
           </div>
           <Grid container direction="row" rowGap={2} columnGap={2} columns={8}>
-            {projects.map((project) => {
+            {projects?.map((project) => {
               return <Card project={project} key={project._id} />;
             })}
           </Grid>

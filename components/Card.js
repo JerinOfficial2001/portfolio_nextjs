@@ -25,11 +25,11 @@ export default function Card({ project }) {
           className="wrapper"
         >
           <div className="card">
-            <img
+            <Image
               onMouseEnter={() => {
                 sethover(true);
               }}
-              src={project.image.url}
+              src={project.image}
               alt="loading..."
               style={{
                 height: "100%",
@@ -57,7 +57,7 @@ export default function Card({ project }) {
                   sx={{
                     color: "white",
                     border: "2px solid white",
-                    textTransform:"none"
+                    textTransform: "none",
                   }}
                 >
                   {project.title}

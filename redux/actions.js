@@ -4,9 +4,8 @@ import { API } from "./api";
 import { toast } from "react-hot-toast";
 
 export const addProject = async (val) => {
-  console.log("VAL", val);
   try {
-    const res = await axios.post(API + "/add", val);
+    const res = await axios.post(API + "/projects/add", val);
     if (res.data.status === "added") {
       toast.success("Project Added");
     }
@@ -20,7 +19,7 @@ export const getProjects = createAsyncThunk(
   "projects/getProjects",
   async () => {
     try {
-      const res = await axios.get(API + "/get");
+      const res = await axios.get(API + "/projects/get");
       console.log("PROJECTS", res.data);
       return res.data;
     } catch (error) {
@@ -31,7 +30,7 @@ export const getProjects = createAsyncThunk(
 export const removeProject = async (id) => {
   console.log("VAL", id);
   try {
-    const res = await axios.delete(API + `/${id}`);
+    const res = await axios.delete(API + `/projects/remove/${id}`);
     if (res.data.status === "deleted") {
       toast.success("Project Deleted");
     }
@@ -66,7 +65,9 @@ export const getResume = createAsyncThunk("resume/getResume", async () => {
 export const updateResume = async (id, resume) => {
   console.log("VAL", id);
   try {
-    const res = await axios.put(API + `/resume/${id}`, { image: resume });
+    const res = await axios.put(API + `/resume/update/${id}`, {
+      image: resume,
+    });
     if (res.data.status === "updated") {
       toast.success("Resume Updated");
     }
