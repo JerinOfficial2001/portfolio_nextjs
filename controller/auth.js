@@ -52,11 +52,11 @@ export const getUserByID = async (id) => {
 };
 export const getAllUsers = async () => {
   try {
-    const result = await axios.get(`${API}/auth/allUsers`);
-    if (result.status == "ok") {
-      toast.success(result.data);
+    const { data } = await axios.get(`${API}/auth/allUsers`);
+    if (data.status == "ok") {
+      return data.data;
     } else {
-      toast.error(result.message);
+      toast.error(data.message);
     }
   } catch (error) {
     console.log("GetAllUser ERR", error);

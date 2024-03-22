@@ -154,6 +154,7 @@ a {
 
 /* batman */
 .batman {
+  background-color: #343232;
   border: none;
   position: relative;
   width: 100%;

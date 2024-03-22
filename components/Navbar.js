@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack";
 import { useRouter } from "next/router";
 import { Typography } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ResNav from "./ResNav";
 
 export default function Navbar() {
@@ -18,6 +18,12 @@ export default function Navbar() {
   const router = useRouter();
   const location = router.pathname;
   const menus = [
+    {
+      id: 0,
+      title: "Dashboard",
+      to: "/dashboard",
+      icon: <HomeOutlinedIcon />,
+    },
     {
       id: 1,
       title: "Home",
@@ -56,18 +62,23 @@ export default function Navbar() {
         position: "relative",
       }}
     >
-      <div onClick={()=>{router.push('/auth')}} style={{cursor:'pointer'}}>
-        <Button sx={{textTransform:'none'}}>
-        <Typography variant="h4" color="white" fontWeight="bold">
-        JeRin
-      </Typography>
+      <div
+        onClick={() => {
+          router.push("/auth");
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        <Button sx={{ textTransform: "none" }}>
+          <Typography variant="h4" color="white" fontWeight="bold">
+            JeRin
+          </Typography>
         </Button>
-      
       </div>
-     {menuBtn && <ResNav/>}
-      <Stack direction="row"
+      {menuBtn && <ResNav />}
+      <Stack
+        direction="row"
         sx={{
-          display:{
+          display: {
             xl: "block",
             lg: "block",
             md: "block",
@@ -75,7 +86,6 @@ export default function Navbar() {
             xs: "none",
           },
           width: "70%",
-          
         }}
       >
         <Box
@@ -91,7 +101,7 @@ export default function Navbar() {
               sm: "column",
               xs: "column",
             },
-           
+
             gap: {
               xl: 0,
               lg: 0,
@@ -99,88 +109,101 @@ export default function Navbar() {
               sm: 4,
               xs: 4,
             },
-            marginLeft:25
+            marginLeft: 25,
           }}
         >
           {menus.map((menu, id) => {
             return (
-              <>
-                <div
-                  key={id}
-                  onClick={() => {
-                    router.push(menu.to);
+              <div
+                key={id}
+                onClick={() => {
+                  router.push(menu.to);
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: location == menu.to ? "white" : "#606060",
+                    fontWeight: "bold",
+                    "&:hover": { color: "white" },
+                    cursor: "pointer",
                   }}
                 >
-                  <Typography
-                    sx={{
-                      color: location == menu.to ? "white" : "#606060",
-                      fontWeight: "bold",
-                      "&:hover": { color: "white" },
-                      cursor: "pointer",
-                    }}
-                  >
-                    {menu.title}
-                  </Typography>
-                </div>
-              </>
+                  {menu.title}
+                </Typography>
+              </div>
             );
           })}
         </Box>
-       
       </Stack>
-      <Box sx={{
-        display:{
+      <Box
+        sx={{
+          display: {
             xl: "block",
             lg: "block",
             md: "block",
             sm: "none",
             xs: "none",
           },
-          }}>
-          <Button
+        }}
+      >
+        <Button
+          onClick={() => {
+            router.push("/contact");
+          }}
+          variant="contained"
+          sx={{
+            color: "white",
+            background: "#323232",
+            borderRadius: 4,
+            "&:hover": {
+              background: "white",
+              color: "#323232",
+            },
+            textTransform: "none",
+            height: 43,
+            width: 130,
+            marginBottom: {
+              xl: 0,
+              lg: 0,
+              md: 0,
+              sm: 3,
+              xs: 3,
+            },
+          }}
+        >
+          {"Let's Talk"}
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: {
+            xl: "none",
+            lg: "none",
+            md: "none",
+            sm: "block",
+            xs: "block",
+          },
+        }}
+      >
+        {!menuBtn ? (
+          <IconButton
+            size="big"
             onClick={() => {
-              router.push("/contact");
-            }}
-            variant="contained"
-            sx={{
-              color: "white",
-              background: "#323232",
-              borderRadius: 4,
-              "&:hover": {
-                background: "white",
-                color: "#323232",
-              },
-              textTransform: "none",
-              height: 43,
-              width: 130,
-              marginBottom: {
-                xl: 0,
-                lg: 0,
-                md: 0,
-                sm: 3,
-                xs: 3,
-              },
+              setmenuBtn(true);
             }}
           >
-            {"Let's Talk"}
-          </Button>
-        </Box>
-      <Box sx={{
-        display:{
-          xl: "none",
-                lg: "none",
-                md: "none",
-                sm: "block",
-                xs: "block",
-        }
-      }}>
-        {!menuBtn? 
-        <IconButton size="big" onClick={()=>{setmenuBtn(true)}}>
-          <MenuOutlinedIcon sx={{ color: "white", fontSize: 40 }} />
-        </IconButton>:
-        <IconButton size="big" onClick={()=>{setmenuBtn(false)}}>
-          <CloseOutlinedIcon sx={{ color: "white", fontSize: 40 }}/>
-        </IconButton>}
+            <MenuOutlinedIcon sx={{ color: "white", fontSize: 40 }} />
+          </IconButton>
+        ) : (
+          <IconButton
+            size="big"
+            onClick={() => {
+              setmenuBtn(false);
+            }}
+          >
+            <CloseOutlinedIcon sx={{ color: "white", fontSize: 40 }} />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );

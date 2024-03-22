@@ -7,28 +7,27 @@ import Footer from "@/components/Footer";
 export default function Layout({ children }) {
   return (
     <>
-     <div className="animate__animated animate__fadeInDownBig " >
-      <Container >
-        <Stack
-          width="100%"
-          sx={{
-            flexDirection: "column",
-          }}
-        >
-          <Navbar />
+      <div className="animate__animated animate__fadeInDownBig ">
+        <Container>
           <Stack
-         spacing={3}
+            width="100%"
             sx={{
-              alignItems: "center",
-              
+              flexDirection: "column",
             }}
           >
-            {children}
+            <Navbar />
+            <Stack
+              spacing={3}
+              sx={{
+                alignItems: "center",
+              }}
+            >
+              {children}
+            </Stack>
+
+            <Footer />
           </Stack>
-    
-          <Footer/>
-        </Stack>
-      </Container>
+        </Container>
       </div>
     </>
   );
