@@ -11,7 +11,6 @@ export default function Dashboard() {
   useEffect(() => {
     getAllUsers().then((data) => {
       setUsers(data);
-      console.log(data);
     });
   }, []);
   const handleRoute = (id) => {

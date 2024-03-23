@@ -3,36 +3,25 @@ import { API } from "@/utils/api";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const login = async (data) => {
+export const login = async (formDatas) => {
   try {
-    const result = await axios.post(`${API}/auth/login`, data);
-    if (result.status == "ok") {
-      setEncryptedCookie("token", result.data);
-      const token = await axios.get(`${API}/userData`, {
-        headers: {
-          Authorization: `Bearer ${result.data}`,
-        },
-      });
-      if (token.status == "ok") {
-        setEncryptedCookie("userData", token.data);
-        toast.success("Login Success");
-      } else {
-        toast.error(result.message);
-      }
+    const { data } = await axios.post(`${API}/auth/login`, formDatas);
+    if (data.status == "ok") {
+      setEncryptedCookie("token", data.data);
     } else {
-      toast.error(result.message);
+      toast.error(data.message);
     }
   } catch (error) {
     console.log("LOGIN ERR", error);
   }
 };
-export const register = async (data) => {
+export const register = async (formDatas) => {
   try {
-    const result = await axios.post(`${API}/auth/register`, data);
-    if (result.status == "ok") {
-      toast.success(result.message);
+    const { data } = await axios.post(`${API}/auth/register`, formDatas);
+    if (data.status == "ok") {
+      toast.success(data.message);
     } else {
-      toast.error(result.message);
+      toast.error(data.message);
     }
   } catch (error) {
     console.log("REGISTER ERR", error);
@@ -60,5 +49,24 @@ export const getAllUsers = async () => {
     }
   } catch (error) {
     console.log("GetAllUser ERR", error);
+  }
+};
+const getUserData = async (token) => {
+  console.log(token);
+  try {
+    const { data } = await axios.get(`${API}/userData`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (data.status == "ok") {
+      setEncryptedCookie("userData", data.data);
+      toast.success("Login Success");
+      window.location.href = "/homepage";
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log("GetUserData ERR", error);
   }
 };

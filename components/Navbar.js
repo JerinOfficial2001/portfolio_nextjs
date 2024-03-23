@@ -1,5 +1,5 @@
 import IconButton from "@mui/material/IconButton";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import ContactPhoneOutlinedIcon from "@mui/icons-material/ContactPhoneOutlined";
@@ -11,11 +11,12 @@ import { Typography } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ResNav from "./ResNav";
+import { MyContextState } from "@/pages/_app";
 
 export default function Navbar() {
   const [menuBtn, setmenuBtn] = useState(false);
-
   const router = useRouter();
+  const { userData } = useContext(MyContextState);
   const location = router.pathname;
   const menus = [
     {
@@ -148,7 +149,7 @@ export default function Navbar() {
       >
         <Button
           onClick={() => {
-            router.push("/contact");
+            router.push(userData ? "/contact" : "/auth/login");
           }}
           variant="contained"
           sx={{
@@ -156,8 +157,9 @@ export default function Navbar() {
             background: "#323232",
             borderRadius: 4,
             "&:hover": {
-              background: "white",
-              color: "#323232",
+              background: "#323232",
+              color: "white",
+              border: "2px solid lavender",
             },
             textTransform: "none",
             height: 43,
@@ -169,9 +171,10 @@ export default function Navbar() {
               sm: 3,
               xs: 3,
             },
+            border: "2px solid cornflowerblue",
           }}
         >
-          {"Let's Talk"}
+          {userData ? "Let's Talk" : "Login"}
         </Button>
       </Box>
       <Box

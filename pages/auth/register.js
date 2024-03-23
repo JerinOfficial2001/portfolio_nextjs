@@ -15,12 +15,11 @@ import {
 } from "@mui/material";
 import Container from "@mui/material/Container";
 import Image from "next/image";
-import Admin from "./admin";
 import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
 import { register } from "@/controller/auth";
 
-export default function Auth() {
+export default function Register() {
   const router = useRouter();
   const [inputData, setinputData] = useState({
     password: "",
@@ -254,8 +253,8 @@ export default function Auth() {
                           inputData.image !== null
                             ? URL.createObjectURL(inputData.image)
                             : require(inputData.gender == "MALE"
-                                ? "../assets/male.png"
-                                : "../assets/female.png")
+                                ? "../../assets/male.png"
+                                : "../../assets/female.png")
                         }
                         alt="profile"
                         width={100}
