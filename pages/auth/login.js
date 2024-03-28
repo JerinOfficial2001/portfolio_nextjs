@@ -195,6 +195,30 @@ export default function Auth() {
                 </Grid>
               );
             })}
+            <Grid
+              md={12}
+              sm={12}
+              xs={12}
+              lg={12}
+              xl={12}
+              sx={{ alignItems: "center" }}
+              item
+            >
+              <Typography sx={{ color: "white" }}>
+                Don't have an account?{" "}
+                <span
+                  onClick={() => {
+                    router.push("/auth/register");
+                  }}
+                  style={{
+                    color: "skyblue",
+                    cursor: "pointer",
+                  }}
+                >
+                  Sign up
+                </span>
+              </Typography>
+            </Grid>
           </Grid>
           <Button
             onClick={() => {

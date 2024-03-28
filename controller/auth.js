@@ -8,6 +8,7 @@ export const login = async (formDatas) => {
     const { data } = await axios.post(`${API}/auth/login`, formDatas);
     if (data.status == "ok") {
       setEncryptedCookie("token", data.data);
+      getUserData(data.data);
     } else {
       toast.error(data.message);
     }
@@ -20,6 +21,7 @@ export const register = async (formDatas) => {
     const { data } = await axios.post(`${API}/auth/register`, formDatas);
     if (data.status == "ok") {
       toast.success(data.message);
+      window.location.href = `/auth/login`;
     } else {
       toast.error(data.message);
     }
@@ -29,11 +31,11 @@ export const register = async (formDatas) => {
 };
 export const getUserByID = async (id) => {
   try {
-    const result = await axios.get(`${API}/auth/get/${id}`);
-    if (result.status == "ok") {
-      toast.success(result.data);
+    const { data } = await axios.get(`${API}/auth/get/${id}`);
+    if (data.status == "ok") {
+      return data.data;
     } else {
-      toast.error(result.message);
+      toast.error(data.message);
     }
   } catch (error) {
     console.log("GetUserByID ERR", error);
@@ -52,17 +54,16 @@ export const getAllUsers = async () => {
   }
 };
 const getUserData = async (token) => {
-  console.log(token);
   try {
-    const { data } = await axios.get(`${API}/userData`, {
+    const { data } = await axios.get(`${API}/auth/userData`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     if (data.status == "ok") {
-      setEncryptedCookie("userData", data.data);
       toast.success("Login Success");
-      window.location.href = "/homepage";
+      setEncryptedCookie("userData", JSON.stringify(data.data));
+      window.location.href = `/${data.data._id}`;
     } else {
       toast.error(data.message);
     }

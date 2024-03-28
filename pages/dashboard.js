@@ -1,27 +1,30 @@
-import { getAllUsers } from "@/controller/auth";
+import { getAllUsers, getUserByID } from "@/controller/auth";
+import { GetAllProfile } from "@/controller/profile";
 import Layout from "@/layouts/Layout";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 export default function Dashboard() {
   const router = useRouter();
-  const [Users, setUsers] = useState([]);
+  const [profiles, setprofiles] = useState([]);
   useEffect(() => {
-    getAllUsers().then((data) => {
-      setUsers(data);
+    GetAllProfile().then((data) => {
+      setprofiles(data);
     });
   }, []);
   const handleRoute = (id) => {
-    router.push(`/portfolio/${id}`);
+    router.push(`/${id}`);
   };
   return (
     <Layout>
-      <Grid container columnGap={2} sx={{ width: "100%" }}>
-        {Users?.map((item) => {
+      <Toaster position="top-center" />
+      <Grid container columnGap={4} rowGap={1} sx={{ width: "100%" }}>
+        {profiles?.map((item) => {
           return (
-            <Grid key={item._id} item md={3}>
+            <Grid key={item._id} item md={2.7}>
               <div
                 style={{ width: "100%" }}
                 className="animate__animated animate__zoomIn animate__delay-1s thirdrow"
@@ -47,42 +50,46 @@ export default function Dashboard() {
                     borderRadius: 8,
                     border: "1px solid #232323",
                     padding: 3,
+                    boxShadow: "0 0 0 2px black",
                   }}
                 >
                   <Box
                     sx={{
-                      height: "218px",
+                      height: "215px",
                       width: "90%",
                       background:
                         "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
                       borderRadius: "40px 0px 40px 0px",
                       boxShadow: "0px 0px 5px black",
+                      display: "flex",
+                      alignItem: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    {item.image ? (
+                    {item.image !== "null" && item.image ? (
                       <img
                         src={item.image.url}
-                        placeholder="empty"
-                        alt="sign"
+                        alt="ProfilePic"
                         style={{
-                          height: "98%",
-                          width: "98%",
-                          // marginTop: "21px",
+                          height: "100%",
+                          width: "100%",
                           borderRadius: "40px 0px 40px 0px",
+                          boxShadow: "0px 0px 5px whitesmoke",
                         }}
                       />
                     ) : (
                       <Image
-                        src={require(!item.gender || item.gender == "male"
+                        src={require(!item.gender ||
+                          item.gender == "male" ||
+                          item.gender == "MALE"
                           ? "../assets/male.png"
                           : "../assets/female.png")}
-                        placeholder="empty"
-                        alt="sign"
+                        alt="NoProfile"
                         style={{
-                          height: "91%",
-                          width: "99%",
+                          height: "80%",
+                          width: "80%",
                           marginTop: "21px",
-                          borderRadius: "0px 0px 40px 0px",
+                          borderRadius: "50%",
                         }}
                       />
                     )}
@@ -111,11 +118,18 @@ export default function Dashboard() {
                           color: "#5a5a5a",
                           fontSize: 13,
                           fontWeight: "bold",
+                          minWidth: "200px",
                         }}
                       >
-                        {item.email}
+                        {item.role}
                       </Typography>
-                      <Typography sx={{ color: "white", fontSize: 23 }}>
+                      <Typography
+                        sx={{
+                          color: "white",
+                          fontSize: 23,
+                          textTransform: "capitalize",
+                        }}
+                      >
                         {item.name}
                       </Typography>
                     </Box>
@@ -139,7 +153,7 @@ export default function Dashboard() {
                       <button
                         className="batman"
                         onClick={() => {
-                          handleRoute(item._id);
+                          handleRoute(item.userID);
                         }}
                       ></button>
                     </Box>

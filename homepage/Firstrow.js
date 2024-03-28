@@ -5,9 +5,30 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import "animate.css";
 import { useRouter } from "next/router";
+import { IconButton, TextField } from "@mui/material";
+import { Add, Edit } from "@mui/icons-material";
+import ProfileModal from "@/components/ProfileModal";
+import CredentialsModal from "@/components/CredentialsModal";
 
-export default function Firstrow() {
+export default function Firstrow({
+  data,
+  profile,
+  isMyProfile,
+  fetchData,
+  credentials,
+}) {
   const router = useRouter();
+  const { homepage } = router.query;
+  const location = router.pathname;
+  const [isImgHover, setisImgHover] = useState(false);
+  const [openProfile, setopenProfile] = useState(false);
+  const [openCredentials, setopenCredentials] = useState(false);
+  const handleProfileClose = () => {
+    setopenProfile(false);
+  };
+  const handleCredentialsClose = () => {
+    setopenCredentials(false);
+  };
   return (
     <>
       <Stack
@@ -39,6 +60,7 @@ export default function Firstrow() {
               gap: "10px",
               marginTop: "15px",
               border: "1px solid #232323",
+              position: "relative",
             }}
           >
             <Box
@@ -48,19 +70,64 @@ export default function Firstrow() {
                 background: "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
                 borderRadius: "40px 0px 40px 0px",
                 boxShadow: "0px 0px 5px black",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
               }}
             >
-              <Image
-                src={require("../assets/dp.png")}
-                placeholder="empty"
-                alt="sign"
-                style={{
-                  height: "90%",
-                  width: "99%",
-                  marginTop: "21px",
-                  borderRadius: "0px 0px 40px 0px",
-                }}
-              />
+              {profile?.image !== "null" && profile?.image ? (
+                <img
+                  src={profile.image.url}
+                  alt="ProfilePic"
+                  style={{
+                    height: "98%",
+                    width: "98%",
+                    borderRadius: "40px 0px 40px 0px",
+                  }}
+                />
+              ) : (
+                <Image
+                  className="userImg"
+                  src={require(!data?.gender ||
+                    data?.gender == "male" ||
+                    data?.gender == "MALE"
+                    ? "../assets/male.png"
+                    : "../assets/female.png")}
+                  alt="NoProfile"
+                  style={{
+                    height: "85%",
+                    width: "80%",
+                    borderRadius: "0px 0px 40px 0px",
+                  }}
+                />
+              )}
+              {/* {isMyProfile && (
+                <Box
+                  onMouseEnter={() => {
+                    setisImgHover(true);
+                  }}
+                  onMouseLeave={() => {
+                    setisImgHover(false);
+                  }}
+                  sx={{
+                    position: "absolute",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                    width: "100%",
+                    borderRadius: "40px 0px 40px 0px",
+                    color: "white",
+                    background: isImgHover ? "#2e29295e" : "",
+                    transition: "1s",
+                  }}
+                >
+                  {isImgHover && (
+                    <Edit on sx={{ fontSize: "50px", transition: "1s" }} />
+                  )}
+                </Box>
+              )} */}
             </Box>
             <Box
               sx={{
@@ -93,7 +160,7 @@ export default function Firstrow() {
                     textTransform: "uppercase",
                   }}
                 >
-                  Mern stack Developer
+                  {profile ? profile?.role : "Add Role"}
                 </Typography>
                 <Typography
                   sx={{
@@ -108,7 +175,7 @@ export default function Firstrow() {
                     fontWeight: "bold",
                   }}
                 >
-                  Jerin T
+                  {profile ? profile.name : "Add Name"}
                 </Typography>
                 <Typography
                   sx={{
@@ -124,7 +191,7 @@ export default function Firstrow() {
                     marginBottom: 2,
                   }}
                 >
-                  BE-MCT
+                  {profile ? profile.qualification : "Add Qualification"}
                 </Typography>
                 <Typography
                   sx={{
@@ -140,10 +207,30 @@ export default function Firstrow() {
                     textTransform: "uppercase",
                   }}
                 >
-                  An Aspiring MERN stack Developer
+                  {/* An Aspiring MERN stack Developer */}
+                  {profile ? profile.about : "Add About"}
                 </Typography>
               </Box>
             </Box>
+            {isMyProfile && (
+              <IconButton
+                onClick={() => {
+                  setopenProfile(true);
+                }}
+                sx={{
+                  position: "absolute",
+                  bottom: 15,
+                  right: 15,
+                  color: "whitesmoke",
+                  background: "#9d999924 !important",
+                  "&:hover": {
+                    boxShadow: "0 0 0 1px black",
+                  },
+                }}
+              >
+                {profile == null || profile == undefined ? <Add /> : <Edit />}
+              </IconButton>
+            )}
           </Stack>
         </div>
 
@@ -195,18 +282,36 @@ export default function Firstrow() {
                     textTransform: "uppercase",
                   }}
                 >
-                  <span style={{ color: "white" }}> * </span>I am{" "}
-                  <span style={{ color: "white" }}> Jerin </span> from
-                  Coimbatore <span style={{ color: "white" }}> * </span>
-                  <span style={{ color: "white" }}> MERN stack Developer </span>{" "}
-                  <span style={{ color: "white" }}> * </span>I am{" "}
-                  <span style={{ color: "white" }}> Jerin </span> from
-                  Coimbatore <span style={{ color: "white" }}> * </span>
-                  <span style={{ color: "white" }}> MERN stack Developer </span>{" "}
-                  <span style={{ color: "white" }}> * </span>I am{" "}
-                  <span style={{ color: "white" }}> Jerin </span> from
-                  Coimbatore <span style={{ color: "white" }}> * </span>
-                  <span style={{ color: "white" }}> MERN stack Developer </span>{" "}
+                  <span style={{ color: "white" }}> * </span>I am&nbsp;
+                  <span style={{ color: "white" }}>
+                    {profile ? profile.name : "$NAME"}
+                  </span>
+                  &nbsp;from&nbsp;
+                  {profile ? profile.from : "$PLACE"}&nbsp;
+                  <span style={{ color: "white" }}> * </span>
+                  <span style={{ color: "white" }}>
+                    &nbsp; {profile ? profile.role : "$ROLE"}&nbsp;
+                  </span>
+                  <span style={{ color: "white" }}> * </span>I am&nbsp;
+                  <span style={{ color: "white" }}>
+                    {profile ? profile.name : "$NAME"}
+                  </span>
+                  &nbsp;from&nbsp;
+                  {profile ? profile.from : "$PLACE"}&nbsp;
+                  <span style={{ color: "white" }}> * </span>
+                  <span style={{ color: "white" }}>
+                    &nbsp; {profile ? profile.role : "$ROLE"}&nbsp;
+                  </span>
+                  <span style={{ color: "white" }}> * </span>I am&nbsp;
+                  <span style={{ color: "white" }}>
+                    {profile ? profile.name : "$NAME"}
+                  </span>
+                  &nbsp;from&nbsp;
+                  {profile ? profile.from : "$PLACE"}&nbsp;
+                  <span style={{ color: "white" }}> * </span>
+                  <span style={{ color: "white" }}>
+                    &nbsp; {profile ? profile.role : "$ROLE"}&nbsp;
+                  </span>
                 </Typography>
               </marquee>
             </Stack>
@@ -257,17 +362,72 @@ export default function Firstrow() {
                   flexDirection: "column",
                   cursor: "pointer",
                   border: "1px solid #232323",
+                  paddingTop: 2,
                 }}
               >
-                <Image
-                  src={require("../assets/sign.png")}
-                  placeholder="empty"
-                  alt="sign"
-                  style={{
+                <Box
+                  onMouseEnter={() => {
+                    setisImgHover(true);
+                  }}
+                  onMouseLeave={() => {
+                    setisImgHover(false);
+                  }}
+                  sx={{
                     height: 130,
                     width: 180,
+                    display: "flex",
+                    alignItem: "center",
+                    justifyContent: "center",
+                    position: "relative",
                   }}
-                />
+                >
+                  {isMyProfile && (
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        height: "100%",
+                        width: "100%",
+                        borderRadius: "10px",
+                        background: isImgHover ? "#00000094" : "",
+                        transition: ".3s",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <IconButton
+                        onClick={() => {
+                          setopenCredentials(true);
+                        }}
+                        sx={{
+                          boxShadow: isImgHover ? "0 0 0 1px gray" : "",
+                          color: isImgHover ? "white" : "black",
+                          height: 50,
+                          width: 50,
+                          backgroundColor: "#877f7f69 !important",
+                        }}
+                      >
+                        {profile == null || profile == undefined ? (
+                          <Add />
+                        ) : (
+                          <Edit />
+                        )}
+                      </IconButton>
+                    </Box>
+                  )}
+                  {credentials ? (
+                    <img
+                      src={credentials?.image?.url}
+                      placeholder="empty"
+                      alt="sign"
+                      style={{
+                        borderRadius: "10px",
+                      }}
+                    />
+                  ) : (
+                    <Box component="img" alt="sign" src="/Signature.png" />
+                  )}
+                </Box>
 
                 <Stack
                   direction="row"
@@ -319,7 +479,15 @@ export default function Firstrow() {
                     <button
                       className="batman"
                       onClick={() => {
-                        router.push("/credentials");
+                        router.push(
+                          `/credentials${
+                            homepage && homepage !== "homepage"
+                              ? "?id=" + homepage
+                              : data
+                              ? "?id=" + data?._id
+                              : ""
+                          }`
+                        );
                       }}
                     ></button>
                   </Box>
@@ -350,24 +518,18 @@ export default function Firstrow() {
                   border: "1px solid #232323",
                 }}
               >
-                <Stack
-                  sx={{
-                    height: "65%",
-                    width: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Image
-                    src={require("../assets/projectimg.jpeg")}
-                    placeholder="empty"
-                    alt="sign"
+                <Stack sx={{ height: "65%", width: "100%" }}>
+                  <Box
+                    component="img"
+                    alt="services"
                     style={{
-                      height: "80%",
-                      width: "80%",
-                      borderRadius: 10,
-                      marginTop: 30,
+                      height: "100%",
+                      width: "100%",
+                      borderRadius: "32px 32px 0 0",
+                      objectFit: "cover",
+                      objectPosition: "top",
                     }}
+                    src={"/project.jpg"}
                   />
                 </Stack>
 
@@ -434,6 +596,20 @@ export default function Firstrow() {
           {/* !container */}
         </Box>
       </Stack>
+      <ProfileModal
+        open={openProfile}
+        handleClose={handleProfileClose}
+        data={profile}
+        id={data?._id}
+        fetchData={fetchData}
+      />
+      <CredentialsModal
+        open={openCredentials}
+        handleClose={handleCredentialsClose}
+        data={credentials}
+        id={data?._id}
+        fetchData={fetchData}
+      />
     </>
   );
 }

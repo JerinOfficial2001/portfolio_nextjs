@@ -169,7 +169,21 @@ a {
   cursor: pointer;
   transform: translateY(8px);
 }
-
+.userImg {
+  position: relative;
+  animation: animate 3s infinite;
+}
+@keyframes animate {
+  0% {
+    bottom: 0;
+  }
+  50% {
+    bottom: 15px;
+  }
+  100% {
+    bottom: 0;
+  }
+}
 /* .batman:after {
   content: '';
   position: absolute;

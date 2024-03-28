@@ -33,8 +33,7 @@ export default function FirstrowAbout() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              border:'1px solid #232323'
-
+              border: "1px solid #232323",
             }}
           >
             <Box
@@ -88,6 +87,7 @@ export default function FirstrowAbout() {
               }}
             >
               <Image
+                alt="img"
                 placeholder="empty"
                 src={require("../assets/star-2.png")}
                 style={{ height: "47%", width: "50px" }}
@@ -110,6 +110,7 @@ export default function FirstrowAbout() {
               </Typography>
 
               <Image
+                alt="img"
                 placeholder="empty"
                 src={require("../assets/star-2.png")}
                 style={{ height: "47%", width: "50px" }}
@@ -133,8 +134,7 @@ export default function FirstrowAbout() {
                 alignItems: "center",
                 gap: 2,
                 flexDirection: "column",
-              border:'1px solid #232323'
-
+                border: "1px solid #232323",
               }}
             >
               {/* About*/}
@@ -162,7 +162,11 @@ export default function FirstrowAbout() {
                     placeholder="empty"
                     src={require("../assets/star.jpeg")}
                     alt="star"
-                    style={{ height: "100%", width: "50px",borderRadius:"12px 0px 0px 0px" }}
+                    style={{
+                      height: "100%",
+                      width: "50px",
+                      borderRadius: "12px 0px 0px 0px",
+                    }}
                   />
                 </Stack>
                 <Box
@@ -188,15 +192,18 @@ export default function FirstrowAbout() {
                   >
                     Jerin
                   </Typography>
-                  <Typography sx={{ color: "#9c9c9c", 
-                  fontSize: {
+                  <Typography
+                    sx={{
+                      color: "#9c9c9c",
+                      fontSize: {
                         xl: 20,
                         lg: 20,
                         md: 20,
                         sm: 20,
                         xs: 15,
                       },
-                      }}>
+                    }}
+                  >
                     I am from Coimbatore.Currently pursuing BE-MCT (final year).
                     Building immersive web experiences with React.
                   </Typography>

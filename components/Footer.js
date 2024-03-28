@@ -54,7 +54,7 @@ export default function Footer() {
       }}
     >
       <Typography variant="h4" color="white" fontWeight="bold">
-        JeRin
+        𝘗𝘰𝘳𝘵𝘧𝘰𝘭𝘪𝘰
       </Typography>
       <Stack
         direction="row"

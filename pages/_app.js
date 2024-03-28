@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }) {
   const cookie = getDecryptedCookie("userData");
   const [userData, setuserData] = useState(null);
   useEffect(() => {
-    const cachedData = cookie ? JSON.parse(cookie) : false;
+    const cachedData = cookie ? cookie : false;
     if (cachedData) {
       setuserData(cachedData);
     }

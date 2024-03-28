@@ -6,6 +6,7 @@ import "animate.css";
 import { useRouter } from "next/router";
 import * as icon from "react-icons/ai";
 import Button from "@mui/material/Button";
+import Image from "next/image";
 
 export default function Secondrow() {
   const router = useRouter();
@@ -45,11 +46,11 @@ export default function Secondrow() {
             flexDirection: "column",
             cursor: "pointer",
             borderRadius: 8,
-            border:'1px solid #232323'
-
+            border: "1px solid #232323",
           }}
         >
-          <Stack sx={{
+          <Stack
+            sx={{
               height: 130,
               width: {
                 xl: "90%",
@@ -62,10 +63,15 @@ export default function Secondrow() {
               marginTop: 5,
               alignItems: "center",
               justifyContent: "center",
-              border:'1px solid #232323',
-              borderRadius:8
-            }}>
-            <Typography sx={{color: "white",fontWeight:'bold',fontSize:50}}>BLOG</Typography>
+              border: "1px solid #232323",
+              borderRadius: 8,
+            }}
+          >
+            <Typography
+              sx={{ color: "white", fontWeight: "bold", fontSize: 50 }}
+            >
+              BLOG
+            </Typography>
           </Stack>
 
           <Stack
@@ -142,11 +148,23 @@ export default function Secondrow() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
-            border:'1px solid #232323'
-
+            border: "1px solid #232323",
           }}
         >
-          <Stack sx={{ height: 130, width: "100%" }}></Stack>
+          <Stack sx={{ height: "65%", width: "100%" }}>
+            <Box
+              component="img"
+              alt="services"
+              style={{
+                height: "100%",
+                width: "100%",
+                borderRadius: "32px 32px 0 0",
+                objectFit: "cover",
+                objectPosition: "top",
+              }}
+              src={"/services.jpg"}
+            />
+          </Stack>
 
           <Stack
             direction="row"
@@ -240,8 +258,7 @@ export default function Secondrow() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
-            border:'1px solid #232323'
-            
+            border: "1px solid #232323",
           }}
         >
           <Stack
@@ -258,8 +275,8 @@ export default function Secondrow() {
               marginTop: 5,
               alignItems: "center",
               justifyContent: "center",
-              border:'1px solid #232323',
-              borderRadius:8
+              border: "1px solid #232323",
+              borderRadius: 8,
             }}
           >
             <div
@@ -274,7 +291,6 @@ export default function Secondrow() {
               }}
             >
               <Button
-              
                 onClick={() => {
                   router.push("https://www.linkedin.com/in/jerin-t-8866581a0");
                 }}
@@ -285,7 +301,7 @@ export default function Secondrow() {
                   height: "100%",
                   width: "40%",
                   borderRadius: "50%",
-              border:'1px solid #232323',
+                  border: "1px solid #232323",
 
                   "&:hover": {
                     background: "white",
@@ -307,7 +323,7 @@ export default function Secondrow() {
                   height: "100%",
                   width: "40%",
                   borderRadius: "50%",
-                  border:'1px solid #232323',
+                  border: "1px solid #232323",
                   "&:hover": {
                     background: "white",
                     color: "#323232",

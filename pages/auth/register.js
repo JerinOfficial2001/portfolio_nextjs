@@ -154,7 +154,7 @@ export default function Register() {
             justifyContent: "center",
             flexDirection: "column",
             alignItems: "center",
-            gap: 2,
+            gap: 1,
             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
             borderRadius: 10,
             padding: {
@@ -180,10 +180,10 @@ export default function Register() {
               sx={{
                 color: "white",
                 fontSize: {
-                  xl: 40,
-                  lg: 40,
-                  md: 40,
-                  sm: 20,
+                  xl: 30,
+                  lg: 30,
+                  md: 30,
+                  sm: 10,
                   xs: 10,
                 },
                 fontWeight: "bold",
@@ -363,6 +363,27 @@ export default function Register() {
               }
             })}
           </Grid>
+          <Typography
+            sx={{
+              color: "white",
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Already have an account?&nbsp;
+            <span
+              onClick={() => {
+                router.push("/auth/login");
+              }}
+              style={{
+                color: "skyblue",
+                cursor: "pointer",
+              }}
+            >
+              Login
+            </span>
+          </Typography>
           <Button
             onClick={() => {
               submitHandler(inputData);

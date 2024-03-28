@@ -22,12 +22,7 @@ export default function Thirdrow() {
         },
       }}
     >
-      <div
-        onClick={() => {
-          router.push("/resume");
-        }}
-        className="animate__animated animate__zoomIn animate__delay-1s secondrow"
-      >
+      <div className="animate__animated animate__zoomIn animate__delay-1s secondrow">
         <Box
           sx={{
             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
@@ -47,12 +42,93 @@ export default function Thirdrow() {
             gap: 2,
             flexDirection: "column",
             border: "1px solid #232323",
-            color: "white",
-            fontSize: 100,
-            fontWeight: "bold",
           }}
         >
-          RESUME
+          <Stack sx={{ height: "70%", width: "100%" }}>
+            <Box
+              component="img"
+              alt="services"
+              style={{
+                height: "100%",
+                width: "100%",
+                borderRadius: "32px 32px 0 0",
+                objectFit: "cover",
+                objectPosition: "top",
+              }}
+              src={"/resume.jpg"}
+            />
+          </Stack>
+
+          <Stack
+            direction="row"
+            sx={{
+              height: "30%",
+              width: {
+                xl: "100%",
+                lg: "100%",
+                md: "100%",
+                sm: "100%",
+                xs: "90%",
+              },
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                width: {
+                  xl: "80%",
+                  lg: "80%",
+                  md: "80%",
+                  sm: 400,
+                  xs: 400,
+                },
+
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "#5a5a5a",
+                  fontSize: 13,
+                  fontWeight: "bold",
+                  textTransform: "uppercase",
+                }}
+              >
+                Resume
+              </Typography>
+              <Typography sx={{ color: "white", fontSize: 23 }}>
+                View & Download
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: {
+                  xl: 60,
+                  lg: 60,
+                  md: 60,
+                  sm: 150,
+                  xs: 220,
+                },
+                height: "90%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                flexDirection: "column",
+              }}
+            >
+              <button
+                className="batman"
+                onClick={() => {
+                  router.push("/resume");
+                }}
+              ></button>
+            </Box>
+          </Stack>
         </Box>
       </div>
 

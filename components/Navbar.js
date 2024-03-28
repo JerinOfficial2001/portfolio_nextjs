@@ -1,5 +1,5 @@
 import IconButton from "@mui/material/IconButton";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import ContactPhoneOutlinedIcon from "@mui/icons-material/ContactPhoneOutlined";
@@ -12,66 +12,110 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ResNav from "./ResNav";
 import { MyContextState } from "@/pages/_app";
+import { Logout } from "@mui/icons-material";
+import Cookies from "js-cookie";
+import { getDecryptedCookie } from "@/utils/EncryteCookies";
 
 export default function Navbar() {
   const [menuBtn, setmenuBtn] = useState(false);
   const router = useRouter();
-  const { userData } = useContext(MyContextState);
+  const cookie = getDecryptedCookie("userData");
+  const [userData, setuserData] = useState(null);
+  const cachedData = cookie ? JSON.parse(cookie) : false;
+  useEffect(() => {
+    if (cachedData) {
+      setuserData(cachedData);
+    }
+  }, [cookie]);
+  const { homepage, id } = router.query;
   const location = router.pathname;
   const menus = [
     {
       id: 0,
       title: "Dashboard",
-      to: "/dashboard",
+      to: "/",
+      path: "/",
       icon: <HomeOutlinedIcon />,
     },
     {
       id: 1,
       title: "Home",
-      to: "/",
+      to: homepage ? homepage : id ? id : userData ? userData._id : "/homepage",
+      path: "/[homepage]",
       icon: <HomeOutlinedIcon />,
     },
     {
       id: 2,
       title: "About",
-      to: "/about",
+      to: `/about${
+        homepage && homepage !== "homepage"
+          ? "?id=" + homepage
+          : userData
+          ? "?id=" + userData?._id
+          : id
+          ? "?id=" + id
+          : ""
+      }`,
+      path: "/about",
       icon: <InventoryOutlinedIcon />,
     },
     {
       id: 3,
       title: "Works",
-      to: "/project",
+      to: `/project${
+        homepage && homepage !== "homepage"
+          ? "?id=" + homepage
+          : userData
+          ? "?id=" + userData?._id
+          : id
+          ? "?id=" + id
+          : ""
+      }`,
+      path: "/project",
       icon: <InventoryOutlinedIcon />,
     },
     {
       id: 4,
       title: "Contact",
-      to: "/contact",
+      to: `/contact${
+        homepage && homepage !== "homepage"
+          ? "?id=" + homepage
+          : userData
+          ? "?id=" + userData?._id
+          : id
+          ? "?id=" + id
+          : ""
+      }`,
+      path: "/contact",
       icon: <ContactPhoneOutlinedIcon />,
     },
   ];
+  const handleLogout = () => {
+    Cookies.remove("userData");
+    Cookies.remove("token");
+    window.location.href = "/";
+  };
   return (
     <Box
       sx={{
         display: "flex",
-        gap: 10,
         width: "100%",
         justifyContent: "space-between",
         left: 0,
-        marginTop: 5,
         height: 120,
         position: "relative",
+        alignItems: "center",
       }}
     >
       <div
         onClick={() => {
-          router.push("/auth");
+          router.push("/");
         }}
         style={{ cursor: "pointer" }}
       >
         <Button sx={{ textTransform: "none" }}>
           <Typography variant="h4" color="white" fontWeight="bold">
-            JeRin
+            𝘗𝘰𝘳𝘵𝘧𝘰𝘭𝘪𝘰
           </Typography>
         </Button>
       </div>
@@ -86,14 +130,12 @@ export default function Navbar() {
             sm: "none",
             xs: "none",
           },
-          width: "70%",
         }}
       >
         <Box
           sx={{
             height: "100%",
             display: "flex",
-            width: "47%",
             justifyContent: "space-between",
             flexDirection: {
               xl: "row",
@@ -104,13 +146,12 @@ export default function Navbar() {
             },
 
             gap: {
-              xl: 0,
-              lg: 0,
-              md: 0,
+              xl: 2,
+              lg: 2,
+              md: 2,
               sm: 4,
               xs: 4,
             },
-            marginLeft: 25,
           }}
         >
           {menus.map((menu, id) => {
@@ -118,12 +159,16 @@ export default function Navbar() {
               <div
                 key={id}
                 onClick={() => {
-                  router.push(menu.to);
+                  if (location !== menu.path) {
+                    if (homepage || userData || id || menu.to == "/") {
+                      router.push(menu.to);
+                    }
+                  }
                 }}
               >
                 <Typography
                   sx={{
-                    color: location == menu.to ? "white" : "#606060",
+                    color: location == menu.path ? "white" : "#606060",
                     fontWeight: "bold",
                     "&:hover": { color: "white" },
                     cursor: "pointer",
@@ -139,12 +184,14 @@ export default function Navbar() {
       <Box
         sx={{
           display: {
-            xl: "block",
-            lg: "block",
-            md: "block",
+            xl: "flex",
+            lg: "flex",
+            md: "flex",
             sm: "none",
             xs: "none",
           },
+          alignItems: "center",
+          gap: 2,
         }}
       >
         <Button
@@ -176,6 +223,14 @@ export default function Navbar() {
         >
           {userData ? "Let's Talk" : "Login"}
         </Button>
+        {userData !== null && (
+          <IconButton
+            sx={{ color: "white", boxShadow: "0 0 0 1px black" }}
+            onClick={handleLogout}
+          >
+            <Logout />
+          </IconButton>
+        )}
       </Box>
       <Box
         sx={{

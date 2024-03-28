@@ -1,16 +1,25 @@
 import Layout from "@/layouts/Layout";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "animate.css";
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
 import * as icon from "react-icons/ai";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
+import { getDecryptedCookie } from "@/utils/EncryteCookies";
 
-export default function ProfileCard() {
+export default function ProfileCard({ links, profile }) {
   const router = useRouter();
+  const cookie = getDecryptedCookie("userData");
+  const [userData, setuserData] = useState(null);
+  useEffect(() => {
+    const cachedData = cookie ? cookie : false;
+    if (cachedData) {
+      setuserData(cachedData);
+    }
+  }, [cookie]);
   return (
     <div className="animate__animated animate__zoomIn animate__delay-1s ">
       <Stack
@@ -52,17 +61,34 @@ export default function ProfileCard() {
               boxShadow: "0px 0px 5px black",
             }}
           >
-            <Image
-              src={require("../assets/dp.png")}
-              placeholder="empty"
-              alt="sign"
-              style={{
-                height: "94%",
-                width: "100%",
-                borderRadius: "0px 0px 40px 40px",
-                marginTop: "18px",
-              }}
-            />
+            {profile?.image !== "null" && profile?.image ? (
+              <img
+                src={profile.image.url}
+                alt="ProfilePic"
+                style={{
+                  height: "94%",
+                  width: "100%",
+                  borderRadius: "0px 0px 40px 40px",
+                  marginTop: "18px",
+                }}
+              />
+            ) : (
+              <Image
+                className="userImg"
+                src={require(!userData?.gender ||
+                  userData?.gender == "male" ||
+                  userData?.gender == "MALE"
+                  ? "../assets/male.png"
+                  : "../assets/female.png")}
+                alt="NoProfile"
+                style={{
+                  height: "94%",
+                  width: "100%",
+                  borderRadius: "0px 0px 40px 40px",
+                  marginTop: "18px",
+                }}
+              />
+            )}
           </Box>
           <Typography
             sx={{
@@ -72,7 +98,7 @@ export default function ProfileCard() {
               marginBottom: 2,
             }}
           >
-            JERIN
+            {profile.name ? profile.name : "NAME"}
           </Typography>
           <Typography
             sx={{
@@ -82,7 +108,7 @@ export default function ProfileCard() {
               textTransform: "uppercase",
             }}
           >
-            BE-Mechatronic engineering
+            {profile.qualification ? profile.qualification : "QUALIFICATION"}
           </Typography>
           <div
             className="animate__animated animate__zoomIn animate__delay-1s"
@@ -97,7 +123,9 @@ export default function ProfileCard() {
           >
             <Button
               onClick={() => {
-                router.push("https://www.linkedin.com/in/jerin-t-8866581a0");
+                if (links) {
+                  router.push(links.LinkedIn);
+                }
               }}
               sx={{
                 color: "white",
@@ -117,7 +145,9 @@ export default function ProfileCard() {
 
             <Button
               onClick={() => {
-                router.push("https://github.com/jerin2001");
+                if (links) {
+                  router.push(links.Github);
+                }
               }}
               sx={{
                 color: "white",
@@ -136,7 +166,9 @@ export default function ProfileCard() {
             </Button>
             <Button
               onClick={() => {
-                router.push("https://wa.me/qr/EMQB2VSLPRJLL1");
+                if (links) {
+                  router.push(links.Whatsapp);
+                }
               }}
               sx={{
                 color: "white",
