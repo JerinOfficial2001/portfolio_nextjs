@@ -20,21 +20,23 @@ export default function Card({ project }) {
       >
         <div
           onClick={() => {
-            router.push(project.link);
+            router.push(`/projectPage?projectID=${project?._id}`);
           }}
           className="wrapper"
         >
           <div className="card">
-            <Image
+            <img
               onMouseEnter={() => {
                 sethover(true);
               }}
-              src={project.image}
+              src={project.image[0]}
               alt="loading..."
               style={{
                 height: "100%",
                 width: "100%",
                 position: "absolute",
+                objectFit: "contain",
+                objectPosition: "top",
               }}
             />
             {hover && (

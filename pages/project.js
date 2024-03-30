@@ -10,16 +10,26 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Card from "@/components/Card";
 import Grid from "@mui/material/Grid";
-import { useDispatch, useSelector } from "react-redux";
-import { getProjects } from "@/redux/actions";
+import { GetProjectsByID } from "@/controller/project";
+import { useRouter } from "next/router";
+import { getDecryptedCookie } from "@/utils/EncryteCookies";
 
 export default function Project() {
-  const dispatch = useDispatch();
+  const router = useRouter();
+  const { id } = router.query;
+  const [projectsData, setprojectsData] = useState([]);
+  const cookie = getDecryptedCookie("userData");
+
+  const cachedCookie = cookie ? JSON.parse(cookie) : false;
+
   useEffect(() => {
-    dispatch(getProjects());
+    if (id || cachedCookie) {
+      GetProjectsByID(id ? id : cachedCookie?._id).then((data) => {
+        setprojectsData(data);
+      });
+    }
   }, []);
 
-  // const projects = useSelector((state) => state.counter.projects);
   const projects = [
     {
       title: "Gallery",
@@ -69,6 +79,7 @@ export default function Project() {
               }}
             >
               <Image
+                alt="img"
                 placeholder="empty"
                 src={require("../assets/star-2.png")}
                 style={{ height: "47%", width: "50px" }}
@@ -78,19 +89,20 @@ export default function Project() {
                 sx={{
                   color: "white",
                   fontSize: {
-                    xl: 70,
-                    lg: 70,
-                    md: 70,
+                    xl: 60,
+                    lg: 60,
+                    md: 60,
                     sm: 30,
                     xs: 25,
                   },
                   fontWeight: "bold",
                 }}
               >
-                MY PROJECTS
+                𝓜𝔂 𝓹𝓻𝓸𝓳𝓮𝓬𝓽𝓼
               </Typography>
 
               <Image
+                alt="img"
                 placeholder="empty"
                 src={require("../assets/star-2.png")}
                 style={{ height: "47%", width: "50px" }}
@@ -98,8 +110,8 @@ export default function Project() {
             </Stack>
           </div>
           <Grid container direction="row" rowGap={2} columnGap={2} columns={8}>
-            {projects?.map((project) => {
-              return <Card project={project} key={project._id} />;
+            {projectsData?.map((project, index) => {
+              return <Card key={index} project={project} />;
             })}
           </Grid>
         </Stack>

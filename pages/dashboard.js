@@ -71,10 +71,12 @@ export default function Dashboard() {
                         src={item.image.url}
                         alt="ProfilePic"
                         style={{
-                          height: "100%",
+                          height: "215px",
                           width: "100%",
                           borderRadius: "40px 0px 40px 0px",
                           boxShadow: "0px 0px 5px whitesmoke",
+                          objectFit: "cover",
+                          objectPosition: "top",
                         }}
                       />
                     ) : (

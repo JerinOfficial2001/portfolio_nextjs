@@ -7,7 +7,14 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useRouter } from "next/router";
-import { Typography } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Menu,
+  MenuItem,
+  Typography,
+  styled,
+} from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ResNav from "./ResNav";
@@ -16,7 +23,44 @@ import { Logout } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}));
+
 export default function Navbar() {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const [menuBtn, setmenuBtn] = useState(false);
   const router = useRouter();
   const cookie = getDecryptedCookie("userData");
@@ -94,6 +138,7 @@ export default function Navbar() {
     Cookies.remove("userData");
     Cookies.remove("token");
     window.location.href = "/";
+    handleClose();
   };
   return (
     <Box
@@ -225,12 +270,81 @@ export default function Navbar() {
         </Button>
         {userData !== null && (
           <IconButton
-            sx={{ color: "white", boxShadow: "0 0 0 1px black" }}
-            onClick={handleLogout}
+            title={userData?.name}
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
           >
-            <Logout />
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
+              <Avatar
+                alt={userData?.name}
+                src={
+                  userData?.image !== "null" || userData?.image !== null
+                    ? userData.image.url
+                    : userData.gender == "male" || userData.gender == "MALE"
+                    ? "../assets/male.png"
+                    : "../assets/female.png"
+                }
+              />
+            </StyledBadge>
           </IconButton>
         )}
+        <Menu
+          sx={{
+            "& .MuiPaper-root": {
+              background:
+                "linear-gradient(to right, #1e1e1e, #1a1a1a, #141414)",
+              color: "whitesmoke",
+              boxShadow: "0 0 0 1px #4d59a9",
+            },
+          }}
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+        >
+          <MenuItem
+            sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            onClick={handleClose}
+          >
+            <Avatar
+              sx={{ width: 20, height: 20 }}
+              alt={userData?.name}
+              src={
+                userData?.image !== "null" || userData?.image !== null
+                  ? userData?.image.url
+                  : userData?.gender == "male" || userData?.gender == "MALE"
+                  ? "../assets/male.png"
+                  : "../assets/female.png"
+              }
+            />
+            {userData?.name}
+          </MenuItem>
+          <MenuItem
+            sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            onClick={handleLogout}
+          >
+            <Logout fontSize="small" />
+            Logout
+          </MenuItem>
+        </Menu>
       </Box>
       <Box
         sx={{

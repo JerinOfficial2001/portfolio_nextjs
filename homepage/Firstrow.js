@@ -584,7 +584,15 @@ export default function Firstrow({
                     <button
                       className="batman"
                       onClick={() => {
-                        router.push("/project");
+                        router.push(
+                          `/project${
+                            homepage && homepage !== "homepage"
+                              ? "?id=" + homepage
+                              : data
+                              ? "?id=" + data?._id
+                              : ""
+                          }`
+                        );
                       }}
                     ></button>
                   </Box>
