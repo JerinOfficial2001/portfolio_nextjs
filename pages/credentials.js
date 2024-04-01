@@ -1,27 +1,37 @@
 import Layout from "@/layouts/Layout";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "animate.css";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
 import ProfileCard from "@/components/ProfileCard";
 import { Chip, Grid } from "@mui/material";
-import { GetProfileByID } from "@/controller/profile";
+import { GetAllProfile, GetProfileByID } from "@/controller/profile";
 import { GetCredentialsByID } from "@/controller/credentials";
+import { MyContextState } from "./_app";
 
 export default function Credentials() {
   const router = useRouter();
+  const { profiles } = useContext(MyContextState);
+
   const { id } = router.query;
   const [Credentials, setCredentials] = useState({});
   const [profile, setprofile] = useState({});
   const fetchData = () => {
     if (id) {
-      GetProfileByID(id).then((data) => {
-        setprofile(data);
-      });
-      GetCredentialsByID(id).then((data) => {
-        setCredentials(data);
+      GetAllProfile().then((profiles) => {
+        const profileIDs = profiles.map((elem) => elem.userID);
+        if (profileIDs.includes(id)) {
+          GetProfileByID(id).then((data) => {
+            setprofile(data);
+          });
+          GetCredentialsByID(id).then((data) => {
+            setCredentials(data);
+          });
+        } else {
+          router.push("/");
+        }
       });
     }
   };

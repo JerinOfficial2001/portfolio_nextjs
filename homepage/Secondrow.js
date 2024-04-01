@@ -6,10 +6,10 @@ import "animate.css";
 import { useRouter } from "next/router";
 import * as icon from "react-icons/ai";
 import Button from "@mui/material/Button";
-import Image from "next/image";
 
-export default function Secondrow() {
+export default function Secondrow({ data }) {
   const router = useRouter();
+  const { homepage } = router.query;
   return (
     <Stack
       width="100%"
@@ -387,7 +387,15 @@ export default function Secondrow() {
               <button
                 className="batman"
                 onClick={() => {
-                  router.push("/credentials");
+                  router.push(
+                    `/credentials${
+                      homepage && homepage !== "homepage"
+                        ? "?id=" + homepage
+                        : data
+                        ? "?id=" + data?._id
+                        : ""
+                    }`
+                  );
                 }}
               ></button>
             </Box>

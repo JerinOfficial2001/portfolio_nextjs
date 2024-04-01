@@ -4,12 +4,13 @@ import Layout from "@/layouts/Layout";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { MyContextState } from "./_app";
 
 export default function Dashboard() {
+  const { profiles, setprofiles } = useContext(MyContextState);
   const router = useRouter();
-  const [profiles, setprofiles] = useState([]);
   useEffect(() => {
     GetAllProfile().then((data) => {
       setprofiles(data);
@@ -19,7 +20,7 @@ export default function Dashboard() {
     router.push(`/${id}`);
   };
   return (
-    <Layout>
+    <Layout dashboard={true}>
       <Toaster position="top-center" />
       <Grid container columnGap={4} rowGap={1} sx={{ width: "100%" }}>
         {profiles?.map((item) => {

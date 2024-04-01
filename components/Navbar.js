@@ -52,7 +52,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar({ dashboard }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -74,13 +74,6 @@ export default function Navbar() {
   const { homepage, id } = router.query;
   const location = router.pathname;
   const menus = [
-    {
-      id: 0,
-      title: "Dashboard",
-      to: "/",
-      path: "/",
-      icon: <HomeOutlinedIcon />,
-    },
     {
       id: 1,
       title: "Home",
@@ -164,68 +157,70 @@ export default function Navbar() {
           </Typography>
         </Button>
       </div>
-      {menuBtn && <ResNav />}
-      <Stack
-        direction="row"
-        sx={{
-          display: {
-            xl: "block",
-            lg: "block",
-            md: "block",
-            sm: "none",
-            xs: "none",
-          },
-        }}
-      >
-        <Box
+      {menuBtn && !dashboard && <ResNav />}
+      {!dashboard && (
+        <Stack
+          direction="row"
           sx={{
-            height: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            flexDirection: {
-              xl: "row",
-              lg: "row",
-              md: "row",
-              sm: "column",
-              xs: "column",
-            },
-
-            gap: {
-              xl: 2,
-              lg: 2,
-              md: 2,
-              sm: 4,
-              xs: 4,
+            display: {
+              xl: "block",
+              lg: "block",
+              md: "block",
+              sm: "none",
+              xs: "none",
             },
           }}
         >
-          {menus.map((menu, id) => {
-            return (
-              <div
-                key={id}
-                onClick={() => {
-                  if (location !== menu.path) {
-                    if (homepage || userData || id || menu.to == "/") {
-                      router.push(menu.to);
+          <Box
+            sx={{
+              height: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: {
+                xl: "row",
+                lg: "row",
+                md: "row",
+                sm: "column",
+                xs: "column",
+              },
+
+              gap: {
+                xl: 8,
+                lg: 8,
+                md: 8,
+                sm: 4,
+                xs: 4,
+              },
+            }}
+          >
+            {menus.map((menu, id) => {
+              return (
+                <div
+                  key={id}
+                  onClick={() => {
+                    if (location !== menu.path) {
+                      if (homepage || userData || id || menu.to == "/") {
+                        router.push(menu.to);
+                      }
                     }
-                  }
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: location == menu.path ? "white" : "#606060",
-                    fontWeight: "bold",
-                    "&:hover": { color: "white" },
-                    cursor: "pointer",
                   }}
                 >
-                  {menu.title}
-                </Typography>
-              </div>
-            );
-          })}
-        </Box>
-      </Stack>
+                  <Typography
+                    sx={{
+                      color: location == menu.path ? "white" : "#606060",
+                      fontWeight: "bold",
+                      "&:hover": { color: "white" },
+                      cursor: "pointer",
+                    }}
+                  >
+                    {menu.title}
+                  </Typography>
+                </div>
+              );
+            })}
+          </Box>
+        </Stack>
+      )}
       <Box
         sx={{
           display: {

@@ -7,12 +7,15 @@ import blog from "../assets/blog.jpeg";
 import recipebook from "../assets/recipebook.jpeg";
 import shopify from "../assets/shopify.jpeg";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "@/components/Card";
 import Grid from "@mui/material/Grid";
 import { GetProjectsByID } from "@/controller/project";
 import { useRouter } from "next/router";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
+import { GetAllProfile } from "@/controller/profile";
+import { Box, IconButton } from "@mui/material";
+import { Add } from "@mui/icons-material";
 
 export default function Project() {
   const router = useRouter();
@@ -21,12 +24,19 @@ export default function Project() {
   const cookie = getDecryptedCookie("userData");
 
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
-
+  const [isHovered, setisHovered] = useState(false);
   useEffect(() => {
-    if (id || cachedCookie) {
-      GetProjectsByID(id ? id : cachedCookie?._id).then((data) => {
-        setprojectsData(data);
+    if (id) {
+      GetAllProfile().then((profiles) => {
+        const profileIDs = profiles.map((elem) => elem.userID);
+        if (profileIDs.includes(id)) {
+          GetProjectsByID(id ? id : cachedCookie?._id).then((data) => {
+            setprojectsData(data);
+          });
+        }
       });
+    } else {
+      router.push("/");
     }
   }, []);
 
@@ -110,9 +120,57 @@ export default function Project() {
             </Stack>
           </div>
           <Grid container direction="row" rowGap={2} columnGap={2} columns={8}>
-            {projectsData?.map((project, index) => {
-              return <Card key={index} project={project} />;
-            })}
+            {projectsData.length !== 0 ? (
+              projectsData?.map((project, index) => {
+                return <Card key={index} project={project} />;
+              })
+            ) : (
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "#9a9696",
+                  borderRadius: "50px",
+                  position: "relative",
+                }}
+                onMouseEnter={() => {
+                  setisHovered(true);
+                }}
+                onMouseLeave={() => {
+                  setisHovered(false);
+                }}
+              >
+                <Box component="img" src={"/noproject.png"}></Box>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    opacity: isHovered ? 1 : 0,
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: isHovered ? "#020202a1" : "",
+                    transition: ".5s",
+                    borderRadius: "50px",
+                  }}
+                >
+                  <IconButton
+                    sx={{
+                      color: "white",
+                    }}
+                  >
+                    <Add
+                      sx={{
+                        fontSize: 100,
+                      }}
+                    />
+                  </IconButton>
+                </Box>
+              </Box>
+            )}
           </Grid>
         </Stack>
       </Layout>

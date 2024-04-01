@@ -1,10 +1,10 @@
 import Container from "@mui/material/Container";
-import React from "react";
+import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export default function Layout({ children, direction }) {
+export default function Layout({ children, direction, dashboard }) {
   return (
     <>
       <div className="animate__animated animate__fadeInDownBig ">
@@ -15,7 +15,7 @@ export default function Layout({ children, direction }) {
               flexDirection: "column",
             }}
           >
-            <Navbar />
+            <Navbar dashboard={dashboard} />
             <Stack
               direction={direction ? "row" : "column"}
               spacing={3}
