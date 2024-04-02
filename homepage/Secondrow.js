@@ -361,10 +361,10 @@ export default function Secondrow({ data }) {
                   textTransform: "uppercase",
                 }}
               >
-                Stay With Me
+                Reach me
               </Typography>
               <Typography sx={{ color: "white", fontSize: 23 }}>
-                Profiles
+                Contact
               </Typography>
             </Box>
             <Box
@@ -388,7 +388,7 @@ export default function Secondrow({ data }) {
                 className="batman"
                 onClick={() => {
                   router.push(
-                    `/credentials${
+                    `/contact${
                       homepage && homepage !== "homepage"
                         ? "?id=" + homepage
                         : data

@@ -1,10 +1,11 @@
 import Layout from "@/layouts/Layout";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, IconButton, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import "animate.css";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { GetParticularProjectByID } from "@/controller/project";
+import { Close, Menu } from "@mui/icons-material";
 
 export default function ProjectPage() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function ProjectPage() {
     }
   }, [projectID]);
   return (
-    <Layout direction={true}>
+    <Layout maxWidth={true} direction={true}>
       <div
         style={{ width: "70%" }}
         className="animate__animated animate__zoomIn animate__delay-1s  "
@@ -51,12 +52,6 @@ export default function ProjectPage() {
             padding: "15px",
             width: "100%",
           }}
-          onMouseEnter={() => {
-            setshowImgs(false);
-          }}
-          onMouseLeave={() => {
-            setshowImgs(true);
-          }}
         >
           <iframe
             src={`${projectData?.link}${endPoints}`}
@@ -69,39 +64,101 @@ export default function ProjectPage() {
               pointerEvents: showImgs ? "none" : "auto",
             }}
           ></iframe>
-
+          <IconButton
+            sx={{
+              color: "white",
+              position: "absolute",
+              top: 20,
+              left: 20,
+            }}
+            onClick={() => {
+              setshowImgs(true);
+            }}
+          >
+            <Menu />
+          </IconButton>
           <Stack
             sx={{
+              alignItems: "center",
               position: "absolute",
               top: 0,
               left: 0,
               height: "100%",
-              width: "200px",
+              width: "250px",
               background: "#111010cf",
               borderRadius: "30px 0 0 30px",
-              gap: 2,
-              padding: 2,
               transition: "1s",
               transition: "opacity 1s",
               opacity: showImgs ? 1 : 0,
+              overflow: "hidden",
+              "&:hover": {
+                overflowY: "auto",
+              },
+              "&::-webkit-scrollbar": {
+                width: "8px",
+              },
+              "&::-webkit-scrollbar-track": {
+                background: "#f5f5f5",
+                borderRadius: "4px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#bdbdbd",
+                borderRadius: "4px",
+                "&:hover": {
+                  background: "#a5a5a5",
+                },
+              },
             }}
           >
-            {projectData?.image &&
-              projectData.image.map((img, index) => (
-                <img
-                  key={index}
-                  alt="img"
-                  src={img}
-                  style={{
-                    height: "100px",
-                    width: "100%",
-                    objectFit: "contain",
-                    border: "2px solid #f7f7f7",
-                    borderRadius: "10px",
-                    padding: 3,
+            <Box
+              sx={{
+                gap: 2,
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                position: "relative",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  position: "sticky",
+                  top: 0,
+                  color: "white",
+                  width: "100%",
+                  alignItems: "flex-end",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <IconButton
+                  sx={{
+                    color: "white",
                   }}
-                />
-              ))}
+                  onClick={() => {
+                    setshowImgs(false);
+                  }}
+                >
+                  <Close />
+                </IconButton>
+              </Box>
+              {projectData?.image &&
+                projectData.image.map((img, index) => (
+                  <img
+                    key={index}
+                    alt="img"
+                    src={img}
+                    style={{
+                      height: "100px",
+                      width: "70%",
+                      objectFit: "contain",
+                      border: "2px solid #f7f7f7",
+                      borderRadius: "10px",
+                      padding: 3,
+                    }}
+                  />
+                ))}
+            </Box>
           </Stack>
         </Stack>
       </div>
@@ -123,10 +180,10 @@ export default function ProjectPage() {
                 key={index}
                 className={buttonStyles[index % buttonStyles.length]}
                 onClick={() => {
-                  setendPoints(btn.page);
+                  setendPoints(btn.Path);
                 }}
               >
-                {btn.title}
+                {btn.Page}
               </Button>
             ))}
           <Button

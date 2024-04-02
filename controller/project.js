@@ -2,13 +2,13 @@ import { API } from "@/utils/api";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const CreateProjects = async (data) => {
+export const CreateProjects = async (formDatas) => {
   try {
-    const result = await axios.post(`${API}/Projects/add`, data);
-    if (result.status == "ok") {
-      toast.success(result.message);
+    const { data } = await axios.post(`${API}/Projects/add`, formDatas);
+    if (data.status == "ok") {
+      toast.success(data.message);
     } else {
-      toast.error(result.message);
+      toast.error(data.message);
     }
   } catch (error) {
     console.log("CreateProjects ERR", error);

@@ -280,12 +280,13 @@ export default function Navbar({ dashboard }) {
               <Avatar
                 alt={userData?.name}
                 src={
-                  userData?.image !== "null" || userData?.image !== null
+                  userData?.image !== "null"
                     ? userData.image.url
                     : userData.gender == "male" || userData.gender == "MALE"
-                    ? "../assets/male.png"
-                    : "../assets/female.png"
+                    ? "/male.png"
+                    : "/female.png"
                 }
+                sx={{ objectFit: "cover", objectPosition: "top" }}
               />
             </StyledBadge>
           </IconButton>
@@ -316,27 +317,40 @@ export default function Navbar({ dashboard }) {
           }}
         >
           <MenuItem
-            sx={{ display: "flex", alignItems: "center", gap: 1 }}
-            onClick={handleClose}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              fontSize: "medium",
+            }}
+            onClick={() => {
+              handleClose();
+              router.push("/profilePage");
+            }}
           >
             <Avatar
-              sx={{ width: 20, height: 20 }}
+              sx={{ width: 25, height: 25 }}
               alt={userData?.name}
               src={
-                userData?.image !== "null" || userData?.image !== null
+                userData?.image !== "null"
                   ? userData?.image.url
                   : userData?.gender == "male" || userData?.gender == "MALE"
-                  ? "../assets/male.png"
-                  : "../assets/female.png"
+                  ? "/male.png"
+                  : "/female.png"
               }
             />
             {userData?.name}
           </MenuItem>
           <MenuItem
-            sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              fontSize: "medium",
+            }}
             onClick={handleLogout}
           >
-            <Logout fontSize="small" />
+            <Logout fontSize="medium" />
             Logout
           </MenuItem>
         </Menu>

@@ -4,11 +4,11 @@ import Stack from "@mui/material/Stack";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export default function Layout({ children, direction, dashboard }) {
+export default function Layout({ children, direction, dashboard, maxWidth }) {
   return (
     <>
       <div className="animate__animated animate__fadeInDownBig ">
-        <Container>
+        <Container maxWidth={maxWidth}>
           <Stack
             width="100%"
             sx={{

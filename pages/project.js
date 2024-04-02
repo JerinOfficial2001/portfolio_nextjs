@@ -16,6 +16,7 @@ import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { GetAllProfile } from "@/controller/profile";
 import { Box, IconButton } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import ProjectsModal from "@/components/ProjectsModal";
 
 export default function Project() {
   const router = useRouter();
@@ -25,6 +26,11 @@ export default function Project() {
 
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const [isHovered, setisHovered] = useState(false);
+  const [openModel, setopenModel] = useState(false);
+  const [particularProject, setparticularProject] = useState(null);
+  const handleClose = () => {
+    setopenModel(false);
+  };
   useEffect(() => {
     if (id) {
       GetAllProfile().then((profiles) => {
@@ -67,7 +73,9 @@ export default function Project() {
       image: blog,
     },
   ];
-
+  const handleOpen = (data) => {
+    setopenModel(true);
+  };
   return (
     <>
       <Layout>
@@ -144,6 +152,7 @@ export default function Project() {
               >
                 <Box component="img" src={"/noproject.png"}></Box>
                 <Box
+                  hidden={id !== cachedCookie._id}
                   sx={{
                     position: "absolute",
                     opacity: isHovered ? 1 : 0,
@@ -158,6 +167,9 @@ export default function Project() {
                   }}
                 >
                   <IconButton
+                    onClick={() => {
+                      handleOpen();
+                    }}
                     sx={{
                       color: "white",
                     }}
@@ -174,6 +186,12 @@ export default function Project() {
           </Grid>
         </Stack>
       </Layout>
+      <ProjectsModal
+        open={openModel}
+        handleClose={handleClose}
+        data={particularProject}
+        id={id}
+      />
     </>
   );
 }
