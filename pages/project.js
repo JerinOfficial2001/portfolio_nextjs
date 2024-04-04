@@ -10,7 +10,10 @@ import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import Card from "@/components/Card";
 import Grid from "@mui/material/Grid";
-import { GetProjectsByID } from "@/controller/project";
+import {
+  GetParticularProjectByID,
+  GetProjectsByID,
+} from "@/controller/project";
 import { useRouter } from "next/router";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { GetAllProfile } from "@/controller/profile";
@@ -46,36 +49,17 @@ export default function Project() {
     }
   }, []);
 
-  const projects = [
-    {
-      title: "Gallery",
-      to: "https://image-gallery-sand.vercel.app/",
-      image: gallery,
-    },
-    {
-      title: "Student Management",
-      to: "https://studentmanagement-supabase.vercel.app/",
-      image: student,
-    },
-    {
-      title: "Recipebook",
-      to: "https://recipe-supabase.vercel.app/",
-      image: recipebook,
-    },
-    {
-      title: "Shopify",
-      to: "https://shopifymedia.vercel.app/",
-      image: shopify,
-    },
-    {
-      title: "Blog",
-      to: "https://blogpage-nextjs-git-jerin-jerin2001.vercel.app/",
-      image: blog,
-    },
-  ];
-  const handleOpen = (data) => {
-    setopenModel(true);
+  const handleOpen = (id) => {
+    if (id) {
+      GetParticularProjectByID(id).then((data) => {
+        setopenModel(true);
+        setparticularProject(data);
+      });
+    } else {
+      setparticularProject(null);
+    }
   };
+
   return (
     <>
       <Layout>
@@ -130,7 +114,9 @@ export default function Project() {
           <Grid container direction="row" rowGap={2} columnGap={2} columns={8}>
             {projectsData.length !== 0 ? (
               projectsData?.map((project, index) => {
-                return <Card key={index} project={project} />;
+                return (
+                  <Card key={index} project={project} handleOpen={handleOpen} />
+                );
               })
             ) : (
               <Box

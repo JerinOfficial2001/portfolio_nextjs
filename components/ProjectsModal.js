@@ -19,7 +19,7 @@ import {
   WhatsApp,
 } from "@mui/icons-material";
 import { getUserByID } from "@/controller/auth";
-import { CreateProjects } from "@/controller/project";
+import { CreateProjects, UpdateProject } from "@/controller/project";
 import { UpdateProfile } from "@/controller/profile";
 
 export default function ProjectsModal({
@@ -38,7 +38,6 @@ export default function ProjectsModal({
     userID: id,
     isVisible: true,
   });
-
   useEffect(() => {
     if (open) {
       setinputData({
@@ -168,8 +167,8 @@ export default function ProjectsModal({
           }
         });
       } else {
-        UpdateProfile(formDatas, data._id).then((response) => {
-          if (response.status == "ok") {
+        UpdateProject(formDatas, data._id).then((response) => {
+          if (response?.status == "ok") {
             fetchData();
             toast.success(response.message);
             handleClose();
@@ -467,7 +466,11 @@ export default function ProjectsModal({
                       {inputData?.image?.map((img, index) => (
                         <img
                           key={index}
-                          src={URL.createObjectURL(img)}
+                          src={
+                            typeof img == "string"
+                              ? img
+                              : URL.createObjectURL(img)
+                          }
                           alt="img"
                           style={{
                             height: "60px",

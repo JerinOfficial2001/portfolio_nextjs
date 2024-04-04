@@ -38,3 +38,15 @@ export const GetParticularProjectByID = async (id) => {
     console.log("GetProjects ERR", error);
   }
 };
+export const UpdateProject = async (formDatas, id) => {
+  try {
+    const { data } = await axios.put(`${API}/Projects/update/${id}`, formDatas);
+    if (data.status == "ok") {
+      return data.data;
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log("GetProjects ERR", error);
+  }
+};

@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 import Button from "@mui/material/Button";
 import Image from "next/image";
 import React, { useState } from "react";
+import { Edit } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
-export default function Card({ project }) {
+export default function Card({ project, handleOpen }) {
   const [hover, sethover] = useState(false);
   const router = useRouter();
   return (
@@ -18,12 +20,7 @@ export default function Card({ project }) {
           alignItems: "center",
         }}
       >
-        <div
-          onClick={() => {
-            router.push(`/projectPage?projectID=${project?._id}`);
-          }}
-          className="wrapper"
-        >
+        <div className="wrapper">
           <div className="card">
             <img
               onMouseEnter={() => {
@@ -56,6 +53,9 @@ export default function Card({ project }) {
                 }}
               >
                 <Button
+                  onClick={() => {
+                    router.push(`/projectPage?projectID=${project?._id}`);
+                  }}
                   sx={{
                     color: "white",
                     border: "2px solid white",
@@ -64,6 +64,22 @@ export default function Card({ project }) {
                 >
                   {project.title}
                 </Button>
+                <IconButton
+                  onClick={() => {
+                    handleOpen(project._id);
+                  }}
+                  sx={{
+                    color: "gray",
+                    position: "absolute",
+                    right: 3,
+                    bottom: 1,
+                    "&:hover": {
+                      color: "white",
+                    },
+                  }}
+                >
+                  <Edit />
+                </IconButton>
               </div>
             )}
           </div>

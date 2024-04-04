@@ -35,7 +35,7 @@ export const UpdateProfile = async (formDatas, id) => {
       toast.error(data.message);
     }
   } catch (error) {
-    console.log("CreateProfile ERR", error);
+    console.log("UpdateProfile ERR", error);
   }
 };
 export const GetAllProfile = async () => {

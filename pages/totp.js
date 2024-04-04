@@ -19,17 +19,19 @@ export default function TOTP() {
       otp: userInput,
       key: SecretKey,
     });
-    console.log(data);
   };
-
   return (
     <div style={{ color: "white" }}>
       <h1>Two Factor Authentication Example</h1>
       {secret ? (
         <>
           <p>Scan the QR code with Google Authenticator:</p>
-          {/* <img src={qrCodeUrl} alt="QR Code" /> */}
-          <QRCode style={{ marginLeft: 50 }} value={secret} />
+          <div
+            style={{ padding: 15, background: "white", width: "max-content" }}
+          >
+            <QRCode value={`otpauth://totp/SecretKey?secret=${SecretKey}`} />
+          </div>
+
           <p>Enter the verification code from Google Authenticator:</p>
           <input
             type="text"

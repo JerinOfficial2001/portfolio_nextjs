@@ -68,8 +68,17 @@ export default function ProjectPage() {
             sx={{
               color: "white",
               position: "absolute",
-              top: 20,
-              left: 20,
+              top: 25,
+              left: 25,
+              zIndex: 11111,
+              opacity: showImgs ? 0 : 1,
+              transition: ".3s",
+              boxShadow: "0 0 0 1px #5a5a5a",
+              background: "#00000091",
+              "&:hover": {
+                background: "#ffffff66",
+                color: "black",
+              },
             }}
             onClick={() => {
               setshowImgs(true);
