@@ -26,7 +26,6 @@ export default function handler(req, res) {
             status: "ok",
             isVerified: verified,
           });
-          console.log(QRkey, "PSOT");
         } catch (error) {
           console.log(error);
         }
