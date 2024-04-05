@@ -5,22 +5,18 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Chip, Grid, IconButton, Modal, OutlinedInput } from "@mui/material";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
 import {
   Add,
+  Autorenew,
+  CancelOutlined,
   Close,
   Delete,
   Edit,
-  GitHub,
-  LinkedIn,
   Star,
-  WhatsApp,
 } from "@mui/icons-material";
-import { getUserByID } from "@/controller/auth";
 import { CreateProjects, UpdateProject } from "@/controller/project";
-import { UpdateProfile } from "@/controller/profile";
 
 export default function ProjectsModal({
   open,
@@ -29,7 +25,7 @@ export default function ProjectsModal({
   id,
   fetchData,
 }) {
-  const router = useRouter();
+  const [isProcessing, setisProcessing] = useState(false);
   const [inputData, setinputData] = useState({
     image: [],
     endpoint: [],
@@ -75,6 +71,7 @@ export default function ProjectsModal({
       setendPointsData({ Path: "", Page: "" });
     }
   };
+
   const inputField = [
     {
       name: "title",
@@ -89,7 +86,10 @@ export default function ProjectsModal({
       onChange: (event) => {
         const files = event.target.files;
         const fileList = Array.from(files);
-        setinputData((prev) => ({ ...prev, image: fileList }));
+        setinputData((prev) => ({
+          ...prev,
+          image: [...inputData.image, ...fileList],
+        }));
       },
       value: inputData.image,
       type: "file",
@@ -140,6 +140,7 @@ export default function ProjectsModal({
       }
     });
     if (isFieldsFilled) {
+      setisProcessing(true);
       const formDatas = new FormData();
       const endpointJSON = JSON.stringify(DATA.endpoint);
       inputData.image.forEach((image) => {
@@ -165,6 +166,7 @@ export default function ProjectsModal({
           } else {
             handleClose();
           }
+          setisProcessing(false);
         });
       } else {
         UpdateProject(formDatas, data._id).then((response) => {
@@ -175,6 +177,7 @@ export default function ProjectsModal({
           } else {
             handleClose();
           }
+          setisProcessing(false);
         });
       }
     } else {
@@ -266,7 +269,6 @@ export default function ProjectsModal({
                 : "Update Project"}
             </Typography>
           </Stack>
-
           <Grid
             container
             sx={{
@@ -439,10 +441,8 @@ export default function ProjectsModal({
                     )}
                     <Box
                       sx={{
-                        display: "flex",
+                        display: "-webkit-inline-box",
                         gap: 1,
-                        justifyContent: "flex-start",
-                        alignItems: "center",
                         overflow: "hidden",
                         "&:hover": {
                           overflowX: "auto",
@@ -463,22 +463,63 @@ export default function ProjectsModal({
                         },
                       }}
                     >
-                      {inputData?.image?.map((img, index) => (
-                        <img
-                          key={index}
-                          src={
-                            typeof img == "string"
-                              ? img
-                              : URL.createObjectURL(img)
-                          }
-                          alt="img"
-                          style={{
+                      {inputData?.image?.map((img, imgIndex) => (
+                        <Box
+                          sx={{
                             height: "60px",
+                            position: "relative",
                             width: "100px",
-                            objectFit: "cover",
-                            objectPosition: "top",
                           }}
-                        />
+                          key={imgIndex}
+                        >
+                          <Box
+                            sx={{
+                              "&:hover": {
+                                background: "rgba(0, 0, 0, 0.74)",
+                              },
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "absolute",
+                              height: "100%",
+                              width: "100%",
+                              cursor: "pointer",
+                              transistion: "0.3s",
+                            }}
+                          >
+                            <IconButton
+                              onClick={() => {
+                                const imgArr = inputData.image.filter(
+                                  (i, imgindex) => imgIndex !== imgindex
+                                );
+                                handleSetFormDatas("image", imgArr);
+                              }}
+                              sx={{
+                                color: "white",
+                                border: "1 px solid white",
+                              }}
+                            >
+                              <CancelOutlined />
+                            </IconButton>
+                          </Box>
+                          <img
+                            key={index}
+                            src={
+                              typeof img === "string"
+                                ? img // if img is a string (URL), display it directly
+                                : img instanceof Blob || img instanceof File
+                                ? URL.createObjectURL(img) // if img is a file, create a temporary URL
+                                : null
+                            }
+                            alt="img"
+                            style={{
+                              height: "100%",
+                              width: "100%",
+                              objectFit: "cover",
+                              objectPosition: "top",
+                            }}
+                          />
+                        </Box>
                       ))}
                     </Box>
                   </Grid>
@@ -688,25 +729,49 @@ export default function ProjectsModal({
             })}
           </Grid>
 
-          <Button
-            onClick={() => {
-              submitHandler(inputData);
-            }}
-            variant="outlined"
+          <Box
             sx={{
-              color: "white",
-              background: "#323232",
-              borderRadius: 2,
-              "&:hover": {
-                background: "white",
-                color: "#68d06666",
-              },
-              textTransform: "none",
-              paddingX: 3,
+              width: "100%",
+              position: "relative",
+              display: "contents",
             }}
           >
-            {data == null || data == undefined ? "Add" : " Update"}
-          </Button>
+            <IconButton
+              sx={{
+                color: "white",
+                background: "#323232",
+                opacity: isProcessing ? 1 : 0,
+                transition: ".3s",
+                position: !isProcessing ? "absolute" : "static",
+                top: 0,
+              }}
+            >
+              <Autorenew className="loadingBtn" sx={{ color: "#fff" }} />
+            </IconButton>
+            <Button
+              onClick={() => {
+                submitHandler(inputData);
+              }}
+              variant="outlined"
+              sx={{
+                color: "white",
+                background: "#323232",
+                borderRadius: 2,
+                "&:hover": {
+                  background: "white",
+                  color: "#68d06666",
+                },
+                textTransform: "none",
+                paddingX: 3,
+                opacity: isProcessing ? 0 : 1,
+                transition: ".3s",
+                position: isProcessing ? "absolute" : "static",
+                top: 0,
+              }}
+            >
+              {data == null || data == undefined ? "Add" : " Update"}
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </>

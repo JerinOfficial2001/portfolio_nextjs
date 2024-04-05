@@ -199,9 +199,7 @@ export default function Navbar({ dashboard }) {
                   key={id}
                   onClick={() => {
                     if (location !== menu.path) {
-                      if (homepage || userData || id || menu.to == "/") {
-                        router.push(menu.to);
-                      }
+                      router.push(menu.to);
                     }
                   }}
                 >

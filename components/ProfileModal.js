@@ -19,7 +19,7 @@ import Container from "@mui/material/Container";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
-import { Close } from "@mui/icons-material";
+import { Autorenew, Close } from "@mui/icons-material";
 import { CreateProfile, UpdateProfile } from "@/controller/profile";
 import { getUserByID } from "@/controller/auth";
 
@@ -31,6 +31,7 @@ export default function ProfileModal({
   fetchData,
 }) {
   const router = useRouter();
+  const [isProcessing, setisProcessing] = useState(false);
   const [inputData, setinputData] = useState({
     qualification: "",
     about: "",
@@ -70,6 +71,7 @@ export default function ProfileModal({
     ];
     const isFieldsFilled = requiredFields.every((key) => DATA[key] !== "");
     if (isFieldsFilled) {
+      setisProcessing(true);
       const formDatas = new FormData();
       Object.entries(DATA).forEach(([key, value]) =>
         formDatas.append(key, value)
@@ -83,6 +85,7 @@ export default function ProfileModal({
           } else {
             handleClose();
           }
+          setisProcessing(false);
         });
       } else {
         UpdateProfile(formDatas, data._id).then((response) => {
@@ -93,6 +96,7 @@ export default function ProfileModal({
           } else {
             handleClose();
           }
+          setisProcessing(false);
         });
       }
     } else {
@@ -428,26 +432,49 @@ export default function ProfileModal({
             }
           })}
         </Grid>
-
-        <Button
-          onClick={() => {
-            submitHandler(inputData);
-          }}
-          variant="outlined"
+        <Box
           sx={{
-            color: "white",
-            background: "#323232",
-            borderRadius: 2,
-            "&:hover": {
-              background: "white",
-              color: "#68d06666",
-            },
-            textTransform: "none",
-            paddingX: 3,
+            width: "100%",
+            position: "relative",
+            display: "contents",
           }}
         >
-          {data == null || data == undefined ? "Add" : " Update"}
-        </Button>
+          <IconButton
+            sx={{
+              color: "white",
+              background: "#323232",
+              opacity: isProcessing ? 1 : 0,
+              transition: ".3s",
+              position: !isProcessing ? "absolute" : "static",
+              top: 0,
+            }}
+          >
+            <Autorenew className="loadingBtn" sx={{ color: "#fff" }} />
+          </IconButton>
+          <Button
+            onClick={() => {
+              submitHandler(inputData);
+            }}
+            variant="outlined"
+            sx={{
+              color: "white",
+              background: "#323232",
+              borderRadius: 2,
+              "&:hover": {
+                background: "white",
+                color: "#68d06666",
+              },
+              textTransform: "none",
+              paddingX: 3,
+              opacity: isProcessing ? 0 : 1,
+              transition: ".3s",
+              position: isProcessing ? "absolute" : "static",
+              top: 0,
+            }}
+          >
+            {data == null || data == undefined ? "Add" : " Update"}
+          </Button>
+        </Box>
       </Box>
     </Modal>
   );

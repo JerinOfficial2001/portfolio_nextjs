@@ -20,13 +20,14 @@ import { GetAllProfile } from "@/controller/profile";
 import { Box, IconButton } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import ProjectsModal from "@/components/ProjectsModal";
+import Loader from "@/components/Loader";
 
 export default function Project() {
   const router = useRouter();
   const { id } = router.query;
   const [projectsData, setprojectsData] = useState([]);
   const cookie = getDecryptedCookie("userData");
-
+  const [isLoading, setisLoading] = useState(true);
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const [isHovered, setisHovered] = useState(false);
   const [openModel, setopenModel] = useState(false);
@@ -34,20 +35,29 @@ export default function Project() {
   const handleClose = () => {
     setopenModel(false);
   };
+  const fetchData = () => {
+    GetAllProfile().then((profiles) => {
+      const profileIDs = profiles.map((elem) => elem.userID);
+      if (profileIDs.includes(id)) {
+        GetProjectsByID(id ? id : cachedCookie?._id).then((data) => {
+          setisLoading(false);
+          setprojectsData(data);
+        });
+      }
+    });
+  };
   useEffect(() => {
     if (id) {
-      GetAllProfile().then((profiles) => {
-        const profileIDs = profiles.map((elem) => elem.userID);
-        if (profileIDs.includes(id)) {
-          GetProjectsByID(id ? id : cachedCookie?._id).then((data) => {
-            setprojectsData(data);
-          });
-        }
-      });
+      fetchData();
     } else {
       router.push("/");
     }
   }, []);
+  useEffect(() => {
+    if (id && !openModel) {
+      fetchData();
+    }
+  }, [openModel]);
 
   const handleOpen = (id) => {
     if (id) {
@@ -112,7 +122,19 @@ export default function Project() {
             </Stack>
           </div>
           <Grid container direction="row" rowGap={2} columnGap={2} columns={8}>
-            {projectsData.length !== 0 ? (
+            {isLoading ? (
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "200px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Loader />
+              </Box>
+            ) : projectsData.length !== 0 ? (
               projectsData?.map((project, index) => {
                 return (
                   <Card key={index} project={project} handleOpen={handleOpen} />
@@ -177,6 +199,7 @@ export default function Project() {
         handleClose={handleClose}
         data={particularProject}
         id={id}
+        fetchData={fetchData}
       />
     </>
   );

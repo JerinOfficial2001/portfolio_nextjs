@@ -5,10 +5,13 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import { getDecryptedCookie } from "@/utils/EncryteCookies";
 
 export default function Card({ project, handleOpen }) {
   const [hover, sethover] = useState(false);
   const router = useRouter();
+  const cookie = getDecryptedCookie("userData");
+  const cachedCookie = cookie ? JSON.parse(cookie) : false;
   return (
     <>
       <Box
@@ -64,22 +67,24 @@ export default function Card({ project, handleOpen }) {
                 >
                   {project.title}
                 </Button>
-                <IconButton
-                  onClick={() => {
-                    handleOpen(project._id);
-                  }}
-                  sx={{
-                    color: "gray",
-                    position: "absolute",
-                    right: 3,
-                    bottom: 1,
-                    "&:hover": {
-                      color: "white",
-                    },
-                  }}
-                >
-                  <Edit />
-                </IconButton>
+                {cachedCookie && (
+                  <IconButton
+                    onClick={() => {
+                      handleOpen(project._id);
+                    }}
+                    sx={{
+                      color: "gray",
+                      position: "absolute",
+                      right: 3,
+                      bottom: 1,
+                      "&:hover": {
+                        color: "white",
+                      },
+                    }}
+                  >
+                    <Edit />
+                  </IconButton>
+                )}
               </div>
             )}
           </div>

@@ -25,7 +25,7 @@ export default function Homepage() {
       GetAllProfile().then((profiles) => {
         const profileIDs = profiles.map((elem) => elem.userID);
         if (profileIDs.includes(homepage)) {
-          if (homepage && homepage !== "homepage") {
+          if (homepage !== "homepage") {
             getUserByID(homepage).then((data) => {
               setDATA(data);
             });
@@ -35,19 +35,20 @@ export default function Homepage() {
             GetCredentialsByID(homepage).then((data) => {
               setcredentials(data);
             });
-          } else {
-            if (cachedCookie) {
-              getUserByID(cachedCookie._id).then((data) => {
-                setDATA(data);
-              });
-              GetProfileByID(cachedCookie._id).then((data) => {
-                setprofile(data);
-              });
-              GetCredentialsByID(cachedCookie._id).then((data) => {
-                setcredentials(data);
-              });
-            }
           }
+          // else {
+          //   if (cachedCookie) {
+          //     getUserByID(cachedCookie._id).then((data) => {
+          //       setDATA(data);
+          //     });
+          //     GetProfileByID(cachedCookie._id).then((data) => {
+          //       setprofile(data);
+          //     });
+          //     GetCredentialsByID(cachedCookie._id).then((data) => {
+          //       setcredentials(data);
+          //     });
+          //   }
+          // }
           if (homepage && cachedCookie) {
             if (homepage == cachedCookie._id || homepage == "homepage") {
               setisMyProfile(true);
@@ -71,7 +72,7 @@ export default function Homepage() {
   };
   useEffect(() => {
     fetchData();
-  }, [cookie, homepage]);
+  }, []);
   return (
     <>
       <Layout>

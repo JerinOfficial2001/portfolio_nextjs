@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
 import {
   Add,
+  Autorenew,
   Close,
   Delete,
   Edit,
@@ -42,6 +43,7 @@ export default function CredentialsModal({
   fetchData,
 }) {
   const router = useRouter();
+  const [isProcessing, setisProcessing] = useState(false);
   const [inputData, setinputData] = useState({
     image: null,
     education: [],
@@ -229,6 +231,8 @@ export default function CredentialsModal({
       }
     });
     if (isFieldsFilled) {
+      setisProcessing(true);
+
       const formDatas = new FormData();
       const educationJSON = JSON.stringify(DATA.education);
       const skillsJSON = JSON.stringify(DATA.skills);
@@ -245,23 +249,25 @@ export default function CredentialsModal({
       );
       if (data == null || data == undefined) {
         CreateCredentials(formDatas).then((response) => {
-          if (response.status == "ok") {
+          if (response?.status == "ok") {
             toast.success(response.message);
             handleClose();
             fetchData();
           } else {
             handleClose();
           }
+          setisProcessing(false);
         });
       } else {
         UpdateCredentials(formDatas, data._id).then((response) => {
-          if (response.status == "ok") {
+          if (response?.status == "ok") {
             fetchData();
             toast.success(response.message);
             handleClose();
           } else {
             handleClose();
           }
+          setisProcessing(false);
         });
       }
     } else {
@@ -778,26 +784,49 @@ export default function CredentialsModal({
               }
             })}
           </Grid>
-
-          <Button
-            onClick={() => {
-              submitHandler(inputData);
-            }}
-            variant="outlined"
+          <Box
             sx={{
-              color: "white",
-              background: "#323232",
-              borderRadius: 2,
-              "&:hover": {
-                background: "white",
-                color: "#68d06666",
-              },
-              textTransform: "none",
-              paddingX: 3,
+              width: "100%",
+              position: "relative",
+              display: "contents",
             }}
           >
-            {data == null || data == undefined ? "Add" : " Update"}
-          </Button>
+            <IconButton
+              sx={{
+                color: "white",
+                background: "#323232",
+                opacity: isProcessing ? 1 : 0,
+                transition: ".3s",
+                position: !isProcessing ? "absolute" : "static",
+                top: 0,
+              }}
+            >
+              <Autorenew className="loadingBtn" sx={{ color: "#fff" }} />
+            </IconButton>
+            <Button
+              onClick={() => {
+                submitHandler(inputData);
+              }}
+              variant="outlined"
+              sx={{
+                color: "white",
+                background: "#323232",
+                borderRadius: 2,
+                "&:hover": {
+                  background: "white",
+                  color: "#68d06666",
+                },
+                textTransform: "none",
+                paddingX: 3,
+                opacity: isProcessing ? 0 : 1,
+                transition: ".3s",
+                position: isProcessing ? "absolute" : "static",
+                top: 0,
+              }}
+            >
+              {data == null || data == undefined ? "Add" : " Update"}
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </>

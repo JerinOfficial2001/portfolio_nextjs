@@ -29,7 +29,7 @@ export default function TOTP() {
           <div
             style={{ padding: 15, background: "white", width: "max-content" }}
           >
-            <QRCode value={`otpauth://totp/SecretKey?secret=${SecretKey}`} />
+            <QRCode value={`otpauth://totp/PORTFOLIO?secret=${SecretKey}`} />
           </div>
 
           <p>Enter the verification code from Google Authenticator:</p>
