@@ -44,7 +44,7 @@ export default function ProfileModal({
   const [gender, setgender] = useState("");
   const GetGender = async () => {
     const Gender = await getUserByID(id);
-    setgender(Gender.gender);
+    setgender(Gender?.gender);
   };
   useEffect(() => {
     if (open) {
@@ -78,12 +78,14 @@ export default function ProfileModal({
       );
       if (data == null || data == undefined) {
         CreateProfile(formDatas).then((response) => {
-          if (response.status == "ok") {
-            toast.success(response.message);
-            handleClose();
-            fetchData();
-          } else {
-            handleClose();
+          if (response) {
+            if (response.status == "ok") {
+              toast.success(response.message);
+              handleClose();
+              fetchData();
+            } else {
+              handleClose();
+            }
           }
           setisProcessing(false);
         });

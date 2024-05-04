@@ -78,12 +78,13 @@ export default function Firstrow({
             >
               {profile?.image !== "null" && profile?.image ? (
                 <img
+                  className="userImg"
                   src={profile.image.url}
                   alt="ProfilePic"
                   style={{
-                    height: "98%",
-                    width: "98%",
-                    borderRadius: "40px 0px 40px 0px",
+                    height: "85%",
+                    width: "85%",
+                    borderRadius: "50%",
                   }}
                 />
               ) : (

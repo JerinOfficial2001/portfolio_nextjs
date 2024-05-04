@@ -21,58 +21,42 @@ export default function Homepage() {
   const [isMyProfile, setisMyProfile] = useState(false);
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const fetchData = () => {
-    if (homepage) {
-      GetAllProfile().then((profiles) => {
-        const profileIDs = profiles.map((elem) => elem.userID);
-        if (profileIDs.includes(homepage)) {
-          if (homepage !== "homepage") {
-            getUserByID(homepage).then((data) => {
-              setDATA(data);
-            });
-            GetProfileByID(homepage).then((data) => {
-              setprofile(data);
-            });
-            GetCredentialsByID(homepage).then((data) => {
-              setcredentials(data);
-            });
-          }
-          // else {
-          //   if (cachedCookie) {
-          //     getUserByID(cachedCookie._id).then((data) => {
-          //       setDATA(data);
-          //     });
-          //     GetProfileByID(cachedCookie._id).then((data) => {
-          //       setprofile(data);
-          //     });
-          //     GetCredentialsByID(cachedCookie._id).then((data) => {
-          //       setcredentials(data);
-          //     });
-          //   }
-          // }
-          if (homepage && cachedCookie) {
-            if (homepage == cachedCookie._id || homepage == "homepage") {
-              setisMyProfile(true);
-            } else if (!homepage && cachedCookie) {
-              setisMyProfile(true);
-            } else {
-              setisMyProfile(false);
-            }
+    GetAllProfile().then((profiles) => {
+      const profileIDs = profiles.map((elem) => elem.userID);
+      if (profileIDs.includes(homepage)) {
+        getUserByID(homepage).then((data) => {
+          setDATA(data);
+        });
+        GetProfileByID(homepage).then((data) => {
+          setprofile(data);
+        });
+        GetCredentialsByID(homepage).then((data) => {
+          setcredentials(data);
+        });
+
+        if (cachedCookie) {
+          if (homepage == cachedCookie._id) {
+            setisMyProfile(true);
           } else {
-            if (router.pathname == "/" && cachedCookie) {
-              setisMyProfile(true);
-            } else {
-              setisMyProfile(false);
-            }
+            setisMyProfile(false);
           }
         } else {
-          router.push("/");
+          if (router.pathname == "/" && cachedCookie) {
+            setisMyProfile(true);
+          } else {
+            setisMyProfile(false);
+          }
         }
-      });
-    }
+      } else if (cachedCookie) {
+        setisMyProfile(true);
+      } else {
+        router.push("/");
+      }
+    });
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [homepage]);
   return (
     <>
       <Layout>

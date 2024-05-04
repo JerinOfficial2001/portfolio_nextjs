@@ -12,7 +12,7 @@ export default function About() {
   useEffect(() => {
     if (id) {
       GetAllProfile().then((profiles) => {
-        const profileIDs = profiles.map((elem) => elem.userID);
+        const profileIDs = profiles?.map((elem) => elem.userID);
         if (profileIDs.includes(id)) {
         } else {
           router.push("/");
