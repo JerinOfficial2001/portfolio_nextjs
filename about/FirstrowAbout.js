@@ -204,7 +204,10 @@ export default function FirstrowAbout() {
                       },
                     }}
                   >
-                    I am from Coimbatore.Currently pursuing BE-MCT (final year).
+                    I am from Coimbatore.
+                    <br />
+                    Currently working as UI-Developer in iProtecs Solutions
+                    Private Ltd. <br />
                     Building immersive web experiences with React.
                   </Typography>
                 </Box>

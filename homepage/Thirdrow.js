@@ -42,8 +42,28 @@ export default function Thirdrow() {
             gap: 2,
             flexDirection: "column",
             border: "1px solid #232323",
+            position: "relative",
           }}
         >
+          <Box
+            sx={{
+              position: "absolute",
+              height: "100%",
+              width: "100%",
+              background: "#564c4cb5",
+              borderRadius: 8,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 1111,
+            }}
+          >
+            <Typography
+              sx={{ color: "white", fontWeight: "bold", fontSize: "25px" }}
+            >
+              Upcoming Feature...
+            </Typography>
+          </Box>
           <Stack sx={{ height: "70%", width: "100%" }}>
             <Box
               component="img"

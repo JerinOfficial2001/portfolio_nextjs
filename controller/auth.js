@@ -12,6 +12,7 @@ export const login = async (formDatas) => {
     } else {
       toast.error(data.message);
     }
+    return data;
   } catch (error) {
     console.log("LOGIN ERR", error);
   }
@@ -25,6 +26,7 @@ export const register = async (formDatas) => {
     } else {
       toast.error(data.message);
     }
+    return data;
   } catch (error) {
     console.log("REGISTER ERR", error);
   }

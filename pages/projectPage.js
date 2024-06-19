@@ -151,7 +151,7 @@ export default function ProjectPage() {
                   <Close />
                 </IconButton>
               </Box>
-              {projectData?.image &&
+              {/* {projectData?.image &&
                 projectData.image.map((img, index) => (
                   <img
                     key={index}
@@ -166,7 +166,7 @@ export default function ProjectPage() {
                       padding: 3,
                     }}
                   />
-                ))}
+                ))} */}
             </Box>
           </Stack>
         </Stack>

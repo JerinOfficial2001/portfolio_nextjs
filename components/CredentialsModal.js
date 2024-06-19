@@ -58,7 +58,7 @@ export default function CredentialsModal({
   const [gender, setgender] = useState("");
   const GetGender = async () => {
     const Gender = await getUserByID(id);
-    setgender(Gender.gender);
+    setgender(Gender?.gender);
   };
   useEffect(() => {
     if (open) {

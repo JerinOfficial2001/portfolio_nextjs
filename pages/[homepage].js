@@ -16,10 +16,14 @@ export default function Homepage() {
   const [DATA, setDATA] = useState(null);
   const [profile, setprofile] = useState(null);
   const [credentials, setcredentials] = useState(null);
-  const { homepage } = router.query;
   const cookie = getDecryptedCookie("userData");
-  const [isMyProfile, setisMyProfile] = useState(false);
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
+  const homepage = router.query.homepage
+    ? router.query.homepage
+    : !cachedCookie
+    ? "66276a73361a148fef6608c2"
+    : cachedCookie?._id;
+  const [isMyProfile, setisMyProfile] = useState(false);
   const fetchData = () => {
     GetAllProfile().then((profiles) => {
       const profileIDs = profiles.map((elem) => elem.userID);

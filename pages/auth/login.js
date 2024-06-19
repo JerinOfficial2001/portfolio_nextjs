@@ -18,21 +18,29 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
 import { login } from "@/controller/auth";
+import { Autorenew } from "@mui/icons-material";
 
 export default function Auth() {
   const router = useRouter();
+  const [isProcessing, setisProcessing] = useState(false);
   const [inputData, setinputData] = useState({
     password: "",
     email: "",
   });
 
   const submitHandler = async (data) => {
+    setisProcessing(true);
     const requiredFields = ["email", "password"];
     const isFieldsFilled = requiredFields.every((key) => data[key] !== "");
     if (isFieldsFilled) {
-      login(inputData);
+      login(inputData).then((res) => {
+        if (res) {
+          setisProcessing(false);
+        }
+      });
     } else {
       toast.error("All fields are mandatory");
+      setisProcessing(false);
     }
   };
   const handleSetFormDatas = (name, value) => {
@@ -105,6 +113,11 @@ export default function Auth() {
             boxShadow: "0px 0px 5px black",
           }}
         >
+          <Box
+            component="img"
+            sx={{ height: 200, width: 200 }}
+            src="/LOGO.png"
+          />
           <Stack
             direction="row"
             sx={{
@@ -124,6 +137,7 @@ export default function Auth() {
                   xs: 10,
                 },
                 fontWeight: "bold",
+                fontFamily: "cursive",
               }}
             >
               Login
@@ -204,7 +218,7 @@ export default function Auth() {
               sx={{ alignItems: "center" }}
               item
             >
-              <Typography sx={{ color: "white" }}>
+              <Typography sx={{ color: "white", fontFamily: "cursive" }}>
                 Don't have an account?{" "}
                 <span
                   onClick={() => {
@@ -227,14 +241,8 @@ export default function Auth() {
             variant="outlined"
             sx={{
               color: "white",
-              background: "#323232",
               borderRadius: 2,
-              "&:hover": {
-                background: "white",
-                color: "#323232",
-              },
               textTransform: "none",
-              width: "20%",
               height: {
                 xl: "40px",
                 lg: "40px",
@@ -243,15 +251,16 @@ export default function Auth() {
                 xs: "30px",
               },
               fontSize: {
-                xl: "10px",
-                lg: "10px",
+                xl: "15px",
+                lg: "15px",
                 md: "10px",
                 sm: "10px",
                 xs: "8px",
               },
+              fontWeight: "bold",
             }}
           >
-            Login
+            {isProcessing ? <Autorenew className="loadingBtn" /> : " Login"}
           </Button>
         </Box>
       </Container>

@@ -29,13 +29,12 @@ export default function Card({ project, handleOpen }) {
               onMouseEnter={() => {
                 sethover(true);
               }}
-              src={project.image[0]}
+              src={project.image.url}
               alt="loading..."
               style={{
                 height: "100%",
                 width: "100%",
                 position: "absolute",
-                objectFit: "contain",
                 objectPosition: "top",
               }}
             />

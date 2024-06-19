@@ -40,8 +40,7 @@ export default function SecondrowAbout() {
             alignItems: "center",
             gap: 2,
             flexDirection: "column",
-            border:'1px solid #232323'
-
+            border: "1px solid #232323",
           }}
         >
           <Stack
@@ -134,7 +133,7 @@ export default function SecondrowAbout() {
                       },
                     }}
                   >
-                    HTML & CSS
+                    React Native
                   </Typography>
                   <Typography
                     sx={{
@@ -173,7 +172,7 @@ export default function SecondrowAbout() {
                       },
                     }}
                   >
-                    Supabase
+                    Node JS
                   </Typography>
                   <Typography
                     sx={{
@@ -187,7 +186,7 @@ export default function SecondrowAbout() {
                       },
                     }}
                   >
-                    FL Studio
+                    Express JS
                   </Typography>
                   <Typography
                     sx={{
@@ -201,7 +200,7 @@ export default function SecondrowAbout() {
                       },
                     }}
                   >
-                    Photoshop
+                    MongoDB
                   </Typography>
                   <Typography
                     sx={{
@@ -215,7 +214,7 @@ export default function SecondrowAbout() {
                       },
                     }}
                   >
-                    Animiz
+                    Java
                   </Typography>
                 </Box>
               </Stack>
@@ -242,8 +241,7 @@ export default function SecondrowAbout() {
             alignItems: "center",
             justifyContent: "center",
             display: "flex",
-            border:'1px solid #232323'
-
+            border: "1px solid #232323",
           }}
         >
           <Stack
@@ -281,13 +279,18 @@ export default function SecondrowAbout() {
               >
                 2019 - 2023
               </Typography>
-              <Typography sx={{ color: "white", fontSize: {
-                        xl: 20,
-                        lg: 20,
-                        md: 20,
-                        sm: 20,
-                        xs: 15,
-                      }, }}>
+              <Typography
+                sx={{
+                  color: "white",
+                  fontSize: {
+                    xl: 20,
+                    lg: 20,
+                    md: 20,
+                    sm: 20,
+                    xs: 15,
+                  },
+                }}
+              >
                 Bachelor Degree in Mechatronics
               </Typography>
               <Typography
@@ -332,13 +335,20 @@ export default function SecondrowAbout() {
               >
                 2018 - 2019
               </Typography>
-              <Typography sx={{ color: "white", fontSize: {
-                        xl: 20,
-                        lg: 20,
-                        md: 20,
-                        sm: 20,
-                        xs: 15,
-                      }, }}>HSC</Typography>
+              <Typography
+                sx={{
+                  color: "white",
+                  fontSize: {
+                    xl: 20,
+                    lg: 20,
+                    md: 20,
+                    sm: 20,
+                    xs: 15,
+                  },
+                }}
+              >
+                HSC
+              </Typography>
               <Typography
                 sx={{
                   color: "#5a5a5a",
@@ -381,13 +391,18 @@ export default function SecondrowAbout() {
               >
                 2016 - 2017
               </Typography>
-              <Typography sx={{ color: "white", fontSize: {
-                        xl: 20,
-                        lg: 20,
-                        md: 20,
-                        sm: 20,
-                        xs: 15,
-                      }, }}>
+              <Typography
+                sx={{
+                  color: "white",
+                  fontSize: {
+                    xl: 20,
+                    lg: 20,
+                    md: 20,
+                    sm: 20,
+                    xs: 15,
+                  },
+                }}
+              >
                 SSLC
               </Typography>
               <Typography

@@ -68,7 +68,7 @@ export default function Firstrow({
                 height: "70%",
                 width: "40%",
                 background: "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
-                borderRadius: "40px 0px 40px 0px",
+                borderRadius: "40px 5px 40px 5px",
                 boxShadow: "0px 0px 5px black",
                 display: "flex",
                 justifyContent: "center",
@@ -78,13 +78,18 @@ export default function Firstrow({
             >
               {profile?.image !== "null" && profile?.image ? (
                 <img
-                  className="userImg"
+                  // className="userImg"
                   src={profile.image.url}
                   alt="ProfilePic"
                   style={{
                     height: "85%",
-                    width: "85%",
-                    borderRadius: "50%",
+                    width: "100%",
+                    position: "absolute",
+                    bottom: 0,
+                    borderRadius: "0 0 40px 5px",
+                    // height: "85%",
+                    // width: "85%",
+                    // borderRadius: "50%",
                   }}
                 />
               ) : (
@@ -363,7 +368,6 @@ export default function Firstrow({
                   flexDirection: "column",
                   cursor: "pointer",
                   border: "1px solid #232323",
-                  paddingTop: 2,
                 }}
               >
                 <Box
@@ -374,8 +378,8 @@ export default function Firstrow({
                     setisImgHover(false);
                   }}
                   sx={{
-                    height: 130,
-                    width: 180,
+                    height: 155,
+                    width: "100%",
                     display: "flex",
                     alignItem: "center",
                     justifyContent: "center",
@@ -388,7 +392,7 @@ export default function Firstrow({
                         position: "absolute",
                         height: "100%",
                         width: "100%",
-                        borderRadius: "10px",
+                        borderRadius: "32px 32px 0 0",
                         background: isImgHover ? "#00000094" : "",
                         transition: ".3s",
                         display: "flex",
@@ -422,7 +426,7 @@ export default function Firstrow({
                       placeholder="empty"
                       alt="sign"
                       style={{
-                        borderRadius: "10px",
+                        borderRadius: "32px 32px 0 0",
                       }}
                     />
                   ) : (

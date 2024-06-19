@@ -77,7 +77,13 @@ export default function Navbar({ dashboard }) {
     {
       id: 1,
       title: "Home",
-      to: homepage ? homepage : id ? id : userData ? userData._id : "/homepage",
+      to: homepage
+        ? homepage
+        : id
+        ? id
+        : userData
+        ? userData._id
+        : "66276a73361a148fef6608c2",
       path: "/[homepage]",
       icon: <HomeOutlinedIcon />,
     },
@@ -91,7 +97,7 @@ export default function Navbar({ dashboard }) {
           ? "?id=" + userData?._id
           : id
           ? "?id=" + id
-          : ""
+          : "?id=66276a73361a148fef6608c2"
       }`,
       path: "/about",
       icon: <InventoryOutlinedIcon />,
@@ -106,7 +112,7 @@ export default function Navbar({ dashboard }) {
           ? "?id=" + userData?._id
           : id
           ? "?id=" + id
-          : ""
+          : "?id=66276a73361a148fef6608c2"
       }`,
       path: "/project",
       icon: <InventoryOutlinedIcon />,
@@ -121,7 +127,7 @@ export default function Navbar({ dashboard }) {
           ? "?id=" + userData?._id
           : id
           ? "?id=" + id
-          : ""
+          : "?id=66276a73361a148fef6608c2"
       }`,
       path: "/contact",
       icon: <ContactPhoneOutlinedIcon />,

@@ -18,8 +18,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
 import { register } from "@/controller/auth";
+import { Autorenew } from "@mui/icons-material";
 
 export default function Register() {
+  const [isProcessing, setisProcessing] = useState(false);
   const router = useRouter();
   const [inputData, setinputData] = useState({
     password: "",
@@ -31,6 +33,7 @@ export default function Register() {
   });
 
   const submitHandler = async (data) => {
+    setisProcessing(true);
     const requiredFields = ["name", "role", "email", "password", "gender"];
     const isFieldsFilled = requiredFields.every((key) => data[key] !== "");
     if (isFieldsFilled) {
@@ -39,8 +42,13 @@ export default function Register() {
         formDatas.append(key, value)
       );
       // console.log(formDatas);
-      register(formDatas);
+      register(formDatas).then((res) => {
+        if (res) {
+          setisProcessing(false);
+        }
+      });
     } else {
+      setisProcessing(false);
       toast.error("All fields are mandatory");
     }
   };
@@ -187,6 +195,7 @@ export default function Register() {
                   xs: 10,
                 },
                 fontWeight: "bold",
+                fontFamily: "cursive",
               }}
             >
               Create Account
@@ -369,6 +378,7 @@ export default function Register() {
               width: "100%",
               display: "flex",
               alignItems: "center",
+              fontFamily: "cursive",
             }}
           >
             Already have an account?&nbsp;
@@ -391,14 +401,9 @@ export default function Register() {
             variant="outlined"
             sx={{
               color: "white",
-              background: "#323232",
               borderRadius: 2,
-              "&:hover": {
-                background: "white",
-                color: "#323232",
-              },
+
               textTransform: "none",
-              width: "20%",
               height: {
                 xl: "40px",
                 lg: "40px",
@@ -407,15 +412,20 @@ export default function Register() {
                 xs: "30px",
               },
               fontSize: {
-                xl: "10px",
-                lg: "10px",
+                xl: "15px",
+                lg: "15px",
                 md: "10px",
                 sm: "10px",
                 xs: "8px",
               },
+              fontWeight: "bold",
             }}
           >
-            Register
+            {isProcessing ? (
+              <Autorenew className="loadingBtn" />
+            ) : (
+              "Create Account"
+            )}
           </Button>
         </Box>
       </Container>

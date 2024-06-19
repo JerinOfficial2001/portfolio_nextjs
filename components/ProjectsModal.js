@@ -88,7 +88,7 @@ export default function ProjectsModal({
         const fileList = Array.from(files);
         setinputData((prev) => ({
           ...prev,
-          image: [...inputData.image, ...fileList],
+          image: [...inputData?.image, ...fileList],
         }));
       },
       value: inputData.image,
@@ -143,9 +143,9 @@ export default function ProjectsModal({
       setisProcessing(true);
       const formDatas = new FormData();
       const endpointJSON = JSON.stringify(DATA.endpoint);
-      inputData.image.forEach((image) => {
-        formDatas.append("image", image);
-      });
+      // inputData?.image?.forEach((image) => {
+      //   formDatas.append("image", image);
+      // });
       const INPUT_DATAS = {
         endpoint: endpointJSON,
         link: DATA.link,
@@ -463,7 +463,7 @@ export default function ProjectsModal({
                         },
                       }}
                     >
-                      {inputData?.image?.map((img, imgIndex) => (
+                      {/* {inputData?.image?.map((img, imgIndex) => (
                         <Box
                           sx={{
                             height: "60px",
@@ -520,7 +520,7 @@ export default function ProjectsModal({
                             }}
                           />
                         </Box>
-                      ))}
+                      ))} */}
                     </Box>
                   </Grid>
                 );

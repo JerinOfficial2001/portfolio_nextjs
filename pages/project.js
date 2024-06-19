@@ -60,9 +60,9 @@ export default function Project() {
   }, [openModel]);
 
   const handleOpen = (id) => {
+    setopenModel(true);
     if (id) {
       GetParticularProjectByID(id).then((data) => {
-        setopenModel(true);
         setparticularProject(data);
       });
     } else {
@@ -121,7 +121,7 @@ export default function Project() {
               />
             </Stack>
           </div>
-          <Grid container direction="row" rowGap={2} columnGap={2} columns={8}>
+          <Grid container direction="row" rowGap={4} columnGap={4} columns={8}>
             {isLoading ? (
               <Box
                 sx={{
@@ -135,11 +135,45 @@ export default function Project() {
                 <Loader />
               </Box>
             ) : projectsData.length !== 0 ? (
-              projectsData?.map((project, index) => {
-                return (
-                  <Card key={index} project={project} handleOpen={handleOpen} />
-                );
-              })
+              <>
+                {projectsData?.map((project, index) => {
+                  return (
+                    <Card
+                      key={index}
+                      project={project}
+                      handleOpen={handleOpen}
+                    />
+                  );
+                })}
+                <Box
+                  sx={{
+                    width: 300,
+                    height: "210px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: "#151617",
+                    borderRadius: 10,
+                    boxShadow: "0 1px 0px 1px white",
+                    marginLeft: 5,
+                  }}
+                >
+                  <IconButton
+                    onClick={() => {
+                      handleOpen();
+                    }}
+                    sx={{
+                      color: "white",
+                    }}
+                  >
+                    <Add
+                      sx={{
+                        fontSize: 100,
+                      }}
+                    />
+                  </IconButton>
+                </Box>
+              </>
             ) : (
               <Box
                 sx={{

@@ -1,6 +1,13 @@
 import { GetAllProfile } from "@/controller/profile";
 import Layout from "@/layouts/Layout";
-import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
@@ -11,6 +18,7 @@ import { Add } from "@mui/icons-material";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ProfileModal from "@/components/ProfileModal";
 export default function Dashboard() {
+  const [isLoading, setisLoading] = useState(true);
   const { profiles, setprofiles } = useContext(MyContextState);
   const [isHovered, setisHovered] = useState(false);
   const [openModel, setopenModel] = useState(false);
@@ -18,7 +26,9 @@ export default function Dashboard() {
   const cachedData = cookie ? JSON.parse(cookie) : false;
   const router = useRouter();
   useEffect(() => {
+    setisLoading(true);
     GetAllProfile().then((data) => {
+      setisLoading(false);
       setprofiles(data);
     });
   }, []);
@@ -35,10 +45,30 @@ export default function Dashboard() {
     <Layout dashboard={true}>
       <Toaster position="top-center" />
       <Grid container columnGap={4} rowGap={1} sx={{ width: "100%" }}>
-        {profiles.length > 0 ? (
+        {isLoading ? (
+          [1, 2, 3, 4].map((item) => (
+            <Grid key={item} item md={2.7} sm={12} xs={12}>
+              <Skeleton
+                variant="rectangular"
+                sx={{
+                  height: {
+                    xl: 350,
+                    lg: 350,
+                    md: 350,
+                    sm: 300,
+                    xs: 300,
+                  },
+                  width: "100%",
+                  background: "#3f3f3f",
+                  borderRadius: 10,
+                }}
+              />
+            </Grid>
+          ))
+        ) : profiles.length > 0 ? (
           profiles?.map((item) => {
             return (
-              <Grid key={item._id} item md={2.7}>
+              <Grid key={item._id} item md={2.7} sm={12} xs={12}>
                 <div
                   style={{ width: "100%" }}
                   className="animate__animated animate__zoomIn animate__delay-1s thirdrow"
