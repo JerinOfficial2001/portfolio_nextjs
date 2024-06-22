@@ -145,34 +145,36 @@ export default function Project() {
                     />
                   );
                 })}
-                <Box
-                  sx={{
-                    width: 300,
-                    height: "210px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    background: "#151617",
-                    borderRadius: 10,
-                    boxShadow: "0 1px 0px 1px white",
-                    marginLeft: 5,
-                  }}
-                >
-                  <IconButton
-                    onClick={() => {
-                      handleOpen();
-                    }}
+                {cachedCookie && cachedCookie?._id == id && (
+                  <Box
                     sx={{
-                      color: "white",
+                      width: 300,
+                      height: "210px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: "#151617",
+                      borderRadius: 10,
+                      boxShadow: "0 1px 0px 1px white",
+                      marginLeft: 5,
                     }}
                   >
-                    <Add
-                      sx={{
-                        fontSize: 100,
+                    <IconButton
+                      onClick={() => {
+                        handleOpen();
                       }}
-                    />
-                  </IconButton>
-                </Box>
+                      sx={{
+                        color: "white",
+                      }}
+                    >
+                      <Add
+                        sx={{
+                          fontSize: 100,
+                        }}
+                      />
+                    </IconButton>
+                  </Box>
+                )}
               </>
             ) : (
               <Box

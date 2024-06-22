@@ -367,3 +367,27 @@ a {
     transform: rotate(1turn);
   }
 }
+.righttoleft {
+  animation-name: righttoleft;
+  animation-duration: 1.5s;
+}
+@keyframes righttoleft {
+  from {
+    translate: -500px;
+  }
+  to {
+    translate: 0px;
+  }
+}
+.lefttoright {
+  animation-name: lefttoright;
+  animation-duration: 1.5s;
+}
+@keyframes lefttoright {
+  from {
+    translate: 500px;
+  }
+  to {
+    translate: 0px;
+  }
+}

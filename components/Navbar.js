@@ -22,6 +22,7 @@ import { MyContextState } from "@/pages/_app";
 import { Logout } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
+import AuthModal from "./Auth/AuthModal";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -66,6 +67,7 @@ export default function Navbar({ dashboard }) {
   const cookie = getDecryptedCookie("userData");
   const [userData, setuserData] = useState(null);
   const cachedData = cookie ? JSON.parse(cookie) : false;
+  const [openAuthModel, setopenAuthModel] = useState(false);
   useEffect(() => {
     if (cachedData) {
       setuserData(cachedData);
@@ -138,6 +140,9 @@ export default function Navbar({ dashboard }) {
     Cookies.remove("token");
     window.location.href = "/";
     handleClose();
+  };
+  const handleAuthModalClose = () => {
+    setopenAuthModel(false);
   };
   return (
     <Box
@@ -240,7 +245,11 @@ export default function Navbar({ dashboard }) {
       >
         <Button
           onClick={() => {
-            router.push(userData ? "/contact" : "/auth/login");
+            if (userData) {
+              router.push("/contact");
+            } else {
+              setopenAuthModel(true);
+            }
           }}
           variant="contained"
           sx={{
@@ -390,6 +399,7 @@ export default function Navbar({ dashboard }) {
           </IconButton>
         )}
       </Box>
+      <AuthModal open={openAuthModel} handleClose={handleAuthModalClose} />
     </Box>
   );
 }

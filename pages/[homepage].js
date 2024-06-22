@@ -26,7 +26,7 @@ export default function Homepage() {
   const [isMyProfile, setisMyProfile] = useState(false);
   const fetchData = () => {
     GetAllProfile().then((profiles) => {
-      const profileIDs = profiles.map((elem) => elem.userID);
+      const profileIDs = profiles?.map((elem) => elem.userID);
       if (profileIDs.includes(homepage)) {
         getUserByID(homepage).then((data) => {
           setDATA(data);
