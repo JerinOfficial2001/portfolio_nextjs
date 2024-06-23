@@ -26,11 +26,9 @@ export default function About() {
 
   return (
     <>
-      <Layout>
-        <FirstrowAbout />
-        <SecondrowAbout />
-        <ThirdrowAbout />
-      </Layout>
+      <FirstrowAbout />
+      <SecondrowAbout />
+      <ThirdrowAbout />
     </>
   );
 }

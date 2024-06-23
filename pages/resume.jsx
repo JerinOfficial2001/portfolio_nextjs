@@ -11,16 +11,14 @@ export default function resume() {
   const resume = useSelector((state) => state.counter.resume);
   console.log("Resume", resume);
   return (
-    <Layout>
-      <div className="w-[100%]  bg-black rounded-md p-2 flex items-center justify-center">
-        {resume.map((i) => (
-          <img
-            src={i.image.url}
-            alt="loading..."
-            className="h-[100%] w-[100%] object-contain"
-          />
-        ))}
-      </div>
-    </Layout>
+    <div className="w-[100%]  bg-black rounded-md p-2 flex items-center justify-center">
+      {resume.map((i) => (
+        <img
+          src={i.image.url}
+          alt="loading..."
+          className="h-[100%] w-[100%] object-contain"
+        />
+      ))}
+    </div>
   );
 }

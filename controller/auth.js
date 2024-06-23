@@ -73,3 +73,25 @@ const getUserData = async (token) => {
     console.log("GetUserData ERR", error);
   }
 };
+export const UpdateUser = async (formDatas, inputData, userData) => {
+  try {
+    const { data } = await axios.put(
+      `${API}/auth/update?userID=${inputData._id}`,
+      formDatas,
+      {
+        headers: {
+          Authorization: "Bearer " + userData.accessToken,
+        },
+      }
+    );
+    if (data.status == "ok") {
+      toast.success(data.message);
+      return data;
+    } else {
+      toast.error(data.message);
+    }
+    return data;
+  } catch (error) {
+    console.log("UPDATE ACCOUNT ERR", error);
+  }
+};

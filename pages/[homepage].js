@@ -63,7 +63,7 @@ export default function Homepage() {
   }, [homepage]);
   return (
     <>
-      <Layout>
+      <>
         <Firstrow
           fetchData={fetchData}
           data={DATA}
@@ -73,7 +73,7 @@ export default function Homepage() {
         />
         <Secondrow data={DATA} />
         <Thirdrow />
-      </Layout>
+      </>
     </>
   );
 }

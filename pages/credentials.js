@@ -39,133 +39,94 @@ export default function Credentials() {
     fetchData();
   }, []);
   return (
-    <Layout>
-      <Stack
+    <Stack
+      sx={{
+        width: "100%",
+        gap: 10,
+        flexDirection: {
+          xl: "row",
+          lg: "row",
+          md: "row",
+          sm: "column",
+          xs: "column",
+        },
+      }}
+    >
+      <ProfileCard links={Credentials?.link} profile={profile} />
+      <Box
         sx={{
-          width: "100%",
-          gap: 10,
-          flexDirection: {
-            xl: "row",
-            lg: "row",
-            md: "row",
-            sm: "column",
-            xs: "column",
+          width: {
+            xl: "60%",
+            lg: "60%",
+            md: "60%",
+            sm: "100%",
+            xs: "100%",
           },
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        <ProfileCard links={Credentials?.link} profile={profile} />
-        <Box
-          sx={{
-            width: {
-              xl: "60%",
-              lg: "60%",
-              md: "60%",
-              sm: "100%",
-              xs: "100%",
-            },
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Stack sx={{ width: "100%", gap: 5 }}>
-            <Box
+        <Stack sx={{ width: "100%", gap: 5 }}>
+          <Box
+            sx={{
+              width: "90%",
+              height: "90%",
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <Typography
               sx={{
-                width: "90%",
-                height: "90%",
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
+                color: "#5a5a5a",
+                fontSize: 15,
+                fontWeight: "bold",
+                textTransform: "uppercase",
               }}
             >
-              <Typography
-                sx={{
-                  color: "#5a5a5a",
-                  fontSize: 15,
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                }}
-              >
-                {profile?.role ? profile.role : "ROLE"}
-              </Typography>
-              <Typography
-                sx={{ color: "white", fontSize: 40, fontWeight: "bold" }}
-              >
-                {profile?.name ? profile.name : "NAME"}
-              </Typography>
-              <Typography
-                sx={{
-                  color: "white",
-                  fontSize: 15,
-                  fontWeight: "bold",
-                  marginBottom: 2,
-                }}
-              >
-                {profile?.qualification
-                  ? profile.qualification
-                  : "QUALIFICATION"}
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#5a5a5a",
-                  fontSize: 15,
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                }}
-              >
-                {profile?.about ? profile.about : "ABOUT"}
-              </Typography>
-            </Box>
-            {/* education */}
-            <Stack
+              {profile?.role ? profile.role : "ROLE"}
+            </Typography>
+            <Typography
+              sx={{ color: "white", fontSize: 40, fontWeight: "bold" }}
+            >
+              {profile?.name ? profile.name : "NAME"}
+            </Typography>
+            <Typography
               sx={{
-                height: "90%",
-                width: "100%",
-                gap: 1,
+                color: "white",
+                fontSize: 15,
+                fontWeight: "bold",
+                marginBottom: 2,
               }}
             >
-              <Typography sx={{ color: "white", fontSize: 20 }}>
-                EDUCATION
-              </Typography>
-              {Credentials?.education &&
-              Credentials?.education?.length !== 0 ? (
-                Credentials.education.map((item, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      width: "100%",
-                      height: "90%",
-                      display: "flex",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        color: "#5a5a5a",
-                        fontSize: 13,
-                        fontWeight: "bold",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {item.Year}
-                    </Typography>
-                    <Typography sx={{ color: "white", fontSize: 20 }}>
-                      {item.Course}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        color: "#5a5a5a",
-                        fontSize: 13,
-                        fontWeight: "bold",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {item.Institution}
-                    </Typography>
-                  </Box>
-                ))
-              ) : (
+              {profile?.qualification ? profile.qualification : "QUALIFICATION"}
+            </Typography>
+            <Typography
+              sx={{
+                color: "#5a5a5a",
+                fontSize: 15,
+                fontWeight: "bold",
+                textTransform: "uppercase",
+              }}
+            >
+              {profile?.about ? profile.about : "ABOUT"}
+            </Typography>
+          </Box>
+          {/* education */}
+          <Stack
+            sx={{
+              height: "90%",
+              width: "100%",
+              gap: 1,
+            }}
+          >
+            <Typography sx={{ color: "white", fontSize: 20 }}>
+              EDUCATION
+            </Typography>
+            {Credentials?.education && Credentials?.education?.length !== 0 ? (
+              Credentials.education.map((item, index) => (
                 <Box
+                  key={index}
                   sx={{
                     width: "100%",
                     height: "90%",
@@ -182,10 +143,10 @@ export default function Credentials() {
                       textTransform: "uppercase",
                     }}
                   >
-                    YEAR
+                    {item.Year}
                   </Typography>
                   <Typography sx={{ color: "white", fontSize: 20 }}>
-                    COURSE
+                    {item.Course}
                   </Typography>
                   <Typography
                     sx={{
@@ -195,64 +156,98 @@ export default function Credentials() {
                       textTransform: "uppercase",
                     }}
                   >
-                    INSTITUTION
+                    {item.Institution}
                   </Typography>
                 </Box>
-              )}
-            </Stack>
-            {/* skills */}
-            <Stack
-              sx={{
-                height: "90%",
-                width: "100%",
-                gap: 1,
-              }}
-            >
+              ))
+            ) : (
               <Box
                 sx={{
-                  height: "100%",
                   width: "100%",
-                  gap: 3,
+                  height: "90%",
                   display: "flex",
+                  justifyContent: "center",
                   flexDirection: "column",
                 }}
               >
-                <Typography sx={{ color: "white", fontSize: 20 }}>
-                  SKILLS
-                </Typography>
-                <Stack
+                <Typography
                   sx={{
-                    height: "90%",
-                    width: "100%",
-                    gap: 10,
-                    flexDirection: "row",
+                    color: "#5a5a5a",
+                    fontSize: 13,
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
                   }}
                 >
-                  <Grid
-                    container
-                    sx={{
-                      width: "100%",
-                      gap: 1,
-                    }}
-                  >
-                    {Credentials?.skills && Credentials.skills.length !== 0 ? (
-                      Credentials?.skills.map((skill, index) => (
-                        <Grid item key={index}>
-                          <Chip label={skill} color="warning" />
-                        </Grid>
-                      ))
-                    ) : (
-                      <Grid item>
-                        <Chip label="skill" color="warning" />
-                      </Grid>
-                    )}
-                  </Grid>
-                </Stack>
+                  YEAR
+                </Typography>
+                <Typography sx={{ color: "white", fontSize: 20 }}>
+                  COURSE
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "#5a5a5a",
+                    fontSize: 13,
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  INSTITUTION
+                </Typography>
               </Box>
-            </Stack>
+            )}
           </Stack>
-        </Box>
-      </Stack>
-    </Layout>
+          {/* skills */}
+          <Stack
+            sx={{
+              height: "90%",
+              width: "100%",
+              gap: 1,
+            }}
+          >
+            <Box
+              sx={{
+                height: "100%",
+                width: "100%",
+                gap: 3,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Typography sx={{ color: "white", fontSize: 20 }}>
+                SKILLS
+              </Typography>
+              <Stack
+                sx={{
+                  height: "90%",
+                  width: "100%",
+                  gap: 10,
+                  flexDirection: "row",
+                }}
+              >
+                <Grid
+                  container
+                  sx={{
+                    width: "100%",
+                    gap: 1,
+                  }}
+                >
+                  {Credentials?.skills && Credentials.skills.length !== 0 ? (
+                    Credentials?.skills.map((skill, index) => (
+                      <Grid item key={index}>
+                        <Chip label={skill} color="warning" />
+                      </Grid>
+                    ))
+                  ) : (
+                    <Grid item>
+                      <Chip label="skill" color="warning" />
+                    </Grid>
+                  )}
+                </Grid>
+              </Stack>
+            </Box>
+          </Stack>
+        </Stack>
+      </Box>
+    </Stack>
   );
 }

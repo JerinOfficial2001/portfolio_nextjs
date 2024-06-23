@@ -54,9 +54,9 @@ export default function Footer() {
       }}
     >
       <Typography variant="h4" color="white" fontWeight="bold">
-        𝘗𝘰𝘳𝘵𝘧𝘰𝘭𝘪𝘰
+        @𝘗𝘰𝘳𝘵𝘧𝘰𝘭𝘪𝘰
       </Typography>
-      <Stack
+      {/* <Stack
         direction="row"
         sx={{
           width: {
@@ -90,7 +90,7 @@ export default function Footer() {
             </div>
           );
         })}
-      </Stack>
+      </Stack> */}
     </Box>
   );
 }

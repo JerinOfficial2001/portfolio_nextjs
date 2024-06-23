@@ -1,28 +1,51 @@
-import Box from "@mui/material/Box";
-import React, { useState } from "react";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { IconButton, Grid, inputLabelClasses, Modal } from "@mui/material";
-import { useRouter } from "next/router";
-import { Toaster, toast } from "react-hot-toast";
-import { Autorenew, Close } from "@mui/icons-material";
-import { login, register } from "@/controller/auth";
 import {
+  Autorenew,
+  CheckCircle,
+  Close,
+  ContentCopyOutlined,
+  EditSharp,
+} from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Chip,
+  Divider,
   FormControl,
   FormControlLabel,
   FormLabel,
+  Grid,
+  IconButton,
+  Modal,
   Radio,
   RadioGroup,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+  inputLabelClasses,
 } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { UpdateUser } from "@/controller/auth";
+import toast, { Toaster } from "react-hot-toast";
+import { getDecryptedCookie, setEncryptedCookie } from "@/utils/EncryteCookies";
 
-export default function AuthModal({ open, handleClose }) {
+export default function ViewProfileModal({ open, handleClose }) {
+  const cookie = getDecryptedCookie("userData");
+  const userData = cookie ? JSON.parse(cookie) : false;
   const router = useRouter();
+  const { id, homepage } = router.query;
+  const [copied, setCopied] = useState(false);
+  const [openModal, setOpen] = useState(false);
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000);
+  };
   const [isProcessing, setisProcessing] = useState(false);
-  const [IsSignUP, setIsSignUP] = useState(false);
-  const [swipeInputs, setswipeInputs] = useState(false);
   const [inputData, setinputData] = useState({
     password: "",
     email: "",
@@ -30,36 +53,44 @@ export default function AuthModal({ open, handleClose }) {
     role: "USER",
     gender: "MALE",
     name: "",
+    _id: "",
   });
+  useEffect(() => {
+    if (userData) {
+      setinputData({
+        password: userData.password,
+        email: userData.email,
+        image: userData.image !== "null" ? userData.image : null,
+        role: userData.role,
+        gender: userData.gender,
+        name: userData.name,
+        _id: userData._id,
+      });
+    }
+  }, [open, openModal]);
 
   const submitHandler = async (data) => {
     setisProcessing(true);
-    const requiredFields = IsSignUP
-      ? ["name", "role", "email", "password", "gender"]
-      : ["email", "password"];
+    const requiredFields = ["name", "role", "email", "password", "gender"];
     const isFieldsFilled = requiredFields.every((key) => data[key] !== "");
     if (isFieldsFilled) {
-      if (IsSignUP) {
-        const formDatas = new FormData();
-        Object.entries(data).forEach(([key, value]) =>
-          formDatas.append(key, value)
-        );
-        // console.log(formDatas);
-        register(formDatas).then((res) => {
-          if (res) {
-            setisProcessing(false);
-          }
-        });
-      } else {
-        login(inputData).then((res) => {
-          if (res) {
-            setisProcessing(false);
-          }
-        });
-      }
+      const formDatas = new FormData();
+      Object.entries(data).forEach(([key, value]) =>
+        formDatas.append(key, value)
+      );
+      // console.log(formDatas);
+      UpdateUser(formDatas, inputData, userData).then((res) => {
+        if (res.status == "ok") {
+          setisProcessing(false);
+          setOpen(false);
+          setEncryptedCookie("userData", JSON.stringify(res.data));
+        } else {
+          setisProcessing(false);
+        }
+      });
     } else {
-      toast.error("All fields are mandatory");
       setisProcessing(false);
+      toast.error("All fields are mandatory");
     }
   };
   const handleSetFormDatas = (name, value) => {
@@ -143,97 +174,216 @@ export default function AuthModal({ open, handleClose }) {
   ];
   return (
     <Modal
-      open={open}
-      onClose={handleClose}
       sx={{
         height: "100vh",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-end",
         width: "100%",
       }}
+      open={open}
+      onClose={handleClose}
     >
-      <Box
+      <Stack
         sx={{
-          width: {
-            xl: "70%",
-            lg: "70%",
-            md: "70%",
-            sm: "80%",
-            xs: "90%",
-          },
-          height: {
-            xl: "80%",
-            lg: "80%",
-            md: "80%",
-            sm: "70%",
-            xs: "60%",
-          },
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: IsSignUP ? "row-reverse" : "flex",
+          background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+          boxShadow: "0px 0px 5px black",
+          height: "100%",
+          width: 400,
+          borderRadius: "20px 0 0 20px",
           alignItems: "center",
-          gap: 1,
-          background: "#000000e0",
-          borderRadius: 10,
           position: "relative",
-          boxShadow: "0px 0px 5px #438ad0",
-          transition: "linear .3s",
         }}
       >
-        <Toaster />
-
-        <IconButton
-          sx={{ position: "absolute", top: 15, right: 15, color: "whitesmoke" }}
-          onClick={handleClose}
-        >
-          <Close />
-        </IconButton>
-        <Stack
-          component="form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            submitHandler(inputData);
-          }}
-          className={!IsSignUP ? "lefttoright" : "righttoleft"}
-          direction="column"
+        <Toaster position="top-center" />
+        <Box
           sx={{
-            width: "50%",
-            justifyContent: "center",
+            display: "flex",
             alignItems: "center",
-            padding: {
-              xl: 5,
-              lg: 5,
-              md: 5,
-              sm: 5,
-              xs: 2,
-            },
-            transition: "linear .3s",
-            gap: 2,
+            justifyContent: "space-between",
+            padding: 2,
+            marginTop: 2,
+            width: "100%",
           }}
         >
           <Typography
             sx={{
-              color: "white",
-              fontSize: {
-                xl: 30,
-                lg: 30,
-                md: 30,
-                sm: 10,
-                xs: 10,
-              },
               fontWeight: "bold",
-              fontFamily: "cursive",
+              color: "white",
+              textTransform: "uppercase",
+              marginLeft: 1,
             }}
           >
-            {IsSignUP ? "Create Account" : "Sign In"}
-          </Typography>{" "}
-          {IsSignUP && !swipeInputs ? (
+            My Account
+          </Typography>
+          <IconButton sx={{ color: "whitesmoke" }} onClick={handleClose}>
+            <Close />
+          </IconButton>
+        </Box>
+        <Divider
+          variant="middle"
+          sx={{
+            borderColor: "cornflowerblue",
+            borderWidth: 2,
+            width: "90%",
+            borderRadius: 10,
+          }}
+        />
+
+        <Box
+          sx={{
+            width: "90%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            padding: 1,
+          }}
+        >
+          <Box
+            sx={{
+              background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+              padding: 0.5,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 2,
+              cursor: "pointer",
+              boxShadow: "0px 0px 5px cornflowerblue",
+              "&:hover": {
+                boxShadow: "0px 0px 5px white",
+              },
+            }}
+            onClick={() => {
+              setOpen(!openModal);
+            }}
+          >
+            {openModal ? (
+              <Close sx={{ color: "red", fontSize: 15 }} />
+            ) : (
+              <EditSharp sx={{ color: "white", fontSize: 15 }} />
+            )}
+          </Box>
+        </Box>
+
+        {!openModal && (
+          <Image
+            style={{ margin: 10, borderRadius: "100%" }}
+            height={200}
+            width={200}
+            src={
+              userData?.image !== "null"
+                ? userData?.image?.url
+                : require(userData?.gender == "MALE"
+                    ? "../assets/male.png"
+                    : "../assets/female.png")
+            }
+            alt="logo"
+          />
+        )}
+        {!openModal && (
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              color: "white",
+              textTransform: "uppercase",
+              position: "relative",
+            }}
+          >
+            {userData?.name}
+            <Chip
+              sx={{
+                color: "color",
+                background: "cornflowerblue",
+                height: 23,
+                position: "absolute",
+                marginLeft: 1,
+                maxWidth: "unset",
+              }}
+              label={userData?.role}
+            />
+          </Typography>
+        )}
+        {!openModal && (
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              color: "slategray",
+            }}
+          >
+            {userData?.email}
+          </Typography>
+        )}
+        {!openModal && (
+          <CopyToClipboard
+            style={{
+              background: "lightgray",
+              width: "90%",
+              borderRadius: 10,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop: 10,
+            }}
+            text={`https://portfolio-nextjs-psi-wheat.vercel.app/${
+              userData?._id ? userData?._id : id ? id : homepage
+            }`}
+            onCopy={() => handleCopy()}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "#525252",
+                  padding: 1.5,
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  flexWrap: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+                component="span"
+                align="left"
+              >
+                https://portfolio-nextjs-psi-wheat.vercel.app/
+                {userData?._id ? userData?._id : id ? id : homepage}
+              </Typography>
+              <Box
+                sx={{
+                  height: "100%",
+                  background: "black",
+                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingX: 1,
+                  borderRadius: "0 10px 10px 0",
+                }}
+              >
+                {copied ? (
+                  <CheckCircle
+                    sx={{
+                      color: "cornflowerblue",
+                    }}
+                  />
+                ) : (
+                  <ContentCopyOutlined sx={{ color: "white" }} />
+                )}
+              </Box>
+            </Box>
+          </CopyToClipboard>
+        )}
+        {openModal && (
+          <Stack sx={{ padding: 2, gap: 2 }}>
             <Grid
               container
               sx={{
-                overflowY: "auto",
-                height: { lg: "auto", xs: "330px" },
+                overflow: "hidden",
                 "&:hover": {
                   overflowY: "auto",
                 },
@@ -290,8 +440,8 @@ export default function AuthModal({ open, handleClose }) {
                             inputData.image !== null
                               ? URL.createObjectURL(inputData.image)
                               : require(inputData.gender == "MALE"
-                                  ? "../../assets/male.png"
-                                  : "../../assets/female.png")
+                                  ? "../assets/male.png"
+                                  : "../assets/female.png")
                           }
                           alt="profile"
                           width={100}
@@ -351,7 +501,7 @@ export default function AuthModal({ open, handleClose }) {
                             <FormControlLabel
                               key={itemIndex}
                               value={item.value}
-                              control={<Radio sx={{ color: "#60605F" }} />}
+                              control={<Radio />}
                               label={item.label}
                             />
                           ))}
@@ -400,170 +550,41 @@ export default function AuthModal({ open, handleClose }) {
                 }
               })}
             </Grid>
-          ) : (
-            <Grid
-              container
-              sx={{
-                overflow: "hidden",
-                "&:hover": {
-                  overflowY: "auto",
-                },
-                "&::-webkit-scrollbar": {
-                  width: "8px",
-                },
-                "&::-webkit-scrollbar-track": {
-                  background: "#f5f5f5",
-                  borderRadius: "4px",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background: "#bdbdbd",
-                  borderRadius: "4px",
-                  "&:hover": {
-                    background: "#a5a5a5",
-                  },
-                },
-                width: "100%",
-                alignItems: "center",
+            <Button
+              onClick={() => {
+                submitHandler(inputData);
               }}
-              rowGap={2}
+              variant="outlined"
+              sx={{
+                color: "white",
+                borderRadius: 2,
+                textTransform: "none",
+                height: {
+                  xl: "40px",
+                  lg: "40px",
+                  md: "40px",
+                  sm: "40px",
+                  xs: "30px",
+                },
+                fontSize: {
+                  xl: "15px",
+                  lg: "15px",
+                  md: "10px",
+                  sm: "10px",
+                  xs: "8px",
+                },
+                fontWeight: "bold",
+              }}
             >
-              {inputField.map((elem, index) => {
-                if (elem.name == "email" || elem.name == "password") {
-                  return (
-                    <Grid
-                      item
-                      md={12}
-                      sm={12}
-                      xs={12}
-                      lg={12}
-                      xl={12}
-                      sx={{ alignItems: "center" }}
-                      key={index}
-                    >
-                      <TextField
-                        type={elem.type}
-                        variant="outlined"
-                        sx={{
-                          width: "100%",
-                          outline: "none",
-                          background: "#252525",
-                          borderRadius: 3,
-                          "& fieldset": { border: "none" },
-                          input: { color: "white" },
-                        }}
-                        label={elem.label}
-                        InputLabelProps={{
-                          sx: {
-                            color: "#6b756b",
-                            [`&.${inputLabelClasses.shrink}`]: {
-                              display: "none",
-                            },
-                          },
-                        }}
-                        value={elem.value}
-                        onChange={elem.onChange}
-                        name={elem.name}
-                      />
-                    </Grid>
-                  );
-                }
-              })}
-            </Grid>
-          )}
-          <Button
-            type="submit"
-            variant="outlined"
-            sx={{
-              color: "white",
-              borderRadius: 2,
-              textTransform: "none",
-              height: {
-                xl: "40px",
-                lg: "40px",
-                md: "40px",
-                sm: "40px",
-                xs: "30px",
-              },
-              fontSize: {
-                xl: "15px",
-                lg: "15px",
-                md: "10px",
-                sm: "10px",
-                xs: "8px",
-              },
-              fontWeight: "bold",
-            }}
-          >
-            {isProcessing ? (
-              <Autorenew className="loadingBtn" />
-            ) : IsSignUP ? (
-              "CREATE ACCOUNT"
-            ) : (
-              "SIGN IN"
-            )}
-          </Button>
-        </Stack>
-        <Stack
-          direction="column"
-          sx={{
-            width: "50%",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "#0d0d0f",
-            height: "100%",
-            borderRadius: IsSignUP ? "40px 0 0 40px" : "0 40px 40px 0",
-            transition: "linear .3s",
-            gap: 2,
-          }}
-          className={IsSignUP ? "lefttoright" : "righttoleft"}
-        >
-          <Image
-            className="userImg"
-            src={require(!inputData?.gender ||
-              inputData?.gender == "male" ||
-              inputData?.gender == "MALE"
-              ? "../../assets/male.png"
-              : "../../assets/female.png")}
-            alt="NoProfile"
-            style={{
-              height: "30%",
-              width: "35%",
-              borderRadius: "0px 0px 40px 0px",
-            }}
-          />
-          <Button
-            onClick={() => {
-              setTimeout(() => {
-                setswipeInputs(IsSignUP);
-              }, 1300);
-              setIsSignUP(!IsSignUP);
-            }}
-            variant="outlined"
-            sx={{
-              color: "white",
-              borderRadius: 2,
-              textTransform: "none",
-              height: {
-                xl: "40px",
-                lg: "40px",
-                md: "40px",
-                sm: "40px",
-                xs: "30px",
-              },
-              fontSize: {
-                xl: "15px",
-                lg: "15px",
-                md: "10px",
-                sm: "10px",
-                xs: "8px",
-              },
-              fontWeight: "bold",
-            }}
-          >
-            {IsSignUP ? "SIGN IN" : "SIGN UP"}
-          </Button>
-        </Stack>
-      </Box>
+              {isProcessing ? (
+                <Autorenew className="loadingBtn" />
+              ) : (
+                "Update Account"
+              )}
+            </Button>
+          </Stack>
+        )}
+      </Stack>
     </Modal>
   );
 }

@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import counterReducer from "../redux/counterSlice";
 import { createContext, useEffect, useState } from "react";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
+import Layout from "@/layouts/Layout";
 
 export const MyContextState = createContext({});
 export default function App({ Component, pageProps }) {
@@ -16,7 +17,7 @@ export default function App({ Component, pageProps }) {
   const cookie = getDecryptedCookie("userData");
   const [userData, setuserData] = useState(null);
   const [profiles, setprofiles] = useState([]);
-
+  const [direction, setdirection] = useState(false);
   useEffect(() => {
     const cachedData = cookie ? cookie : false;
     if (cachedData) {
@@ -26,8 +27,13 @@ export default function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <MyContextState.Provider value={{ userData, profiles, setprofiles }}>
-        <Component {...pageProps} />
+      <MyContextState.Provider
+        value={{ direction, setdirection, userData, profiles, setprofiles }}
+      >
+        <Layout direction={direction}>
+          {" "}
+          <Component {...pageProps} />
+        </Layout>
       </MyContextState.Provider>
     </Provider>
   );

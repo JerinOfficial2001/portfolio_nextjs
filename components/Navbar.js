@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import {
   Avatar,
   Badge,
+  Divider,
   Menu,
   MenuItem,
   Typography,
@@ -23,6 +24,7 @@ import { Logout } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import AuthModal from "./Auth/AuthModal";
+import ViewProfileModal from "./ViewProfileModal";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -65,8 +67,8 @@ export default function Navbar({ dashboard }) {
   const [menuBtn, setmenuBtn] = useState(false);
   const router = useRouter();
   const cookie = getDecryptedCookie("userData");
-  const [userData, setuserData] = useState(null);
   const cachedData = cookie ? JSON.parse(cookie) : false;
+  const [userData, setuserData] = useState(null);
   const [openAuthModel, setopenAuthModel] = useState(false);
   useEffect(() => {
     if (cachedData) {
@@ -144,6 +146,10 @@ export default function Navbar({ dashboard }) {
   const handleAuthModalClose = () => {
     setopenAuthModel(false);
   };
+  const [openViewProfile, setopenViewProfile] = useState(false);
+  const handleViewProfileClose = () => {
+    setopenViewProfile(false);
+  };
   return (
     <Box
       sx={{
@@ -202,6 +208,7 @@ export default function Navbar({ dashboard }) {
                 sm: 4,
                 xs: 4,
               },
+              alignItems: "center",
             }}
           >
             {menus.map((menu, id) => {
@@ -216,10 +223,27 @@ export default function Navbar({ dashboard }) {
                 >
                   <Typography
                     sx={{
-                      color: location == menu.path ? "white" : "#606060",
+                      ...(location == menu.path ||
+                      (location == "/" && menu.title == "Home")
+                        ? {
+                            color: "cornflowerblue",
+                            border: "2px solid cornflowerblue",
+
+                            "&:hover": { scale: "1.1", color: "white" },
+                          }
+                        : {
+                            border: "none",
+                            color: " #606060",
+                            "&:hover": { scale: "1.2", color: "white" },
+                          }),
                       fontWeight: "bold",
-                      "&:hover": { color: "white" },
                       cursor: "pointer",
+                      transition: ".3s",
+                      fontFamily: "cursive",
+                      textTransform: "uppercase",
+                      padding: 1,
+                      borderRadius: 10,
+                      paddingX: 2,
                     }}
                   >
                     {menu.title}
@@ -311,6 +335,8 @@ export default function Navbar({ dashboard }) {
                 "linear-gradient(to right, #1e1e1e, #1a1a1a, #141414)",
               color: "whitesmoke",
               boxShadow: "0 0 0 1px #4d59a9",
+              borderRadius: 5,
+              padding: 1,
             },
           }}
           id="basic-menu"
@@ -335,14 +361,16 @@ export default function Navbar({ dashboard }) {
               alignItems: "center",
               gap: 1,
               fontSize: "medium",
+              width: 250,
             }}
             onClick={() => {
               handleClose();
-              router.push("/profilePage");
+              setopenViewProfile(true);
+              // router.push("/profilePage");
             }}
           >
             <Avatar
-              sx={{ width: 25, height: 25 }}
+              sx={{ width: 50, height: 50, objectPosition: "top" }}
               alt={userData?.name}
               src={
                 userData?.image !== "null"
@@ -352,8 +380,31 @@ export default function Navbar({ dashboard }) {
                   : "/female.png"
               }
             />
-            {userData?.name}
+            <Stack>
+              <Typography
+                sx={{ textTransform: "uppercase", fontWeight: "bold" }}
+              >
+                {userData?.name}
+              </Typography>
+              <Typography
+                sx={{
+                  color: "slategray",
+                  fontWeight: "bold",
+                  fontSize: 13,
+                }}
+              >
+                View Profile
+              </Typography>
+            </Stack>
           </MenuItem>
+          <Divider
+            variant="middle"
+            sx={{
+              borderColor: "cornflowerblue",
+              borderWidth: 2,
+              borderRadius: 10,
+            }}
+          />
           <MenuItem
             sx={{
               display: "flex",
@@ -363,7 +414,17 @@ export default function Navbar({ dashboard }) {
             }}
             onClick={handleLogout}
           >
-            <Logout fontSize="medium" />
+            <Box
+              sx={{
+                width: 25,
+                height: 25,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Logout fontSize="medium" />
+            </Box>
             Logout
           </MenuItem>
         </Menu>
@@ -400,6 +461,10 @@ export default function Navbar({ dashboard }) {
         )}
       </Box>
       <AuthModal open={openAuthModel} handleClose={handleAuthModalClose} />
+      <ViewProfileModal
+        open={openViewProfile}
+        handleClose={handleViewProfileClose}
+      />
     </Box>
   );
 }

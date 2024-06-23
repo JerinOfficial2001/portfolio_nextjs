@@ -1,18 +1,20 @@
 import Layout from "@/layouts/Layout";
 import { Box, Button, IconButton, Stack } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "animate.css";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { GetParticularProjectByID } from "@/controller/project";
 import { Close, Menu } from "@mui/icons-material";
+import { MyContextState } from "./_app";
 
 export default function ProjectPage() {
+  const { setdirection } = useContext(MyContextState);
   const router = useRouter();
   const { projectID } = router.query;
   const [projectData, setprojectData] = useState({});
   const [endPoints, setendPoints] = useState("");
-  const [showImgs, setshowImgs] = useState(true);
+  const [showImgs, setshowImgs] = useState(false);
   const buttonStyles = [
     "btn btn-1",
     "btn btn-2",
@@ -30,9 +32,13 @@ export default function ProjectPage() {
         setprojectData(data);
       });
     }
+    setdirection(true);
+    return () => {
+      setdirection(false);
+    };
   }, [projectID]);
   return (
-    <Layout maxWidth={true} direction={true}>
+    <>
       <div
         style={{ width: "70%" }}
         className="animate__animated animate__zoomIn animate__delay-1s  "
@@ -64,7 +70,7 @@ export default function ProjectPage() {
               pointerEvents: showImgs ? "none" : "auto",
             }}
           ></iframe>
-          <IconButton
+          {/* <IconButton
             sx={{
               color: "white",
               position: "absolute",
@@ -85,8 +91,8 @@ export default function ProjectPage() {
             }}
           >
             <Menu />
-          </IconButton>
-          <Stack
+          </IconButton> */}
+          {/* <Stack
             sx={{
               alignItems: "center",
               position: "absolute",
@@ -151,7 +157,7 @@ export default function ProjectPage() {
                   <Close />
                 </IconButton>
               </Box>
-              {/* {projectData?.image &&
+              {projectData?.image &&
                 projectData.image.map((img, index) => (
                   <img
                     key={index}
@@ -166,9 +172,9 @@ export default function ProjectPage() {
                       padding: 3,
                     }}
                   />
-                ))} */}
+                ))}
             </Box>
-          </Stack>
+          </Stack> */}
         </Stack>
       </div>
       <div
@@ -205,6 +211,6 @@ export default function ProjectPage() {
           </Button>
         </Stack>
       </div>
-    </Layout>
+    </>
   );
 }

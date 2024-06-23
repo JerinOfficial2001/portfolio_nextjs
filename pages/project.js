@@ -72,142 +72,87 @@ export default function Project() {
 
   return (
     <>
-      <Layout>
-        <Stack
-          sx={{
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <div className="animate__animated animate__fadeInUp animate__delay-1s">
-            <Stack
-              direction="row"
+      <Stack
+        sx={{
+          width: "100%",
+          alignItems: "center",
+          minHeight: "50vh",
+        }}
+      >
+        {/* <div className="animate__animated animate__fadeInUp animate__delay-1s">
+          <Stack
+            direction="row"
+            sx={{
+              height: 100,
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <Image
+              alt="img"
+              placeholder="empty"
+              src={require("../assets/star-2.png")}
+              style={{ height: "47%", width: "50px" }}
+            />
+
+            <Typography
               sx={{
-                height: 100,
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 1,
+                color: "white",
+                fontSize: {
+                  xl: 60,
+                  lg: 60,
+                  md: 60,
+                  sm: 30,
+                  xs: 25,
+                },
+                fontWeight: "bold",
               }}
             >
-              <Image
-                alt="img"
-                placeholder="empty"
-                src={require("../assets/star-2.png")}
-                style={{ height: "47%", width: "50px" }}
-              />
+              𝓜𝔂 𝓹𝓻𝓸𝓳𝓮𝓬𝓽𝓼
+            </Typography>
 
-              <Typography
-                sx={{
-                  color: "white",
-                  fontSize: {
-                    xl: 60,
-                    lg: 60,
-                    md: 60,
-                    sm: 30,
-                    xs: 25,
-                  },
-                  fontWeight: "bold",
-                }}
-              >
-                𝓜𝔂 𝓹𝓻𝓸𝓳𝓮𝓬𝓽𝓼
-              </Typography>
-
-              <Image
-                alt="img"
-                placeholder="empty"
-                src={require("../assets/star-2.png")}
-                style={{ height: "47%", width: "50px" }}
-              />
-            </Stack>
-          </div>
-          <Grid container direction="row" rowGap={4} columnGap={4} columns={8}>
-            {isLoading ? (
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "200px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Loader />
-              </Box>
-            ) : projectsData.length !== 0 ? (
-              <>
-                {projectsData?.map((project, index) => {
-                  return (
-                    <Card
-                      key={index}
-                      project={project}
-                      handleOpen={handleOpen}
-                    />
-                  );
-                })}
-                {cachedCookie && cachedCookie?._id == id && (
-                  <Box
-                    sx={{
-                      width: 300,
-                      height: "210px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      background: "#151617",
-                      borderRadius: 10,
-                      boxShadow: "0 1px 0px 1px white",
-                      marginLeft: 5,
-                    }}
-                  >
-                    <IconButton
-                      onClick={() => {
-                        handleOpen();
-                      }}
-                      sx={{
-                        color: "white",
-                      }}
-                    >
-                      <Add
-                        sx={{
-                          fontSize: 100,
-                        }}
-                      />
-                    </IconButton>
-                  </Box>
-                )}
-              </>
-            ) : (
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  background: "#9a9696",
-                  borderRadius: "50px",
-                  position: "relative",
-                }}
-                onMouseEnter={() => {
-                  setisHovered(true);
-                }}
-                onMouseLeave={() => {
-                  setisHovered(false);
-                }}
-              >
-                <Box component="img" src={"/noproject.png"}></Box>
+            <Image
+              alt="img"
+              placeholder="empty"
+              src={require("../assets/star-2.png")}
+              style={{ height: "47%", width: "50px" }}
+            />
+          </Stack>
+        </div> */}
+        <Grid container direction="row" rowGap={4} columnGap={4} columns={8}>
+          {isLoading ? (
+            <Box
+              sx={{
+                width: "100%",
+                height: "200px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Loader />
+            </Box>
+          ) : projectsData.length !== 0 ? (
+            <>
+              {projectsData?.map((project, index) => {
+                return (
+                  <Card key={index} project={project} handleOpen={handleOpen} />
+                );
+              })}
+              {cachedCookie && cachedCookie?._id == id && (
                 <Box
-                  hidden={id !== cachedCookie._id}
                   sx={{
-                    position: "absolute",
-                    opacity: isHovered ? 1 : 0,
-                    height: "100%",
-                    width: "100%",
+                    width: 300,
+                    height: "210px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    background: isHovered ? "#020202a1" : "",
-                    transition: ".5s",
-                    borderRadius: "50px",
+                    background: "#151617",
+                    borderRadius: 10,
+                    boxShadow: "0 1px 0px 1px white",
+                    marginLeft: 5,
                   }}
                 >
                   <IconButton
@@ -225,11 +170,61 @@ export default function Project() {
                     />
                   </IconButton>
                 </Box>
+              )}
+            </>
+          ) : (
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#9a9696",
+                borderRadius: "50px",
+                position: "relative",
+              }}
+              onMouseEnter={() => {
+                setisHovered(true);
+              }}
+              onMouseLeave={() => {
+                setisHovered(false);
+              }}
+            >
+              <Box component="img" src={"/noproject.png"}></Box>
+              <Box
+                hidden={id !== cachedCookie._id}
+                sx={{
+                  position: "absolute",
+                  opacity: isHovered ? 1 : 0,
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: isHovered ? "#020202a1" : "",
+                  transition: ".5s",
+                  borderRadius: "50px",
+                }}
+              >
+                <IconButton
+                  onClick={() => {
+                    handleOpen();
+                  }}
+                  sx={{
+                    color: "white",
+                  }}
+                >
+                  <Add
+                    sx={{
+                      fontSize: 100,
+                    }}
+                  />
+                </IconButton>
               </Box>
-            )}
-          </Grid>
-        </Stack>
-      </Layout>
+            </Box>
+          )}
+        </Grid>
+      </Stack>
       <ProjectsModal
         open={openModel}
         handleClose={handleClose}

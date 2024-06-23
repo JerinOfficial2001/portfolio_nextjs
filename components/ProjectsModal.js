@@ -218,7 +218,6 @@ export default function ProjectsModal({
             flexDirection: "column",
             alignItems: "center",
             gap: 1,
-            background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
             borderRadius: 10,
             padding: {
               xl: 5,
@@ -228,6 +227,7 @@ export default function ProjectsModal({
               xs: 2,
             },
             position: "relative",
+            background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
             boxShadow: "0px 0px 5px black",
           }}
         >
