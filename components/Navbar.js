@@ -157,7 +157,7 @@ export default function Navbar({ dashboard }) {
         width: "100%",
         justifyContent: "space-between",
         left: 0,
-        height: 120,
+        height: 80,
         position: "relative",
         alignItems: "center",
       }}
@@ -166,11 +166,18 @@ export default function Navbar({ dashboard }) {
         onClick={() => {
           router.push("/");
         }}
-        style={{ cursor: "pointer" }}
+        style={{
+          cursor: "pointer",
+        }}
       >
         <Button sx={{ textTransform: "none" }}>
-          <Typography variant="h4" color="white" fontWeight="bold">
-            𝘗𝘰𝘳𝘵𝘧𝘰𝘭𝘪𝘰
+          <Typography
+            variant="h6"
+            color="white"
+            fontWeight="bold"
+            fontFamily="cursive"
+          >
+            Jers-folio
           </Typography>
         </Button>
       </div>

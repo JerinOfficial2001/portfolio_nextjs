@@ -14,9 +14,11 @@ export const CreateProjects = async (formDatas) => {
     console.log("CreateProjects ERR", error);
   }
 };
-export const GetProjectsByID = async (id) => {
+export const GetProjectsByID = async (id, category) => {
   try {
-    const { data } = await axios.get(`${API}/Projects/get/${id}`);
+    const { data } = await axios.get(
+      `${API}/Projects/get/${id}?category=${category}`
+    );
     if (data.status == "ok") {
       return data.data;
     } else {

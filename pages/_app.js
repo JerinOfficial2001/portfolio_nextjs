@@ -18,6 +18,7 @@ export default function App({ Component, pageProps }) {
   const [userData, setuserData] = useState(null);
   const [profiles, setprofiles] = useState([]);
   const [direction, setdirection] = useState(false);
+  const [customStyle, setcustomStyle] = useState(null);
   useEffect(() => {
     const cachedData = cookie ? cookie : false;
     if (cachedData) {
@@ -28,10 +29,16 @@ export default function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <MyContextState.Provider
-        value={{ direction, setdirection, userData, profiles, setprofiles }}
+        value={{
+          setcustomStyle,
+          direction,
+          setdirection,
+          userData,
+          profiles,
+          setprofiles,
+        }}
       >
-        <Layout direction={direction}>
-          {" "}
+        <Layout direction={direction} customStyle={customStyle}>
           <Component {...pageProps} />
         </Layout>
       </MyContextState.Provider>

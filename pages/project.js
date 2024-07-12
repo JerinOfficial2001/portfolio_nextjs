@@ -1,15 +1,6 @@
-import Layout from "@/layouts/Layout";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import gallery from "../assets/gallery.jpeg";
-import student from "../assets/student.jpeg";
-import blog from "../assets/blog.jpeg";
-import recipebook from "../assets/recipebook.jpeg";
-import shopify from "../assets/shopify.jpeg";
-import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
-import Card from "@/components/Card";
-import Grid from "@mui/material/Grid";
 import {
   GetParticularProjectByID,
   GetProjectsByID,
@@ -17,32 +8,47 @@ import {
 import { useRouter } from "next/router";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { GetAllProfile } from "@/controller/profile";
-import { Box, IconButton } from "@mui/material";
-import { Add } from "@mui/icons-material";
-import ProjectsModal from "@/components/ProjectsModal";
+import { Box, Button, IconButton } from "@mui/material";
+import { MapsUgcOutlined } from "@mui/icons-material";
 import Loader from "@/components/Loader";
+import EmulatorCarousel from "@/components/EmulatorCarousel";
+import ProjectModal from "@/components/Modals/ProjectModal";
+import { MyContextState } from "./_app";
+import WebsiteLayout from "@/components/Projects/WebsiteLayout";
+import AddProjectComponent from "@/components/Projects/AddProjectComponent";
 
 export default function Project() {
+  const { setcustomStyle } = useContext(MyContextState);
   const router = useRouter();
   const { id } = router.query;
-  const [projectsData, setprojectsData] = useState([]);
+  const [websiteDatas, setprojectsData] = useState([]);
+  const [appDatas, setAppDatas] = useState([]);
   const cookie = getDecryptedCookie("userData");
   const [isLoading, setisLoading] = useState(true);
+  const [isWebLoading, setisWebLoading] = useState(true);
+  const [isApploading, setisApploading] = useState(true);
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
-  const [isHovered, setisHovered] = useState(false);
   const [openModel, setopenModel] = useState(false);
   const [particularProject, setparticularProject] = useState(null);
+  const [modalName, setmodalName] = useState("");
+  const [isAddProject, setisAddProject] = useState(false);
   const handleClose = () => {
     setopenModel(false);
   };
   const fetchData = () => {
     GetAllProfile().then((profiles) => {
-      const profileIDs = profiles.map((elem) => elem.userID);
-      if (profileIDs.includes(id)) {
-        GetProjectsByID(id ? id : cachedCookie?._id).then((data) => {
-          setisLoading(false);
+      const profileIDs = profiles?.map((elem) => elem.userID);
+      if (profileIDs?.includes(id)) {
+        GetProjectsByID(id ? id : cachedCookie?._id, "Website").then((data) => {
+          setisWebLoading(false);
           setprojectsData(data);
         });
+        GetProjectsByID(id ? id : cachedCookie?._id, "Application").then(
+          (data) => {
+            setisApploading(false);
+            setAppDatas(data);
+          }
+        );
       }
     });
   };
@@ -52,14 +58,23 @@ export default function Project() {
     } else {
       router.push("/");
     }
+    // setcustomStyle({ alignItems: "center", position: "sticky", top: "70px" });
   }, []);
   useEffect(() => {
     if (id && !openModel) {
       fetchData();
     }
   }, [openModel]);
+  useEffect(() => {
+    if (appDatas.length == 0 && websiteDatas.length == 0) {
+      setisAddProject(true);
+    } else {
+      setisAddProject(false);
+    }
+  }, [appDatas.length, websiteDatas.length]);
 
-  const handleOpen = (id) => {
+  const handleOpen = (id, modalType) => {
+    setmodalName(modalType);
     setopenModel(true);
     if (id) {
       GetParticularProjectByID(id).then((data) => {
@@ -69,169 +84,99 @@ export default function Project() {
       setparticularProject(null);
     }
   };
-
+  const isOwner = cachedCookie && cachedCookie?._id == id;
+  const noData = websiteDatas.length == 0 && appDatas.length == 0;
+  const AddProjectButtons = [
+    {
+      name: "Website",
+      onclick: () => handleOpen(null, "Website"),
+      icon: (
+        <Box
+          component={"img"}
+          sx={{ objectFit: "contain" }}
+          src="/websiteImg.png"
+        />
+      ),
+    },
+    {
+      name: "Application",
+      onclick: () => handleOpen(null, "Application"),
+      icon: (
+        <Box
+          component={"img"}
+          sx={{ objectFit: "contain" }}
+          src="/AndroidIcon.png"
+        />
+      ),
+    },
+  ];
   return (
     <>
+      {!isAddProject && !noData && (
+        <Box sx={{ width: "100%", alignItems: "center", display: "flex" }}>
+          <Button
+            onClick={() => {
+              setisAddProject(true);
+            }}
+          >
+            Add Project
+          </Button>
+        </Box>
+      )}
+
       <Stack
         sx={{
           width: "100%",
-          alignItems: "center",
-          minHeight: "50vh",
+          justifyContent: "space-between",
         }}
+        direction={"row"}
       >
-        {/* <div className="animate__animated animate__fadeInUp animate__delay-1s">
-          <Stack
-            direction="row"
+        {isOwner && isAddProject && (
+          <AddProjectComponent AddProjectButtons={AddProjectButtons} />
+        )}
+        {noData && (
+          <Box
             sx={{
-              height: 100,
               width: "100%",
+              height: "80vh",
+              display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              gap: 1,
             }}
           >
-            <Image
-              alt="img"
-              placeholder="empty"
-              src={require("../assets/star-2.png")}
-              style={{ height: "47%", width: "50px" }}
-            />
-
-            <Typography
-              sx={{
-                color: "white",
-                fontSize: {
-                  xl: 60,
-                  lg: 60,
-                  md: 60,
-                  sm: 30,
-                  xs: 25,
-                },
-                fontWeight: "bold",
-              }}
-            >
-              𝓜𝔂 𝓹𝓻𝓸𝓳𝓮𝓬𝓽𝓼
-            </Typography>
-
-            <Image
-              alt="img"
-              placeholder="empty"
-              src={require("../assets/star-2.png")}
-              style={{ height: "47%", width: "50px" }}
-            />
-          </Stack>
-        </div> */}
-        <Grid container direction="row" rowGap={4} columnGap={4} columns={8}>
-          {isLoading ? (
             <Box
-              sx={{
-                width: "100%",
-                height: "200px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Loader />
-            </Box>
-          ) : projectsData.length !== 0 ? (
-            <>
-              {projectsData?.map((project, index) => {
-                return (
-                  <Card key={index} project={project} handleOpen={handleOpen} />
-                );
-              })}
-              {cachedCookie && cachedCookie?._id == id && (
-                <Box
-                  sx={{
-                    width: 300,
-                    height: "210px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    background: "#151617",
-                    borderRadius: 10,
-                    boxShadow: "0 1px 0px 1px white",
-                    marginLeft: 5,
-                  }}
-                >
-                  <IconButton
-                    onClick={() => {
-                      handleOpen();
-                    }}
-                    sx={{
-                      color: "white",
-                    }}
-                  >
-                    <Add
-                      sx={{
-                        fontSize: 100,
-                      }}
-                    />
-                  </IconButton>
-                </Box>
-              )}
-            </>
-          ) : (
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#9a9696",
-                borderRadius: "50px",
-                position: "relative",
-              }}
-              onMouseEnter={() => {
-                setisHovered(true);
-              }}
-              onMouseLeave={() => {
-                setisHovered(false);
-              }}
-            >
-              <Box component="img" src={"/noproject.png"}></Box>
-              <Box
-                hidden={id !== cachedCookie._id}
-                sx={{
-                  position: "absolute",
-                  opacity: isHovered ? 1 : 0,
-                  height: "100%",
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  background: isHovered ? "#020202a1" : "",
-                  transition: ".5s",
-                  borderRadius: "50px",
-                }}
-              >
-                <IconButton
-                  onClick={() => {
-                    handleOpen();
-                  }}
-                  sx={{
-                    color: "white",
-                  }}
-                >
-                  <Add
-                    sx={{
-                      fontSize: 100,
-                    }}
-                  />
-                </IconButton>
-              </Box>
-            </Box>
-          )}
-        </Grid>
+              component={"img"}
+              sx={{ objectFit: "contain" }}
+              src="/noproject.png"
+            />
+          </Box>
+        )}
+        {websiteDatas?.length != 0 && !isAddProject && (
+          <WebsiteLayout
+            projectsData={websiteDatas}
+            isLoading={isWebLoading}
+            isOwner={isOwner}
+            handleOpen={handleOpen}
+            title={"Website"}
+          />
+        )}
+        {appDatas?.length !== 0 && !isAddProject && (
+          <EmulatorCarousel
+            datas={appDatas}
+            isLoading={isApploading}
+            isOwner={isOwner}
+            handleOpen={handleOpen}
+          />
+        )}
+        <ProjectModal
+          open={openModel}
+          handleClose={handleClose}
+          data={particularProject}
+          id={id}
+          fetchData={fetchData}
+          modalType={modalName}
+        />
       </Stack>
-      <ProjectsModal
-        open={openModel}
-        handleClose={handleClose}
-        data={particularProject}
-        id={id}
-        fetchData={fetchData}
-      />
     </>
   );
 }

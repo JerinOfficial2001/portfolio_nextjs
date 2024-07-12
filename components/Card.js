@@ -7,7 +7,7 @@ import { Edit } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 
-export default function Card({ project, handleOpen }) {
+export default function Card({ project, handleOpen, title }) {
   const [hover, sethover] = useState(false);
   const router = useRouter();
   const cookie = getDecryptedCookie("userData");
@@ -69,7 +69,7 @@ export default function Card({ project, handleOpen }) {
                 {cachedCookie && (
                   <IconButton
                     onClick={() => {
-                      handleOpen(project._id);
+                      handleOpen(project._id, title);
                     }}
                     sx={{
                       color: "gray",
