@@ -24,10 +24,10 @@ export default function Project() {
   const [websiteDatas, setprojectsData] = useState([]);
   const [appDatas, setAppDatas] = useState([]);
   const cookie = getDecryptedCookie("userData");
+  const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const [isLoading, setisLoading] = useState(true);
   const [isWebLoading, setisWebLoading] = useState(true);
   const [isApploading, setisApploading] = useState(true);
-  const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const [openModel, setopenModel] = useState(false);
   const [particularProject, setparticularProject] = useState(null);
   const [modalName, setmodalName] = useState("");
@@ -112,7 +112,7 @@ export default function Project() {
   ];
   return (
     <>
-      {!isAddProject && !noData && (
+      {!isAddProject && !noData && isOwner && (
         <Box sx={{ width: "100%", alignItems: "center", display: "flex" }}>
           <Button
             onClick={() => {
@@ -166,6 +166,7 @@ export default function Project() {
             isLoading={isApploading}
             isOwner={isOwner}
             handleOpen={handleOpen}
+            id={id}
           />
         )}
         <ProjectModal

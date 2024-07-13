@@ -42,32 +42,6 @@ export default function WebsiteLayout({
         >
           {title}
         </Typography>
-        {/* {isOwner && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "#151617",
-              borderRadius: 2,
-              boxShadow: "0 1px 0px 1px gray",
-            }}
-          >
-            <IconButton
-              size="small"
-              onClick={() => {
-                handleOpen(null, title);
-              }}
-              sx={{
-                color: "white",
-                height: 20,
-                width: 20,
-              }}
-            >
-              <Add fontSize="20px" />
-            </IconButton>
-          </Box>
-        )} */}
       </Box>
       <Grid
         sx={{ position: "relative" }}

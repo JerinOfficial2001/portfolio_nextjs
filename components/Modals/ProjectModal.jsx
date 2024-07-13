@@ -56,6 +56,8 @@ export default function ProjectModal({
           isVisible: data?.isVisible ? data?.isVisible : true,
         });
       } else if (IsApplication) {
+        console.log(data);
+
         setinputData({
           image: data?.image ? data?.image : null,
           images: data?.images ? data?.images : [],
@@ -63,10 +65,11 @@ export default function ProjectModal({
           userID: id,
           tools: data?.tools ? data?.tools : [],
           file: data?.file ? data?.file : null,
+          description: data?.description ? data?.description : "",
         });
       }
     }
-  }, [data]);
+  }, [data, IsApplication, IsWebsite, open]);
   const handleSetFormDatas = (name, value) => {
     setinputData((prev) => ({ ...prev, [name]: value }));
   };
@@ -101,7 +104,6 @@ export default function ProjectModal({
       setendPointsData({ Path: "", Page: "" });
     }
   };
-
   const WebsiteInputs = [
     {
       name: "title",
@@ -226,7 +228,6 @@ export default function ProjectModal({
     }
   };
   const submitHandler = async (DATA) => {
-    console.log(DATA);
     const requiredFields = IsApplication
       ? ["description", "file", "image", "title"]
       : ["endpoint", "link", "userID", "image", "title"];
@@ -243,9 +244,14 @@ export default function ProjectModal({
       const endpointJSON = JSON.stringify(DATA.endpoint);
       const toolsJSON = JSON.stringify(DATA.tools);
       if (IsApplication) {
-        DATA?.images?.forEach((image) => {
-          formDatas.append("images", image);
-        });
+        if (DATA?.images instanceof Blob || DATA?.images instanceof File) {
+          DATA?.images?.forEach((image) => {
+            formDatas.append("images", image);
+          });
+        } else {
+          const imagesJSON = JSON.stringify(DATA.images);
+          formDatas.append("images", imagesJSON);
+        }
         // DATA?.tools?.forEach((image) => {
         //   formDatas.append("tools", image);
         // });
@@ -426,15 +432,15 @@ export default function ProjectModal({
             >
               {inputField.map((elem, index) => {
                 if (elem.type == "image") {
-                  const ImageSrc = IsApplication
-                    ? elem.value
-                      ? URL.createObjectURL(elem.value)
-                      : "/AndroidIcon.png"
-                    : IsWebsite && elem.value
+                  const ImageSrc = elem.value
                     ? elem.value instanceof Blob || elem.value instanceof File
                       ? URL.createObjectURL(elem.value)
                       : elem.value.url
-                    : "/websiteimg.png";
+                    : IsApplication
+                    ? "/AndroidIcon.png"
+                    : IsWebsite
+                    ? "/websiteimg.png"
+                    : "/LOGO.png";
                   return (
                     <Grid
                       key={index}
@@ -621,64 +627,64 @@ export default function ProjectModal({
                         }}
                       >
                         {elem.isArray &&
-                          elem.value?.map((img, imgIndex) => (
-                            <Box
-                              sx={{
-                                height: elem.height ? elem.height : "60px",
-                                position: "relative",
-                                width: elem.height ? "40px" : "100px",
-                              }}
-                              key={imgIndex}
-                            >
+                          elem.value?.map((img, imgIndex) => {
+                            const imgSrc =
+                              img instanceof Blob || img instanceof File
+                                ? URL.createObjectURL(img)
+                                : img.url;
+                            return (
                               <Box
                                 sx={{
-                                  "&:hover": {
-                                    background: "rgba(0, 0, 0, 0.74)",
-                                  },
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  position: "absolute",
-                                  height: "100%",
-                                  width: "100%",
-                                  cursor: "pointer",
-                                  transistion: "0.3s",
+                                  height: elem.height ? elem.height : "60px",
+                                  position: "relative",
+                                  width: elem.height ? "40px" : "100px",
                                 }}
+                                key={imgIndex}
                               >
-                                <IconButton
-                                  onClick={() => {
-                                    const imgArr = elem.value?.filter(
-                                      (i, imgindex) => imgIndex !== imgindex
-                                    );
-                                    handleSetFormDatas(elem.name, imgArr);
-                                  }}
+                                <Box
                                   sx={{
-                                    color: "white",
-                                    border: "1 px solid white",
+                                    "&:hover": {
+                                      background: "rgba(0, 0, 0, 0.74)",
+                                    },
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    position: "absolute",
+                                    height: "100%",
+                                    width: "100%",
+                                    cursor: "pointer",
+                                    transistion: "0.3s",
                                   }}
                                 >
-                                  <CancelOutlined />
-                                </IconButton>
+                                  <IconButton
+                                    onClick={() => {
+                                      const imgArr = elem.value?.filter(
+                                        (i, imgindex) => imgIndex !== imgindex
+                                      );
+                                      handleSetFormDatas(elem.name, imgArr);
+                                    }}
+                                    sx={{
+                                      color: "white",
+                                      border: "1 px solid white",
+                                    }}
+                                  >
+                                    <CancelOutlined />
+                                  </IconButton>
+                                </Box>
+                                <img
+                                  key={index}
+                                  src={imgSrc}
+                                  alt="img"
+                                  style={{
+                                    height: "100%",
+                                    width: "100%",
+                                    objectFit: "cover",
+                                    objectPosition: "top",
+                                  }}
+                                />
                               </Box>
-                              <img
-                                key={index}
-                                src={
-                                  typeof img === "string"
-                                    ? img
-                                    : img instanceof Blob || img instanceof File
-                                    ? URL.createObjectURL(img)
-                                    : null
-                                }
-                                alt="img"
-                                style={{
-                                  height: "100%",
-                                  width: "100%",
-                                  objectFit: "cover",
-                                  objectPosition: "top",
-                                }}
-                              />
-                            </Box>
-                          ))}
+                            );
+                          })}
                       </Box>
                     </Grid>
                   );

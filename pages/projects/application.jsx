@@ -1,10 +1,36 @@
 import Emulator from "@/components/Emulator";
+import ProjectModal from "@/components/Modals/ProjectModal";
+import AddIconButton from "@/components/Projects/AddIconButton";
+import { GetParticularProjectByID } from "@/controller/project";
+import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { Download } from "@mui/icons-material";
 import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 export default function Application() {
+  const router = useRouter();
+  const { projectID, id } = router.query;
+  const cookie = getDecryptedCookie("userData");
+  const cachedCookie = cookie ? JSON.parse(cookie) : false;
+  const isOwner = cachedCookie && cachedCookie?._id == id;
+  const [isLoading, setisLoading] = useState(false);
+  const [projectData, setprojectData] = useState(null);
+  const [openModel, setopenModel] = useState(false);
+  useEffect(() => {
+    if (projectID) {
+      GetParticularProjectByID(projectID).then((data) => {
+        setprojectData(data);
+      });
+    }
+  }, []);
+  const handleOpen = () => {
+    setopenModel(true);
+  };
+  const handleClose = () => {
+    setopenModel(false);
+  };
   return (
     <Box
       sx={{
@@ -15,7 +41,7 @@ export default function Application() {
       }}
     >
       <div className="animate__animated animate__zoomIn animate__delay-1s  ">
-        <Emulator image={"/Emulators/JersAppDarkMode.JPG"} />
+        <Emulator images={projectData?.images} />
       </div>
 
       <div className="animate__animated animate__zoomIn animate__delay-1s  ">
@@ -27,24 +53,35 @@ export default function Application() {
             gap: 2,
           }}
         >
-          <Typography
+          <Box
             sx={{
-              color: "white",
-              fontFamily: "system-ui",
-              textTransform: "uppercase",
-              fontWeight: "bold",
-              fontSize: 40,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+              gap: 1,
             }}
           >
-            App Name
-          </Typography>
+            <Typography
+              sx={{
+                color: "white",
+                fontFamily: "system-ui",
+                textTransform: "uppercase",
+                fontWeight: "bold",
+                fontSize: 40,
+              }}
+            >
+              {projectData?.title}
+            </Typography>
+            {isOwner && <AddIconButton onClick={handleOpen} />}
+          </Box>
           <Typography
             sx={{
               color: "slategray",
               fontFamily: "system-ui",
             }}
           >
-            Real time chat application
+            {projectData?.description}
           </Typography>
           <Box
             sx={{
@@ -56,13 +93,7 @@ export default function Application() {
               justifyContent: "center",
             }}
           >
-            {[
-              "React Native",
-              "Socket.io",
-              "Node Js",
-              "Express Js",
-              "MongoDB",
-            ].map((elem, index) => (
+            {projectData?.tools?.map((elem, index) => (
               <Chip
                 key={index}
                 label={elem}
@@ -77,12 +108,17 @@ export default function Application() {
             ))}
           </Box>
           <Button
+            disabled={!projectData?.apk_id}
             endIcon={<Download />}
             startIcon={
               <Box
                 component={"img"}
                 sx={{ height: 30, borderRadius: "50%" }}
-                src={"/AndroidIcon.jpg"}
+                src={
+                  projectData?.image
+                    ? projectData?.image.url
+                    : "/AndroidIcon.jpg"
+                }
               />
             }
             sx={{
@@ -90,15 +126,28 @@ export default function Application() {
               background: "#878181",
               color: "black",
               fontWeight: "bold",
+              textTransform: "none",
               "&:hover": {
                 background: "white",
               },
             }}
           >
-            App Name
+            {projectData?.title}
           </Button>
         </Stack>
       </div>
+      <ProjectModal
+        open={openModel}
+        handleClose={handleClose}
+        data={projectData}
+        id={id}
+        fetchData={() => {
+          router.push(
+            `/projects/application?id=${id}&projectID=${projectData._id}`
+          );
+        }}
+        modalType={"Application"}
+      />
     </Box>
   );
 }

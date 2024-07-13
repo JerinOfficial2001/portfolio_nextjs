@@ -9,14 +9,8 @@ import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import AppLoader from "./Emulators/AppLoader";
 import NoData from "./Emulators/NoData";
-import { Add } from "@mui/icons-material";
 
-export default function EmulatorCarousel({
-  datas,
-  isLoading,
-  isOwner,
-  handleOpen,
-}) {
+export default function EmulatorCarousel({ datas, isLoading, id }) {
   const router = useRouter();
   return (
     <Stack sx={{ position: "sticky", top: "30px" }}>
@@ -38,32 +32,6 @@ export default function EmulatorCarousel({
         >
           Application
         </Typography>
-        {/* {isOwner && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "#151617",
-              borderRadius: 2,
-              boxShadow: "0 1px 0px 1px gray",
-            }}
-          >
-            <IconButton
-              size="small"
-              onClick={() => {
-                handleOpen(null, "Application");
-              }}
-              sx={{
-                color: "white",
-                height: 20,
-                width: 20,
-              }}
-            >
-              <Add fontSize="20px" />
-            </IconButton>
-          </Box>
-        )} */}
       </Box>
       {isLoading ? (
         <AppLoader />
@@ -78,7 +46,9 @@ export default function EmulatorCarousel({
             <SwiperSlide key={index}>
               <Box
                 onClick={() => {
-                  router.push("/projects/application?userID=" + elem.id);
+                  router.push(
+                    `/projects/application?id=${id}&projectID=${elem._id}`
+                  );
                 }}
                 sx={{
                   position: "relative",
@@ -89,16 +59,55 @@ export default function EmulatorCarousel({
                   width: "90%",
                 }}
               >
-                <Box
+                <Stack
                   sx={{
                     position: "absolute",
                     height: "94%",
                     width: "88%",
                     bottom: 16,
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                  component="img"
-                  src={elem.image}
-                />
+                >
+                  <Box
+                    sx={{
+                      height: "100%",
+                      width: "100%",
+                    }}
+                    component="img"
+                    src={elem.images[0].url}
+                  />
+
+                  <Box
+                    sx={{
+                      background: "#0000009e",
+                      height: "100%",
+                      width: "100%",
+                      position: "absolute",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      gap: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        height: "80px",
+                        width: "80px",
+                        boxShadow: "0 1px 1px 1px gray",
+                        borderRadius: "50%",
+                      }}
+                      component="img"
+                      src={elem.image.url}
+                    />
+                    <Typography
+                      sx={{ fontWeight: "bold", fontFamily: "monospace" }}
+                    >
+                      {elem.title}
+                    </Typography>
+                  </Box>
+                </Stack>
 
                 <Box
                   sx={{
