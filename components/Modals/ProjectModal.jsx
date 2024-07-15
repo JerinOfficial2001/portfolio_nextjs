@@ -39,6 +39,7 @@ export default function ProjectModal({
     description: "",
     tools: [],
     file: null,
+    deletedIds: [],
   });
 
   const [tools, settools] = useState("");
@@ -54,10 +55,9 @@ export default function ProjectModal({
           link: data?.link ? data?.link : "",
           userID: id,
           isVisible: data?.isVisible ? data?.isVisible : true,
+          deletedIds: [],
         });
       } else if (IsApplication) {
-        console.log(data);
-
         setinputData({
           image: data?.image ? data?.image : null,
           images: data?.images ? data?.images : [],
@@ -66,6 +66,8 @@ export default function ProjectModal({
           tools: data?.tools ? data?.tools : [],
           file: data?.file ? data?.file : null,
           description: data?.description ? data?.description : "",
+          isVisible: data?.isVisible ? data?.isVisible : true,
+          deletedIds: [],
         });
       }
     }
@@ -243,15 +245,16 @@ export default function ProjectModal({
       const formDatas = new FormData();
       const endpointJSON = JSON.stringify(DATA.endpoint);
       const toolsJSON = JSON.stringify(DATA.tools);
+      const deletedIdsJSON = JSON.stringify(DATA.deletedIds);
       if (IsApplication) {
-        if (DATA?.images instanceof Blob || DATA?.images instanceof File) {
-          DATA?.images?.forEach((image) => {
-            formDatas.append("images", image);
-          });
-        } else {
-          const imagesJSON = JSON.stringify(DATA.images);
-          formDatas.append("images", imagesJSON);
-        }
+        // if (DATA?.images instanceof Blob || DATA?.images instanceof File) {
+        DATA?.images?.forEach((image) => {
+          formDatas.append("images", image);
+        });
+        // } else {
+        //   const imagesJSON = JSON.stringify(DATA.images);
+        //   formDatas.append("images", imagesJSON);
+        // }
         // DATA?.tools?.forEach((image) => {
         //   formDatas.append("tools", image);
         // });
@@ -266,6 +269,7 @@ export default function ProjectModal({
           category: modalType,
           description: DATA.description,
           tools: toolsJSON,
+          deletedIds: deletedIdsJSON,
         };
       } else if (IsWebsite) {
         INPUT_DATAS = {
@@ -276,6 +280,7 @@ export default function ProjectModal({
           image: DATA.image,
           isVisible: DATA.isVisible,
           category: modalType,
+          deletedIds: deletedIdsJSON,
         };
       }
       console.log(INPUT_DATAS, modalType);
@@ -311,6 +316,7 @@ export default function ProjectModal({
     }
   };
   const inputField = IsApplication ? ApplicationInputs : WebsiteInputs;
+
   return (
     <>
       <Modal
@@ -661,7 +667,12 @@ export default function ProjectModal({
                                       const imgArr = elem.value?.filter(
                                         (i, imgindex) => imgIndex !== imgindex
                                       );
+
                                       handleSetFormDatas(elem.name, imgArr);
+                                      handleSetFormDatas("deletedIds", [
+                                        ...inputData.deletedIds,
+                                        elem.value[imgIndex].public_id,
+                                      ]);
                                     }}
                                     sx={{
                                       color: "white",

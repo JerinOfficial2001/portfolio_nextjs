@@ -24,7 +24,7 @@ export default function Application() {
         setprojectData(data);
       });
     }
-  }, []);
+  }, [openModel]);
   const handleOpen = () => {
     setopenModel(true);
   };

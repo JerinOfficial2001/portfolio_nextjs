@@ -99,7 +99,7 @@ export default function EmulatorCarousel({ datas, isLoading, id }) {
                         borderRadius: "50%",
                       }}
                       component="img"
-                      src={elem.image.url}
+                      src={elem.image ? elem.image.url : "/AndroidIcon.png"}
                     />
                     <Typography
                       sx={{ fontWeight: "bold", fontFamily: "monospace" }}
