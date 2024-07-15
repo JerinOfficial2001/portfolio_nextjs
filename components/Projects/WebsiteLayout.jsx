@@ -51,19 +51,7 @@ export default function WebsiteLayout({
         columnGap={4}
         columns={8}
       >
-        {isLoading ? (
-          <Box
-            sx={{
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Loader />
-          </Box>
-        ) : projectsData.length > 0 ? (
+        {projectsData.length > 0 ? (
           projectsData?.map((project, index) => {
             return (
               <Card

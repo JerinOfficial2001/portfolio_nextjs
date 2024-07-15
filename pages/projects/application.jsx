@@ -3,11 +3,14 @@ import ProjectModal from "@/components/Modals/ProjectModal";
 import AddIconButton from "@/components/Projects/AddIconButton";
 import { GetParticularProjectByID } from "@/controller/project";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
+import { API, APK_URL } from "@/utils/api";
 import { Download } from "@mui/icons-material";
 import { Box, Button, Chip, Stack, Typography } from "@mui/material";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Application() {
   const router = useRouter();
@@ -31,6 +34,13 @@ export default function Application() {
   const handleClose = () => {
     setopenModel(false);
   };
+  const handleDownloadAPK = async () => {
+    if (projectData && projectData.apk_id) {
+      window.open(`${APK_URL}/Projects/downloadapk/${projectData.apk_id}`);
+    } else {
+      toast.error("APK not found");
+    }
+  };
   return (
     <Box
       sx={{
@@ -40,6 +50,7 @@ export default function Application() {
         justifyContent: "space-evenly",
       }}
     >
+      {!openModel && <Toaster position="top-center" />}
       <div className="animate__animated animate__zoomIn animate__delay-1s  ">
         <Emulator images={projectData?.images} />
       </div>
@@ -108,14 +119,17 @@ export default function Application() {
             ))}
           </Box>
           <Button
-            disabled={!projectData?.apk_id}
+            onClick={handleDownloadAPK}
+            disabled={!projectData?.apk_id || projectData?.apk_id == "null"}
             endIcon={<Download />}
             startIcon={
               <Box
                 component={"img"}
                 sx={{ height: 30, borderRadius: "50%" }}
                 src={
-                  projectData?.image
+                  projectData?.image &&
+                  projectData?.apk_id &&
+                  projectData?.apk_id != "null"
                     ? projectData?.image.url
                     : "/AndroidIcon.jpg"
                 }
@@ -123,16 +137,19 @@ export default function Application() {
             }
             sx={{
               borderRadius: 2,
-              background: "#878181",
+              background: "#bebebe",
               color: "black",
               fontWeight: "bold",
               textTransform: "none",
               "&:hover": {
-                background: "white",
+                background: "#ffffff70",
+                color: "green",
               },
             }}
           >
-            {projectData?.title}
+            {!projectData?.apk_id || projectData?.apk_id == "null"
+              ? "APK not available"
+              : projectData?.title}
           </Button>
         </Stack>
       </div>

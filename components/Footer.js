@@ -53,8 +53,13 @@ export default function Footer() {
         marginTop: 5,
       }}
     >
-      <Typography variant="h4" color="white" fontWeight="bold">
-        @𝘗𝘰𝘳𝘵𝘧𝘰𝘭𝘪𝘰
+      <Typography
+        variant="h4"
+        color="white"
+        fontWeight="bold"
+        fontFamily="monospace"
+      >
+        @Jers-𝘧𝘰𝘭𝘪𝘰
       </Typography>
       {/* <Stack
         direction="row"

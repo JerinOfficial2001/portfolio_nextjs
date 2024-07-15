@@ -1,4 +1,4 @@
-import { API } from "@/utils/api";
+import { API, APK_URL } from "@/utils/api";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -6,7 +6,7 @@ export const CreateProjects = async (formDatas) => {
   try {
     const { data } = await axios.post(`${API}/Projects/add`, formDatas);
     if (data.status == "ok") {
-      toast.success(data.message);
+      return data;
     } else {
       toast.error(data.message);
     }
@@ -50,5 +50,50 @@ export const UpdateProject = async (formDatas, id) => {
     }
   } catch (error) {
     console.log("GetProjects ERR", error);
+  }
+};
+export const UploadAPK = async (user_id, projectID, apk) => {
+  try {
+    const { data } = await axios.post(
+      `${APK_URL}/Projects/uploadapk?userID=${user_id}&projectID=${projectID}`,
+      apk
+    );
+    if (data) {
+      if (data.status == "ok") {
+        toast.success("APK uploaded successfully");
+      } else {
+        toast.error(data.message);
+      }
+      return data;
+    }
+  } catch (error) {
+    console.log("UploadAPK ERR", error);
+  }
+};
+export const GetAPK = async (user_id, projectID) => {
+  try {
+    const { data } = await axios.get(
+      `${API}/Projects/getapk?userID=${user_id}&projectID=${projectID}`
+    );
+    if (data && data.status == "ok") {
+      return data.data;
+    } else {
+      console.log(data.message);
+    }
+  } catch (error) {
+    console.log("UploadAPK ERR", error);
+  }
+};
+
+export const DeleteAPK = async (apk_id) => {
+  try {
+    const { data } = await axios.delete(`${API}/Projects/deleteapk/${apk_id}`);
+    if (data.status == "ok") {
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log("UploadAPK ERR", error);
   }
 };

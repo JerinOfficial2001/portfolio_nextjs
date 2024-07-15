@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { GetAllProfile } from "@/controller/profile";
 import { Box, Button, IconButton } from "@mui/material";
-import { MapsUgcOutlined } from "@mui/icons-material";
+import { Add, MapsUgcOutlined, Reply } from "@mui/icons-material";
 import Loader from "@/components/Loader";
 import EmulatorCarousel from "@/components/EmulatorCarousel";
 import ProjectModal from "@/components/Modals/ProjectModal";
@@ -36,6 +36,9 @@ export default function Project() {
     setopenModel(false);
   };
   const fetchData = () => {
+    // setisApploading(true);
+    // setisWebLoading(true);
+    setisLoading(true);
     GetAllProfile().then((profiles) => {
       const profileIDs = profiles?.map((elem) => elem.userID);
       if (profileIDs?.includes(id)) {
@@ -50,6 +53,7 @@ export default function Project() {
           }
         );
       }
+      setisLoading(false);
     });
   };
   useEffect(() => {
@@ -71,7 +75,7 @@ export default function Project() {
     } else {
       setisAddProject(false);
     }
-  }, [appDatas.length, websiteDatas.length]);
+  }, [appDatas?.length, websiteDatas?.length]);
 
   const handleOpen = (id, modalType) => {
     setmodalName(modalType);
@@ -112,72 +116,116 @@ export default function Project() {
   ];
   return (
     <>
-      {!isAddProject && !noData && isOwner && (
-        <Box sx={{ width: "100%", alignItems: "center", display: "flex" }}>
-          <Button
-            onClick={() => {
-              setisAddProject(true);
-            }}
-          >
-            Add Project
-          </Button>
+      {!noData && isOwner && (
+        <Box
+          sx={{
+            width: "100%",
+            alignItems: "center",
+            display: "flex",
+            transition: ".3s",
+          }}
+        >
+          {isAddProject ? (
+            <IconButton
+              onClick={() => {
+                setisAddProject(false);
+              }}
+              sx={{ color: "white" }}
+            >
+              <Reply />
+            </IconButton>
+          ) : (
+            <Button
+              startIcon={<Add />}
+              sx={{
+                color: "#919191",
+                fontFamily: "monospace",
+                textTransform: "none",
+                border: "2px solid #919191",
+                borderRadius: 4,
+                fontWeight: "bold",
+              }}
+              onClick={() => {
+                setisAddProject(true);
+              }}
+            >
+              Add Project
+            </Button>
+          )}
         </Box>
       )}
-
-      <Stack
-        sx={{
-          width: "100%",
-          justifyContent: "space-between",
-        }}
-        direction={"row"}
-      >
-        {isOwner && isAddProject && (
-          <AddProjectComponent AddProjectButtons={AddProjectButtons} />
-        )}
-        {noData && (
-          <Box
-            sx={{
-              width: "100%",
-              height: "80vh",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+      {isLoading ? (
+        <Box
+          sx={{
+            width: "100%",
+            height: "80vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loader />
+        </Box>
+      ) : (
+        <Stack
+          sx={{
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+          direction={"row"}
+        >
+          {isOwner &&
+            !isApploading &&
+            !isLoading &&
+            !isWebLoading &&
+            isAddProject && (
+              <AddProjectComponent AddProjectButtons={AddProjectButtons} />
+            )}
+          {noData && !isApploading && !isLoading && !isWebLoading && (
             <Box
-              component={"img"}
-              sx={{ objectFit: "contain" }}
-              src="/noproject.png"
+              sx={{
+                width: "100%",
+                height: "80vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                component={"img"}
+                sx={{ objectFit: "contain" }}
+                src="/noproject.png"
+              />
+            </Box>
+          )}
+          {!isAddProject && (
+            <WebsiteLayout
+              projectsData={websiteDatas}
+              isLoading={isWebLoading}
+              isOwner={isOwner}
+              handleOpen={handleOpen}
+              title={"Website"}
             />
-          </Box>
-        )}
-        {websiteDatas?.length != 0 && !isAddProject && (
-          <WebsiteLayout
-            projectsData={websiteDatas}
-            isLoading={isWebLoading}
-            isOwner={isOwner}
-            handleOpen={handleOpen}
-            title={"Website"}
-          />
-        )}
-        {appDatas?.length !== 0 && !isAddProject && (
-          <EmulatorCarousel
-            datas={appDatas}
-            isLoading={isApploading}
-            isOwner={isOwner}
-            handleOpen={handleOpen}
+          )}
+          {!isAddProject && (
+            <EmulatorCarousel
+              datas={appDatas}
+              isLoading={isApploading}
+              isOwner={isOwner}
+              handleOpen={handleOpen}
+              id={id}
+            />
+          )}
+          <ProjectModal
+            open={openModel}
+            handleClose={handleClose}
+            data={particularProject}
             id={id}
+            fetchData={fetchData}
+            modalType={modalName}
           />
-        )}
-        <ProjectModal
-          open={openModel}
-          handleClose={handleClose}
-          data={particularProject}
-          id={id}
-          fetchData={fetchData}
-          modalType={modalName}
-        />
-      </Stack>
+        </Stack>
+      )}
     </>
   );
 }

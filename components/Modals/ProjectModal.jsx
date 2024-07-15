@@ -16,7 +16,12 @@ import {
   Edit,
   Star,
 } from "@mui/icons-material";
-import { CreateProjects, UpdateProject } from "@/controller/project";
+import {
+  CreateProjects,
+  GetAPK,
+  UpdateProject,
+  UploadAPK,
+} from "@/controller/project";
 import "animate.css";
 
 export default function ProjectModal({
@@ -40,11 +45,23 @@ export default function ProjectModal({
     tools: [],
     file: null,
     deletedIds: [],
+    apk_id: "",
   });
 
   const [tools, settools] = useState("");
+  const [apk, setapk] = useState(null);
   const IsApplication = modalType == "Application";
   const IsWebsite = modalType == "Website";
+  const fetchApk = () => {
+    if (data._id) {
+      GetAPK(id, data._id).then((data) => {
+        if (data) {
+          setapk(data);
+          handleSetFormDatas("apk_id", data.fileId);
+        }
+      });
+    }
+  };
   useEffect(() => {
     if (open) {
       if (IsWebsite) {
@@ -68,7 +85,11 @@ export default function ProjectModal({
           description: data?.description ? data?.description : "",
           isVisible: data?.isVisible ? data?.isVisible : true,
           deletedIds: [],
+          apk_id: data?.apk_id ? data?.apk_id : "",
         });
+        if (data) {
+          fetchApk();
+        }
       }
     }
   }, [data, IsApplication, IsWebsite, open]);
@@ -104,6 +125,23 @@ export default function ProjectModal({
     if (endPointsData.Title !== "" && endPointsData.Page !== "") {
       handleAddEndpoints(endPointsData);
       setendPointsData({ Path: "", Page: "" });
+    }
+  };
+  const handleUploadApk = () => {
+    if (inputData.file) {
+      setisProcessing(true);
+      const formData = new FormData();
+      formData.append("file", inputData.file);
+      UploadAPK(id, data._id, formData).then((data) => {
+        if (data && data?.status == "ok") {
+          handleSetFormDatas("apk_id", data.fileId);
+          handleSetFormDatas("file", null);
+          fetchApk();
+        }
+        setisProcessing(false);
+      });
+    } else {
+      toast.error("Pick a file to upload");
     }
   };
   const WebsiteInputs = [
@@ -217,6 +255,7 @@ export default function ProjectModal({
       },
       value: inputData.file,
       type: "upload",
+      handleSubmit: handleUploadApk,
     },
   ];
   const handleKeyEnter = (event) => {
@@ -270,6 +309,7 @@ export default function ProjectModal({
           description: DATA.description,
           tools: toolsJSON,
           deletedIds: deletedIdsJSON,
+          apk_id: DATA.apk_id,
         };
       } else if (IsWebsite) {
         INPUT_DATAS = {
@@ -283,7 +323,6 @@ export default function ProjectModal({
           deletedIds: deletedIdsJSON,
         };
       }
-      console.log(INPUT_DATAS, modalType);
       Object.entries(INPUT_DATAS).forEach(([key, value]) =>
         formDatas.append(key, value)
       );
@@ -315,6 +354,7 @@ export default function ProjectModal({
       toast.error("All fields are mandatory");
     }
   };
+
   const inputField = IsApplication ? ApplicationInputs : WebsiteInputs;
 
   return (
@@ -340,6 +380,8 @@ export default function ProjectModal({
             IsApplication ? "animate__slideInRight" : "animate__slideInLeft"
           }`}
         >
+          <Toaster position="top-center" />
+
           <Box
             sx={{
               width: "550px",
@@ -527,28 +569,123 @@ export default function ProjectModal({
                       }}
                       columnGap={2}
                     >
-                      <Stack sx={{ width: "100%" }}>
-                        <Typography
-                          sx={{ color: "#808080", fontWeight: "bold" }}
-                        >
-                          {elem.label}
-                        </Typography>
-                        <TextField
-                          accept=".apk"
-                          type="file"
-                          variant="outlined"
-                          sx={{
-                            width: "100%",
-                            outline: "none",
-                            background: "#252525",
-                            borderRadius: 3,
-                            "& fieldset": { border: "none" },
-                            input: { color: "white" },
-                          }}
-                          onChange={elem.onChange}
-                          name={elem.name}
-                        />
-                      </Stack>
+                      {data != null && data != undefined && (
+                        <Stack sx={{ width: "100%", position: "relative" }}>
+                          <Typography
+                            sx={{ color: "#808080", fontWeight: "bold" }}
+                          >
+                            {elem.label}
+                          </Typography>
+                          {apk && (
+                            <Box
+                              sx={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                marginBottom: 2,
+                                marginTop: 2,
+                                transition: ".3s",
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  background: "#323232",
+                                  borderRadius: 2,
+                                  height: "60px",
+                                  width: "60%",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  paddingX: 5,
+                                  gap: 1,
+                                  position: "relative",
+                                }}
+                              >
+                                <Box
+                                  component={"img"}
+                                  src="/AndroidIcon.jpg"
+                                  sx={{ height: "80%", borderRadius: "100%" }}
+                                />
+                                <Typography sx={{ color: "#a9a9a9" }}>
+                                  {apk.filename}
+                                </Typography>
+                                <IconButton
+                                  onClick={() => {
+                                    setapk(null);
+                                  }}
+                                  sx={{
+                                    color: "#ba2121",
+                                    position: "absolute",
+                                    right: 5,
+                                  }}
+                                  size="small"
+                                >
+                                  <Close fontSize="small" />
+                                </IconButton>
+                              </Box>
+                            </Box>
+                          )}
+
+                          {!apk && (
+                            <TextField
+                              accept=".apk"
+                              type="file"
+                              variant="outlined"
+                              sx={{
+                                width: "100%",
+                                outline: "none",
+                                background: "#252525",
+                                borderRadius: 3,
+                                "& fieldset": { border: "none" },
+                                input: { color: "white" },
+                                transition: ".3s",
+                              }}
+                              onChange={elem.onChange}
+                              name={elem.name}
+                            />
+                          )}
+
+                          {inputData.file && !apk && (
+                            <Box
+                              sx={{
+                                position: "absolute",
+                                right: 10,
+                                bottom: 10,
+                              }}
+                            >
+                              {isProcessing ? (
+                                <Autorenew
+                                  sx={{
+                                    color: "#265482",
+                                    transition: ".3s",
+                                    marginBottom: 0.3,
+                                  }}
+                                  className="loadingBtn"
+                                />
+                              ) : (
+                                <Button
+                                  onClick={() => {
+                                    console.log("test");
+                                    isProcessing
+                                      ? undefined
+                                      : handleUploadApk();
+                                  }}
+                                  sx={{
+                                    border: "2px solid #265482",
+                                    color: "#265482",
+                                    borderRadius: 6,
+                                    transition: ".3s",
+                                    zIndex: 10,
+                                  }}
+                                  size="small"
+                                >
+                                  Upload
+                                </Button>
+                              )}
+                            </Box>
+                          )}
+                        </Stack>
+                      )}
                     </Grid>
                   );
                 } else if (elem.type == "images") {
@@ -1008,17 +1145,19 @@ export default function ProjectModal({
                 sx={{
                   color: "white",
                   background: "#323232",
-                  opacity: isProcessing ? 1 : 0,
+                  opacity: isProcessing && !inputData.file ? 1 : 0,
                   transition: ".3s",
-                  position: !isProcessing ? "absolute" : "static",
+                  position:
+                    !isProcessing && !inputData.file ? "absolute" : "static",
                   top: 0,
                 }}
               >
                 <Autorenew className="loadingBtn" sx={{ color: "#fff" }} />
               </IconButton>
               <Button
+                disabled={inputData.file}
                 onClick={() => {
-                  submitHandler(inputData);
+                  isProcessing ? undefined : submitHandler(inputData);
                 }}
                 variant="outlined"
                 sx={{
@@ -1031,13 +1170,14 @@ export default function ProjectModal({
                   },
                   textTransform: "none",
                   paddingX: 3,
-                  opacity: isProcessing ? 0 : 1,
+                  opacity: isProcessing && !inputData.file ? 0 : 1,
                   transition: ".3s",
-                  position: isProcessing ? "absolute" : "static",
+                  position:
+                    isProcessing && !inputData.file ? "absolute" : "static",
                   top: 0,
                 }}
               >
-                {data == null || data == undefined ? "Add" : " Update"}
+                {data == null || data == undefined ? "Add" : " Save"}
               </Button>
             </Box>
           </Box>

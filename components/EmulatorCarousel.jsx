@@ -75,7 +75,7 @@ export default function EmulatorCarousel({ datas, isLoading, id }) {
                       width: "100%",
                     }}
                     component="img"
-                    src={elem.images[0].url}
+                    src={elem?.images[0]?.url}
                   />
 
                   <Box
