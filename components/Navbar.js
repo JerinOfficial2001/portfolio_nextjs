@@ -277,7 +277,7 @@ export default function Navbar({ dashboard }) {
         <Button
           onClick={() => {
             if (userData) {
-              router.push("/contact");
+              router.push("/feedback");
             } else {
               setopenAuthModel(true);
             }
@@ -303,9 +303,10 @@ export default function Navbar({ dashboard }) {
               xs: 3,
             },
             border: "2px solid cornflowerblue",
+            fontFamily: "cursive",
           }}
         >
-          {userData ? "Let's Talk" : "Login"}
+          {userData ? "Feedback" : "Login"}
         </Button>
         {userData !== null && (
           <IconButton

@@ -68,7 +68,7 @@ export default function Dashboard() {
         ) : profiles.length > 0 ? (
           profiles?.map((item) => {
             return (
-              <Grid key={item._id} item md={2.7} sm={12} xs={12}>
+              <Grid key={item._id} item md={2.5} sm={12} xs={12}>
                 <div
                   style={{ width: "100%" }}
                   className="animate__animated animate__zoomIn animate__delay-1s thirdrow"
@@ -78,7 +78,7 @@ export default function Dashboard() {
                       background:
                         "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
                       height: {
-                        xl: 350,
+                        xl: 300,
                         lg: 350,
                         md: 350,
                         sm: 300,
@@ -93,21 +93,20 @@ export default function Dashboard() {
                       cursor: "pointer",
                       borderRadius: 8,
                       border: "1px solid #232323",
-                      padding: 3,
                       boxShadow: "0 0 0 2px black",
                     }}
                   >
                     <Box
                       sx={{
                         height: "215px",
-                        width: "90%",
+                        width: "100%",
                         background:
                           "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
-                        borderRadius: "40px 0px 40px 0px",
                         boxShadow: "0px 0px 5px black",
                         display: "flex",
                         alignItem: "center",
                         justifyContent: "center",
+                        borderRadius: "30px 30px 0 0",
                       }}
                     >
                       {item.image !== "null" && item.image ? (
@@ -117,8 +116,6 @@ export default function Dashboard() {
                           style={{
                             height: "215px",
                             width: "100%",
-                            borderRadius: "40px 0px 40px 0px",
-                            boxShadow: "0px 0px 5px whitesmoke",
                             objectFit: "cover",
                             objectPosition: "top",
                           }}

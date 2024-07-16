@@ -1,8 +1,10 @@
 import { MapsUgcOutlined } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 
 export default function AddProjectComponent({ AddProjectButtons }) {
+  const router = useRouter();
   return (
     <Stack
       sx={{
@@ -68,6 +70,9 @@ export default function AddProjectComponent({ AddProjectButtons }) {
         })}
       </Box>
       <Button
+        onClick={() => {
+          router.push("/feedback");
+        }}
         startIcon={<MapsUgcOutlined />}
         sx={{
           background: "red",

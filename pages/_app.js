@@ -6,6 +6,7 @@ import counterReducer from "../redux/counterSlice";
 import { createContext, useEffect, useState } from "react";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import Layout from "@/layouts/Layout";
+import { useRouter } from "next/router";
 
 export const MyContextState = createContext({});
 export default function App({ Component, pageProps }) {
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }) {
   const [profiles, setprofiles] = useState([]);
   const [direction, setdirection] = useState(false);
   const [customStyle, setcustomStyle] = useState(null);
+  const router = useRouter();
   useEffect(() => {
     const cachedData = cookie ? cookie : false;
     if (cachedData) {
@@ -38,9 +40,13 @@ export default function App({ Component, pageProps }) {
           setprofiles,
         }}
       >
-        <Layout direction={direction} customStyle={customStyle}>
+        {router.pathname == "/feedback" || router.pathname == "/" ? (
           <Component {...pageProps} />
-        </Layout>
+        ) : (
+          <Layout direction={direction} customStyle={customStyle}>
+            <Component {...pageProps} />
+          </Layout>
+        )}
       </MyContextState.Provider>
     </Provider>
   );
