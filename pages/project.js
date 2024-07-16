@@ -171,8 +171,12 @@ export default function Project() {
           sx={{
             width: "100%",
             justifyContent: "space-between",
+            flexDirection: {
+              lg: "row",
+              sm: "column",
+              xs: "column",
+            },
           }}
-          direction={"row"}
         >
           {isOwner &&
             !isApploading &&

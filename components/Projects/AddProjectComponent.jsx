@@ -19,7 +19,7 @@ export default function AddProjectComponent({ AddProjectButtons }) {
         sx={{
           color: "white",
           fontWeight: "bold",
-          fontSize: 40,
+          fontSize: { lg: 40, sm: 20, xs: 20 },
           fontFamily: "monospace",
         }}
       >

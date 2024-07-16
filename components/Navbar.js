@@ -26,7 +26,7 @@ import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import AuthModal from "./Auth/AuthModal";
 import ViewProfileModal from "./ViewProfileModal";
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
+export const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: "#44b700",
     color: "#44b700",
@@ -77,17 +77,20 @@ export default function Navbar({ dashboard }) {
   }, [cookie]);
   const { homepage, id } = router.query;
   const location = router.pathname;
+  console.log(homepage, id);
   const menus = [
     {
       id: 1,
       title: "Home",
-      to: homepage
-        ? homepage
-        : id
-        ? id
-        : userData
-        ? userData._id
-        : "66276a73361a148fef6608c2",
+      to: `/${
+        homepage && homepage !== "homepage"
+          ? homepage
+          : userData
+          ? userData?._id
+          : id
+          ? id
+          : "66276a73361a148fef6608c2"
+      }`,
       path: "/[homepage]",
       icon: <HomeOutlinedIcon />,
     },
@@ -160,6 +163,11 @@ export default function Navbar({ dashboard }) {
         height: 80,
         position: "relative",
         alignItems: "center",
+        background: {
+          lg: "transparent",
+          sm: "black",
+          xs: "black",
+        },
       }}
     >
       <div
@@ -181,7 +189,12 @@ export default function Navbar({ dashboard }) {
           </Typography>
         </Button>
       </div>
-      {menuBtn && !dashboard && <ResNav />}
+      {menuBtn && !dashboard && (
+        <ResNav
+          setmenuBtn={setmenuBtn}
+          setopenViewProfile={setopenViewProfile}
+        />
+      )}
       {!dashboard && (
         <Stack
           direction="row"

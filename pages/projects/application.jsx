@@ -54,105 +54,120 @@ export default function Application() {
       <div className="animate__animated animate__zoomIn animate__delay-1s  ">
         <Emulator images={projectData?.images} />
       </div>
-
-      <div className="animate__animated animate__zoomIn animate__delay-1s  ">
-        <Stack
-          sx={{
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            gap: 2,
-          }}
-        >
-          <Box
+      <Box
+        sx={{
+          position: {
+            lg: "static",
+            sm: "absolute",
+            xs: "absolute",
+          },
+          background: {
+            lg: "transparent",
+            sm: "#0101018c",
+            xs: "#0101018c",
+          },
+        }}
+      >
+        <div className="animate__animated animate__zoomIn animate__delay-1s ">
+          <Stack
             sx={{
-              display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              flexDirection: "row",
-              gap: 1,
+              height: "80vh",
+              gap: 2,
             }}
           >
-            <Typography
+            <Box
               sx={{
-                color: "white",
-                fontFamily: "system-ui",
-                textTransform: "uppercase",
-                fontWeight: "bold",
-                fontSize: 40,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row",
+                gap: 1,
               }}
             >
-              {projectData?.title}
-            </Typography>
-            {isOwner && <AddIconButton onClick={handleOpen} />}
-          </Box>
-          <Typography
-            sx={{
-              color: "slategray",
-              fontFamily: "system-ui",
-            }}
-          >
-            {projectData?.description}
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 2,
-              width: "60%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {projectData?.tools?.map((elem, index) => (
-              <Chip
-                key={index}
-                label={elem}
+              <Typography
                 sx={{
                   color: "white",
                   fontFamily: "system-ui",
                   textTransform: "uppercase",
                   fontWeight: "bold",
-                  background: "red",
+                  fontSize: 40,
                 }}
-              />
-            ))}
-          </Box>
-          <Button
-            onClick={handleDownloadAPK}
-            disabled={!projectData?.apk_id || projectData?.apk_id == "null"}
-            endIcon={<Download />}
-            startIcon={
-              <Box
-                component={"img"}
-                sx={{ height: 30, borderRadius: "50%" }}
-                src={
-                  projectData?.image &&
-                  projectData?.apk_id &&
-                  projectData?.apk_id != "null"
-                    ? projectData?.image.url
-                    : "/AndroidIcon.jpg"
-                }
-              />
-            }
-            sx={{
-              borderRadius: 2,
-              background: "#bebebe",
-              color: "black",
-              fontWeight: "bold",
-              textTransform: "none",
-              "&:hover": {
-                background: "#ffffff70",
-                color: "green",
-              },
-            }}
-          >
-            {!projectData?.apk_id || projectData?.apk_id == "null"
-              ? "APK not available"
-              : projectData?.title}
-          </Button>
-        </Stack>
-      </div>
+              >
+                {projectData?.title}
+              </Typography>
+              {isOwner && <AddIconButton onClick={handleOpen} />}
+            </Box>
+            <Typography
+              sx={{
+                color: "slategray",
+                fontFamily: "system-ui",
+              }}
+            >
+              {projectData?.description}
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                width: "60%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {projectData?.tools?.map((elem, index) => (
+                <Chip
+                  key={index}
+                  label={elem}
+                  sx={{
+                    color: "white",
+                    fontFamily: "system-ui",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                    background: "red",
+                  }}
+                />
+              ))}
+            </Box>
+            <Button
+              onClick={handleDownloadAPK}
+              disabled={!projectData?.apk_id || projectData?.apk_id == "null"}
+              endIcon={<Download />}
+              startIcon={
+                <Box
+                  component={"img"}
+                  sx={{ height: 30, borderRadius: "50%" }}
+                  src={
+                    projectData?.image &&
+                    projectData?.apk_id &&
+                    projectData?.apk_id != "null"
+                      ? projectData?.image.url
+                      : "/AndroidIcon.jpg"
+                  }
+                />
+              }
+              sx={{
+                borderRadius: 2,
+                background: "#bebebe",
+                color: "black",
+                fontWeight: "bold",
+                textTransform: "none",
+                "&:hover": {
+                  background: "#ffffff70",
+                  color: "green",
+                },
+              }}
+            >
+              {!projectData?.apk_id || projectData?.apk_id == "null"
+                ? "APK not available"
+                : projectData?.title}
+            </Button>
+          </Stack>
+        </div>
+      </Box>
+
       <ProjectModal
         open={openModel}
         handleClose={handleClose}

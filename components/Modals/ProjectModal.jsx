@@ -384,13 +384,13 @@ export default function ProjectModal({
 
           <Box
             sx={{
-              width: "550px",
+              width: { lg: "550px", sm: "100%", xs: "100%" },
               height: {
                 xl: "100%",
                 lg: "100%",
                 md: "100%",
-                sm: "70%",
-                xs: "60%",
+                sm: "100%",
+                xs: "100%",
               },
               display: "flex",
               justifyContent: "center",
@@ -439,8 +439,8 @@ export default function ProjectModal({
                     xl: 25,
                     lg: 25,
                     md: 25,
-                    sm: 10,
-                    xs: 10,
+                    sm: 15,
+                    xs: 15,
                   },
                   fontWeight: "bold",
                   fontFamily: "cursive",

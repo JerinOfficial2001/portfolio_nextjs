@@ -16,7 +16,7 @@ export default function WebsiteLayout({
       sx={{
         overflowY: "scroll",
         height: "520px",
-        width: "600px",
+        width: { lg: "600px", sm: "100%", xs: "100%" },
         boxShadow:
           projectsData?.length > 4 ? "inset 0 -10px 10px -10px grey" : "none",
       }}

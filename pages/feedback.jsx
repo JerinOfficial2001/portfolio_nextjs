@@ -1,6 +1,7 @@
 import {
   AttachFile,
   Facebook,
+  Home,
   Instagram,
   LinkedIn,
   Send,
@@ -69,6 +70,7 @@ export default function Feedback() {
       </Stack>
       <Button
         sx={{
+          display: { lg: "flex", sm: "none", xs: "none" },
           position: "absolute",
           right: 35,
           top: 55,
@@ -87,14 +89,33 @@ export default function Feedback() {
       >
         Home
       </Button>
+      <IconButton
+        sx={{
+          display: { lg: "none", sm: "flex", xs: "flex" },
+          position: "absolute",
+          right: 5,
+          top: 50,
+          zIndex: 2,
+          border: "2px solid  #828282",
+          borderRadius: 10,
+          color: " white",
+          fontWeight: "bold",
+          fontFamily: "cursive",
+        }}
+        onClick={() => {
+          router.push("/");
+        }}
+      >
+        <Home />
+      </IconButton>
       {/* //*INPUT field */}
       <Stack
         sx={{
           zIndex: 2,
           position: "absolute",
-          left: 10,
+          left: { lg: 10, sm: 0, xs: 0 },
           bottom: 40,
-          width: "35%",
+          width: { lg: "35%", sm: "100%", xs: "100%" },
         }}
       >
         <Typography
@@ -148,7 +169,7 @@ export default function Feedback() {
               },
               "& .MuiInputBase-root": {
                 borderRadius: 20,
-                height: "70px",
+                height: { lg: "70px", sm: "50px", xs: "50px" },
                 paddingX: 3,
               },
             }}
@@ -189,6 +210,7 @@ export default function Feedback() {
       {/* //*Title on vdo */}
       <Stack
         sx={{
+          display: { lg: "flex", sm: "none", xs: "none" },
           zIndex: 2,
           position: "absolute",
           left: 310,
@@ -225,12 +247,12 @@ export default function Feedback() {
         sx={{
           zIndex: 1,
           position: "absolute",
-          right: 60,
-          top: 35,
-          width: "45%",
+          right: { lg: 60, sm: 0, xs: 0 },
+          top: { lg: 35, sm: 0, xs: 0 },
+          width: { lg: "45%", sm: "70%", xs: "70%" },
           padding: 2,
           gap: 2,
-          height: "625px",
+          height: { lg: "625px", sm: "85vh", xs: "85vh" },
           overflowY: "auto",
         }}
       >
@@ -320,7 +342,7 @@ export default function Feedback() {
                       height: "200px",
                       objectFit: "cover",
                       borderRadius: 6,
-                      maxWidth: "500px",
+                      maxWidth: { lg: "500px", sm: "280px", xs: "280px" },
                     }}
                     src={elem.image}
                   />
