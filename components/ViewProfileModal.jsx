@@ -55,19 +55,21 @@ export default function ViewProfileModal({ open, handleClose }) {
     name: "",
     _id: "",
   });
+  console.log(openModal, inputData.image);
   useEffect(() => {
     if (userData) {
       setinputData({
         password: userData.password,
         email: userData.email,
-        image: userData.image !== "null" ? userData.image : null,
+        image:
+          userData.image && userData.image != "null" ? userData.image : null,
         role: userData.role,
         gender: userData.gender,
         name: userData.name,
         _id: userData._id,
       });
     }
-  }, [open, openModal]);
+  }, [open, openModal, cookie]);
 
   const submitHandler = async (data) => {
     setisProcessing(true);
@@ -188,11 +190,12 @@ export default function ViewProfileModal({ open, handleClose }) {
         sx={{
           background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
           boxShadow: "0px 0px 5px black",
-          height: "100%",
+          height: "100vh",
           width: 400,
           borderRadius: "20px 0 0 20px",
           alignItems: "center",
           position: "relative",
+          overflowY: "auto",
         }}
       >
         <Toaster position="top-center" />
@@ -266,16 +269,23 @@ export default function ViewProfileModal({ open, handleClose }) {
         </Box>
 
         {!openModal && (
-          <Image
-            style={{ margin: 10, borderRadius: "100%" }}
-            height={200}
-            width={200}
+          <Box
+            component={"img"}
+            style={{
+              margin: 10,
+              borderRadius: "50%",
+              height: "200px",
+              width: "200px",
+            }}
             src={
-              userData?.image !== "null"
-                ? userData?.image?.url
-                : require(userData?.gender == "MALE"
-                    ? "../assets/male.png"
-                    : "../assets/female.png")
+              inputData.image && inputData.image != null
+                ? inputData.image instanceof Blob ||
+                  inputData.image instanceof File
+                  ? URL.createObjectURL(inputData.image)
+                  : inputData?.image?.url
+                : inputData.gender == "MALE"
+                ? "/male.png"
+                : "/female.png"
             }
             alt="logo"
           />
@@ -435,21 +445,23 @@ export default function ViewProfileModal({ open, handleClose }) {
                           justifyContent: "center",
                         }}
                       >
-                        <Image
+                        <Box
+                          component={"img"}
                           src={
-                            inputData.image !== null
-                              ? URL.createObjectURL(inputData.image)
+                            inputData.image && inputData.image != "null"
+                              ? inputData.image instanceof Blob ||
+                                inputData.image instanceof File
+                                ? URL.createObjectURL(inputData.image)
+                                : inputData?.image?.url
                               : require(inputData.gender == "MALE"
                                   ? "../assets/male.png"
                                   : "../assets/female.png")
                           }
                           alt="profile"
-                          width={100}
-                          height={100}
                           style={{
-                            objectFit: "cover",
-                            height: "90%",
-                            width: "90%",
+                            objectFit: "contain",
+                            height: "100px",
+                            width: "100px",
                             borderRadius: "50%",
                           }}
                         />
@@ -569,9 +581,9 @@ export default function ViewProfileModal({ open, handleClose }) {
                 fontSize: {
                   xl: "15px",
                   lg: "15px",
-                  md: "10px",
-                  sm: "10px",
-                  xs: "8px",
+                  md: "15px",
+                  sm: "15px",
+                  xs: "15px",
                 },
                 fontWeight: "bold",
               }}

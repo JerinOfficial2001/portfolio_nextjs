@@ -85,7 +85,7 @@ export const UpdateUser = async (formDatas, inputData, userData) => {
       }
     );
     if (data.status == "ok") {
-      toast.success(data.message);
+      toast.success("Updated successfully");
       return data;
     } else {
       toast.error(data.message);

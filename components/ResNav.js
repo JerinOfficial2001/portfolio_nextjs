@@ -12,7 +12,11 @@ import Cookies from "js-cookie";
 import { Logout } from "@mui/icons-material";
 import { StyledBadge } from "./Navbar";
 
-export default function ResNav({ setmenuBtn, setopenViewProfile }) {
+export default function ResNav({
+  setmenuBtn,
+  setopenViewProfile,
+  setopenAuthModel,
+}) {
   const router = useRouter();
   const location = router.pathname;
   const cookie = getDecryptedCookie("userData");
@@ -180,39 +184,41 @@ export default function ResNav({ setmenuBtn, setopenViewProfile }) {
             width: "100%",
           }}
         >
-          <Button
-            onClick={() => {
-              setmenuBtn(false);
-              setopenViewProfile(true);
-            }}
-            sx={{
-              color: "white",
-              textTransform: "capitalize",
-              fontFamily: "cursive",
-            }}
-            startIcon={
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                variant="dot"
-              >
-                <Avatar
-                  alt={userData?.name}
-                  src={
-                    userData?.image !== "null"
-                      ? userData?.image?.url
-                      : userData.gender == "male" || userData.gender == "MALE"
-                      ? "/male.png"
-                      : "/female.png"
-                  }
-                  sx={{ objectFit: "cover", objectPosition: "top" }}
-                  sizes="small"
-                />
-              </StyledBadge>
-            }
-          >
-            View Profile
-          </Button>
+          {userData && (
+            <Button
+              onClick={() => {
+                setmenuBtn(false);
+                setopenViewProfile(true);
+              }}
+              sx={{
+                color: "white",
+                textTransform: "capitalize",
+                fontFamily: "cursive",
+              }}
+              startIcon={
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  variant="dot"
+                >
+                  <Avatar
+                    alt={userData?.name}
+                    src={
+                      userData?.image !== "null"
+                        ? userData?.image?.url
+                        : userData.gender == "male" || userData.gender == "MALE"
+                        ? "/male.png"
+                        : "/female.png"
+                    }
+                    sx={{ objectFit: "cover", objectPosition: "top" }}
+                    sizes="small"
+                  />
+                </StyledBadge>
+              }
+            >
+              View Profile
+            </Button>
+          )}
         </Box>
         {menus.map((menu, id) => {
           return (

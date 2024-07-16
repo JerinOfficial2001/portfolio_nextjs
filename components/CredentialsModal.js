@@ -54,6 +54,7 @@ export default function CredentialsModal({
       Whatsapp: "",
     },
     userID: id,
+    isDeleteImage: false,
   });
   const [gender, setgender] = useState("");
   const GetGender = async () => {
@@ -72,6 +73,7 @@ export default function CredentialsModal({
           Whatsapp: data ? data.link.Whatsapp : "",
         },
         userID: id,
+        isDeleteImage: false,
       });
       GetGender();
     }
@@ -214,7 +216,7 @@ export default function CredentialsModal({
     }
   };
   const submitHandler = async (DATA) => {
-    const requiredFields = ["education", "skills", "link", "userID", "image"];
+    const requiredFields = ["education", "skills", "link", "userID"];
     const isFieldsFilled = requiredFields.every((key) => {
       if (key == "userID") {
         return DATA[key] !== "";
@@ -243,6 +245,7 @@ export default function CredentialsModal({
         skills: skillsJSON,
         link: linkJSON,
         userID: DATA.userID,
+        isDeleteImage: DATA.isDeleteImage,
       };
       Object.entries(INPUT_DATAS).forEach(([key, value]) =>
         formDatas.append(key, value)
@@ -413,46 +416,55 @@ export default function CredentialsModal({
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
+                        position: "relative",
                       }}
                     >
-                      {data ? (
-                        <img
-                          src={
-                            inputData.image !== null
-                              ? inputData.image.url ||
-                                URL.createObjectURL(inputData.image)
-                              : require(gender == "MALE" || gender == "male"
-                                  ? "../assets/male.png"
-                                  : "../assets/female.png")
-                          }
-                          alt="profile"
-                          style={{
-                            objectFit: "cover",
-                            height: "90%",
-                            width: "90%",
+                      <img
+                        src={
+                          inputData.image && inputData.image != "null"
+                            ? inputData.image instanceof Blob ||
+                              inputData.image instanceof File
+                              ? URL.createObjectURL(inputData.image)
+                              : inputData?.image?.url
+                            : "/Signature.png"
+                        }
+                        alt="profile"
+                        style={{
+                          objectFit: "contain",
+                          height: "90%",
+                          width: "90%",
+                          borderRadius: "50%",
+                        }}
+                      />
+                      {inputData.image && inputData.image != "null" && (
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: 0,
+                            height: "100%",
+                            width: "100%",
                             borderRadius: "50%",
+                            bgcolor: "#000000a3",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
-                        />
-                      ) : (
-                        <Image
-                          src={
-                            inputData.image !== null
-                              ? inputData.image.url ||
-                                URL.createObjectURL(inputData.image)
-                              : require(gender == "MALE" || gender == "male"
-                                  ? "../assets/male.png"
-                                  : "../assets/female.png")
-                          }
-                          alt="profile"
-                          width={100}
-                          height={100}
-                          style={{
-                            objectFit: "cover",
-                            height: "90%",
-                            width: "90%",
-                            borderRadius: "50%",
-                          }}
-                        />
+                        >
+                          <Button
+                            onClick={() => {
+                              handleSetFormDatas("image", null);
+                              handleSetFormDatas("isDeleteImage", true);
+                            }}
+                            sx={{
+                              color: "red",
+                              fontWeight: "bold",
+                              textTransform: "uppercase",
+                              fontFamily: "cursive",
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </Box>
                       )}
                     </Box>
 

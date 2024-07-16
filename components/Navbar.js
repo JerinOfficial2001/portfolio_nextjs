@@ -77,7 +77,6 @@ export default function Navbar({ dashboard }) {
   }, [cookie]);
   const { homepage, id } = router.query;
   const location = router.pathname;
-  console.log(homepage, id);
   const menus = [
     {
       id: 1,
@@ -193,6 +192,7 @@ export default function Navbar({ dashboard }) {
         <ResNav
           setmenuBtn={setmenuBtn}
           setopenViewProfile={setopenViewProfile}
+          setopenAuthModel={setopenAuthModel}
         />
       )}
       {!dashboard && (
@@ -338,8 +338,8 @@ export default function Navbar({ dashboard }) {
               <Avatar
                 alt={userData?.name}
                 src={
-                  userData?.image !== "null"
-                    ? userData.image.url
+                  userData?.image && userData?.image !== "null"
+                    ? userData?.image?.url
                     : userData.gender == "male" || userData.gender == "MALE"
                     ? "/male.png"
                     : "/female.png"
@@ -394,8 +394,8 @@ export default function Navbar({ dashboard }) {
               sx={{ width: 50, height: 50, objectPosition: "top" }}
               alt={userData?.name}
               src={
-                userData?.image !== "null"
-                  ? userData?.image.url
+                userData?.image && userData?.image !== "null"
+                  ? userData?.image?.url
                   : userData?.gender == "male" || userData?.gender == "MALE"
                   ? "/male.png"
                   : "/female.png"

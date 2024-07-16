@@ -23,14 +23,10 @@ import { Autorenew, Close } from "@mui/icons-material";
 import { CreateProfile, UpdateProfile } from "@/controller/profile";
 import { getUserByID } from "@/controller/auth";
 
-export default function ProfileModal({
-  open,
-  handleClose,
-  data,
-  id,
-  fetchData,
-}) {
+export default function ProfileModal({ open, handleClose, data, fetchData }) {
   const router = useRouter();
+  const { homepage } = router.query;
+  const id = homepage;
   const [isProcessing, setisProcessing] = useState(false);
   const [inputData, setinputData] = useState({
     qualification: "",
@@ -182,15 +178,15 @@ export default function ProfileModal({
             xl: "50%",
             lg: "50%",
             md: "50%",
-            sm: "80%",
+            sm: "90%",
             xs: "90%",
           },
           height: {
             xl: "90%",
             lg: "90%",
             md: "90%",
-            sm: "70%",
-            xs: "60%",
+            sm: "100%",
+            xs: "100%",
           },
           display: "flex",
           justifyContent: "center",
@@ -231,8 +227,8 @@ export default function ProfileModal({
                 xl: 30,
                 lg: 30,
                 md: 30,
-                sm: 10,
-                xs: 10,
+                sm: 20,
+                xs: 20,
               },
               fontWeight: "bold",
             }}
@@ -298,45 +294,26 @@ export default function ProfileModal({
                       justifyContent: "center",
                     }}
                   >
-                    {data ? (
-                      <img
-                        src={
-                          inputData.image !== null
-                            ? inputData.image.url ||
-                              URL.createObjectURL(inputData.image)
-                            : require(gender == "MALE"
-                                ? "../assets/male.png"
-                                : "../assets/female.png")
-                        }
-                        alt="profile"
-                        style={{
-                          objectFit: "cover",
-                          height: "90%",
-                          width: "90%",
-                          borderRadius: "50%",
-                        }}
-                      />
-                    ) : (
-                      <Image
-                        src={
-                          inputData.image !== null
-                            ? inputData.image.url ||
-                              URL.createObjectURL(inputData.image)
-                            : require(gender == "MALE"
-                                ? "../assets/male.png"
-                                : "../assets/female.png")
-                        }
-                        alt="profile"
-                        width={100}
-                        height={100}
-                        style={{
-                          objectFit: "cover",
-                          height: "90%",
-                          width: "90%",
-                          borderRadius: "50%",
-                        }}
-                      />
-                    )}
+                    <Box
+                      component={"img"}
+                      src={
+                        inputData.image && inputData.image != "null"
+                          ? inputData?.image instanceof Blob ||
+                            inputData.image instanceof File
+                            ? URL.createObjectURL(inputData.image)
+                            : inputData?.image?.url
+                          : gender == "MALE"
+                          ? "/male.png"
+                          : "/female.png"
+                      }
+                      alt="profile"
+                      style={{
+                        objectFit: "cover",
+                        height: "90%",
+                        width: "90%",
+                        borderRadius: "50%",
+                      }}
+                    />
                   </Box>
 
                   <TextField

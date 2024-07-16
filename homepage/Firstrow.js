@@ -420,7 +420,7 @@ export default function Firstrow({
                       </IconButton>
                     </Box>
                   )}
-                  {credentials ? (
+                  {credentials?.image && credentials?.image != "null" ? (
                     <img
                       src={credentials?.image?.url}
                       placeholder="empty"
