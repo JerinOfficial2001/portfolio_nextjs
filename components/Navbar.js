@@ -96,7 +96,7 @@ export default function Navbar({ dashboard }) {
     {
       id: 2,
       title: "About",
-      to: `/about${
+      to: `/credentials${
         homepage && homepage !== "homepage"
           ? "?id=" + homepage
           : userData
@@ -105,7 +105,7 @@ export default function Navbar({ dashboard }) {
           ? "?id=" + id
           : "?id=66276a73361a148fef6608c2"
       }`,
-      path: "/about",
+      path: "/credentials",
       icon: <InventoryOutlinedIcon />,
     },
     {
@@ -243,7 +243,7 @@ export default function Navbar({ dashboard }) {
                 >
                   <Typography
                     sx={{
-                      ...(location == menu.path ||
+                      ...(location.includes(menu.path) ||
                       (location == "/" && menu.title == "Home")
                         ? {
                             color: "cornflowerblue",

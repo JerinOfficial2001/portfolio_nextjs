@@ -47,7 +47,7 @@ export default function ResNav({
     {
       id: 2,
       title: "About",
-      to: `/about${
+      to: `/credentials${
         homepage && homepage !== "homepage"
           ? "?id=" + homepage
           : userData
@@ -56,7 +56,7 @@ export default function ResNav({
           ? "?id=" + id
           : "?id=66276a73361a148fef6608c2"
       }`,
-      path: "/about",
+      path: "/credentials",
       icon: <InventoryOutlinedIcon />,
     },
     {
