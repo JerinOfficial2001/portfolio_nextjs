@@ -12,7 +12,7 @@ import { getDecryptedCookie } from "@/utils/EncryteCookies";
 
 export default function ProfileCard({ links, profile }) {
   const router = useRouter();
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const [userData, setuserData] = useState(null);
   useEffect(() => {
     const cachedData = cookie ? cookie : false;

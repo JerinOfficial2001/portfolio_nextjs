@@ -22,7 +22,7 @@ export default function Dashboard() {
   const { profiles, setprofiles } = useContext(MyContextState);
   const [isHovered, setisHovered] = useState(false);
   const [openModel, setopenModel] = useState(false);
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedData = cookie ? JSON.parse(cookie) : false;
   const router = useRouter();
   useEffect(() => {

@@ -7,6 +7,7 @@ import { createContext, useEffect, useState } from "react";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import Layout from "@/layouts/Layout";
 import { useRouter } from "next/router";
+import { SocketProvider } from "@/utils/socket";
 
 export const MyContextState = createContext({});
 export default function App({ Component, pageProps }) {
@@ -15,7 +16,7 @@ export default function App({ Component, pageProps }) {
       counter: counterReducer,
     },
   });
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const [userData, setuserData] = useState(null);
   const [profiles, setprofiles] = useState([]);
   const [direction, setdirection] = useState(false);
@@ -30,24 +31,26 @@ export default function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <MyContextState.Provider
-        value={{
-          setcustomStyle,
-          direction,
-          setdirection,
-          userData,
-          profiles,
-          setprofiles,
-        }}
-      >
-        {router.pathname == "/feedback" || router.pathname == "/" ? (
-          <Component {...pageProps} />
-        ) : (
-          <Layout direction={direction} customStyle={customStyle}>
+      <SocketProvider>
+        <MyContextState.Provider
+          value={{
+            setcustomStyle,
+            direction,
+            setdirection,
+            userData,
+            profiles,
+            setprofiles,
+          }}
+        >
+          {router.pathname == "/feedback" || router.pathname == "/" ? (
             <Component {...pageProps} />
-          </Layout>
-        )}
-      </MyContextState.Provider>
+          ) : (
+            <Layout direction={direction} customStyle={customStyle}>
+              <Component {...pageProps} />
+            </Layout>
+          )}
+        </MyContextState.Provider>
+      </SocketProvider>
     </Provider>
   );
 }

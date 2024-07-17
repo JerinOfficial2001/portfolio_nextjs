@@ -15,7 +15,7 @@ import toast, { Toaster } from "react-hot-toast";
 export default function Application() {
   const router = useRouter();
   const { projectID, id } = router.query;
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const isOwner = cachedCookie && cachedCookie?._id == id;
   const [isLoading, setisLoading] = useState(false);

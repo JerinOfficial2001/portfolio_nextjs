@@ -64,7 +64,7 @@ const getUserData = async (token) => {
     });
     if (data.status == "ok") {
       toast.success("Login Success");
-      setEncryptedCookie("userData", JSON.stringify(data.data));
+      setEncryptedCookie("Jers_folio_userData", JSON.stringify(data.data));
       window.location.href = `/${data.data._id}`;
     } else {
       toast.error(data.message);

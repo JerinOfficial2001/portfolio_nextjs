@@ -33,7 +33,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { getDecryptedCookie, setEncryptedCookie } from "@/utils/EncryteCookies";
 
 export default function ViewProfileModal({ open, handleClose }) {
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const userData = cookie ? JSON.parse(cookie) : false;
   const router = useRouter();
   const { id, homepage } = router.query;
@@ -55,7 +55,6 @@ export default function ViewProfileModal({ open, handleClose }) {
     name: "",
     _id: "",
   });
-  console.log(openModal, inputData.image);
   useEffect(() => {
     if (userData) {
       setinputData({
@@ -85,7 +84,7 @@ export default function ViewProfileModal({ open, handleClose }) {
         if (res.status == "ok") {
           setisProcessing(false);
           setOpen(false);
-          setEncryptedCookie("userData", JSON.stringify(res.data));
+          setEncryptedCookie("Jers_folio_userData", JSON.stringify(res.data));
         } else {
           setisProcessing(false);
         }

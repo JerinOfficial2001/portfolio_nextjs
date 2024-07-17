@@ -23,7 +23,7 @@ export default function Project() {
   const { id } = router.query;
   const [websiteDatas, setprojectsData] = useState([]);
   const [appDatas, setAppDatas] = useState([]);
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const [isLoading, setisLoading] = useState(true);
   const [isWebLoading, setisWebLoading] = useState(true);

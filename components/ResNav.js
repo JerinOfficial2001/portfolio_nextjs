@@ -19,7 +19,7 @@ export default function ResNav({
 }) {
   const router = useRouter();
   const location = router.pathname;
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedData = cookie ? JSON.parse(cookie) : false;
   const [userData, setuserData] = useState(null);
   useEffect(() => {
@@ -91,7 +91,7 @@ export default function ResNav({
     },
   ];
   const handleLogout = () => {
-    Cookies.remove("userData");
+    Cookies.remove("Jers_folio_userData");
     Cookies.remove("token");
     window.location.href = "/";
   };

@@ -10,7 +10,7 @@ import { getDecryptedCookie } from "@/utils/EncryteCookies";
 export default function Card({ project, handleOpen, title }) {
   const [hover, sethover] = useState(false);
   const router = useRouter();
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   return (
     <>

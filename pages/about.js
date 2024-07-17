@@ -8,7 +8,7 @@ import { GetAllProfile } from "@/controller/profile";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 
 export default function About() {
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const router = useRouter();
   const { id } = router.query;

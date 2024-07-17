@@ -66,7 +66,7 @@ export default function Navbar({ dashboard }) {
   };
   const [menuBtn, setmenuBtn] = useState(false);
   const router = useRouter();
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedData = cookie ? JSON.parse(cookie) : false;
   const [userData, setuserData] = useState(null);
   const [openAuthModel, setopenAuthModel] = useState(false);
@@ -140,7 +140,7 @@ export default function Navbar({ dashboard }) {
     },
   ];
   const handleLogout = () => {
-    Cookies.remove("userData");
+    Cookies.remove("Jers_folio_userData");
     Cookies.remove("token");
     window.location.href = "/";
     handleClose();

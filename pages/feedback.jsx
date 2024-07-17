@@ -1,5 +1,16 @@
 import {
+  AddFeedback,
+  DeleteFeedback,
+  GetAllFeedbacks,
+} from "@/controller/feedbacks";
+import { getDecryptedCookie } from "@/utils/EncryteCookies";
+import { getTime } from "@/utils/getTime";
+import { useSocket } from "@/utils/socket";
+import {
+  ArrowDropDown,
   AttachFile,
+  Delete,
+  Edit,
   Facebook,
   Home,
   Instagram,
@@ -15,17 +26,111 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Feedback() {
+  const { socketSendMessage, socket } = useSocket();
+  const cookie = getDecryptedCookie("Jers_folio_userData");
+  const cachedData = cookie ? JSON.parse(cookie) : false;
+  const [msg, setmsg] = useState("");
+  const [mediaImage, setmediaImage] = useState(null);
   const scrollRef = useRef();
   const router = useRouter();
+  const [feedbacks, setfeedbacks] = useState([]);
+
+  const fetchDatas = () => {
+    GetAllFeedbacks().then((data) => {
+      setfeedbacks(data);
+    });
+  };
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("receivemessage", (data) => {
+        fetchDatas();
+      });
+    }
+  }, [socket]);
+
+  useEffect(() => {
+    if (!cachedData) {
+      router.push("/");
+    } else {
+      fetchDatas();
+    }
+  }, []);
   useEffect(() => {
     if (scrollRef) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, []);
+  }, [feedbacks.length]);
+  const handleSubmit = () => {
+    if (msg.length !== "" || mediaImage) {
+      const formData = new FormData();
+      const DATA = {
+        name: cachedData?.name,
+        image: cachedData?.image,
+        message: msg,
+        user_id: cachedData?._id,
+        gender: cachedData?.gender,
+        file: mediaImage,
+      };
+      Object.entries(DATA).forEach(([key, value]) =>
+        formData.append(key, value)
+      );
+      AddFeedback(formData).then((data) => {
+        if (data && data?.status == "ok") {
+          toast.success(data?.message);
+          socketSendMessage({
+            name: cachedData?.name,
+            image: cachedData?.image,
+            message: msg,
+            user_id: cachedData?._id,
+            gender: cachedData?.gender,
+          });
+          setmsg("");
+          setmediaImage(null);
+        } else {
+          toast.error(data?.message);
+        }
+      });
+    } else {
+      toast.error("Media or text is required");
+    }
+  };
+  const fileInputRef = useRef(null);
 
+  const handleFileSelect = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileInputChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setmediaImage(file);
+    }
+  };
+  const handleDelete = (id) => {
+    DeleteFeedback(id).then((res) => {
+      if (res == "success") {
+        console.log("test");
+        fetchDatas();
+        socketSendMessage({
+          name: cachedData?.name,
+          image: cachedData?.image,
+          message: msg,
+          user_id: cachedData?._id,
+          gender: cachedData?.gender,
+        });
+      }
+    });
+  };
+  const handleKeyEnter = (event) => {
+    if (event.key == "Enter") {
+      handleSubmit();
+    }
+  };
   return (
     <Box
       sx={{
@@ -38,6 +143,7 @@ export default function Feedback() {
         alignItems: "center",
       }}
     >
+      <Toaster position="top-center" />
       {/* //*Header */}
       <Stack
         sx={{
@@ -111,7 +217,7 @@ export default function Feedback() {
       {/* //*INPUT field */}
       <Stack
         sx={{
-          zIndex: 2,
+          zIndex: 3,
           position: "absolute",
           left: { lg: 10, sm: 0, xs: 0 },
           bottom: 40,
@@ -160,9 +266,23 @@ export default function Feedback() {
             justifyContent: "center",
             alignItems: "center",
             marginTop: 2,
+            flexDirection: "column",
           }}
         >
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileInputChange}
+          />
+
           <TextField
+            // onKeyDown={handleKeyEnter}
+            multiline
+            onChange={(e) => {
+              setmsg(e.target.value);
+            }}
+            value={msg}
             sx={{
               "& .MuiOutlinedInput-notchedOutline": {
                 border: "2px solid #828282 !important",
@@ -189,10 +309,12 @@ export default function Feedback() {
               position: "absolute",
               right: 65,
             }}
+            onClick={handleFileSelect}
           >
             <AttachFile />
           </IconButton>
           <IconButton
+            onClick={handleSubmit}
             sx={{
               color: "white",
               position: "absolute",
@@ -205,6 +327,35 @@ export default function Feedback() {
           >
             <Send />
           </IconButton>
+          {mediaImage && (
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: 90,
+                width: "80%",
+                padding: 2,
+                background: "#353535",
+                borderRadius: "10px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{ objectFit: "contain" }}
+                component={"img"}
+                src={URL.createObjectURL(mediaImage)}
+              />
+              <ArrowDropDown
+                sx={{
+                  color: "#353535",
+                  fontSize: 80,
+                  position: "absolute",
+                  bottom: -45,
+                }}
+              />
+            </Box>
+          )}
         </Box>
       </Stack>
       {/* //*Title on vdo */}
@@ -248,74 +399,76 @@ export default function Feedback() {
           zIndex: 1,
           position: "absolute",
           right: { lg: 60, sm: 0, xs: 0 },
-          top: { lg: 35, sm: 0, xs: 0 },
           width: { lg: "45%", sm: "70%", xs: "70%" },
           padding: 2,
           gap: 2,
-          height: { lg: "625px", sm: "85vh", xs: "85vh" },
+          maxHeight: { xl: "625px", lg: "625px", sm: "85vh", xs: "85vh" },
           overflowY: "auto",
+          bottom: "20px",
         }}
       >
         {[
           {
-            id: 2,
-            name: "James",
-            message:
-              "You can Create your own portfolio here and give us your feedback",
-            date: "2:54PM",
+            _id: 1,
+            name: "John",
+            gender: "MALE",
+            time: "2:15PM",
+            message: { text: "Best place to make portfolio" },
+            user_id: 2,
           },
           {
-            id: 1,
-            name: "John",
-            message:
-              "You can Create your own portfolio here and give us your feedback",
-            date: "2:54PM",
+            _id: 3,
+            name: "Jenisha",
+            gender: "FEMALE",
+            time: "2:18PM",
+            message: { text: "Superb website i ever seen" },
+            user_id: 3,
           },
-          {
-            id: 3,
-            name: "John",
-            message:
-              "You can Create your own portfolio here and give us your feedback",
-            image: "/AndroidIcon.png",
-            date: "2:54PM",
-          },
-          {
-            id: 4,
-            name: "John",
-            message:
-              "You can Create your own portfolio here and give us your feedback",
-            date: "2:54PM",
-          },
-          {
-            id: 5,
-            name: "John",
-            image: "/services.jpg",
-            date: "2:54PM",
-          },
-          {
-            id: 6,
-            name: "John",
-            message:
-              "You can Create your own portfolio here and give us your feedback",
-            date: "2:54PM",
-          },
-          {
-            id: 7,
-            name: "John",
-            message:
-              "You can Create your own portfolio here and give us your feedback",
-            date: "2:54PM",
-          },
+          ...feedbacks,
         ].map((elem, index) => {
-          const isSender = elem.id == 1;
+          const isSender = elem.user_id == cachedData?._id;
+          const date = elem.time ? elem.time : getTime(elem.createdAt);
           return (
             <Box
+              key={index}
               sx={{
                 width: "100%",
                 display: "flex",
                 justifyContent: isSender ? "flex-end" : "flex-start",
+                gap: 1,
               }}
             >
+              <Box
+                sx={{
+                  marginTop: 0,
+                  borderRadius: "50%",
+                  border: "2px solid cornflowerblue",
+                  height: "50px",
+                  width: "50px",
+                  display: isSender ? "none" : "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Box
+                  component={"img"}
+                  src={
+                    elem.image && elem.image != "null"
+                      ? elem?.image?.url
+                      : elem?.gender == "MALE"
+                      ? "/male.png"
+                      : "/female.png"
+                  }
+                  alt="profile"
+                  style={{
+                    objectFit: "cover",
+                    height: "90%",
+                    width: "90%",
+                    borderRadius: "50%",
+                  }}
+                />
+              </Box>
+
               <Stack
                 sx={{
                   borderRadius: isSender
@@ -335,7 +488,7 @@ export default function Feedback() {
                 >
                   {elem.name}
                 </Typography>
-                {elem.image && (
+                {elem?.message?.image && (
                   <Box
                     component={"img"}
                     sx={{
@@ -344,7 +497,7 @@ export default function Feedback() {
                       borderRadius: 6,
                       maxWidth: { lg: "500px", sm: "280px", xs: "280px" },
                     }}
-                    src={elem.image}
+                    src={elem.message?.image?.url}
                   />
                 )}
 
@@ -356,16 +509,43 @@ export default function Feedback() {
                     width: "200px",
                   }}
                 >
-                  {elem.message}
+                  {elem.message?.text}
                 </Typography>
                 <Box
                   sx={{
                     width: "100%",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "flex-end",
+                    justifyContent: isSender ? "space-between" : "flex-end",
                   }}
                 >
+                  <Box
+                    sx={{
+                      display: isSender ? "flex" : "none",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {/* <IconButton size="small">
+                        <Edit sx={{ fontSize: "20px", color: "gray" }} />
+                      </IconButton> */}
+                    <IconButton
+                      onClick={() => {
+                        handleDelete(elem._id);
+                      }}
+                    >
+                      <Delete
+                        sx={{
+                          fontSize: "20px",
+                          color: "gray",
+                          "&:hover": {
+                            color: "red",
+                          },
+                        }}
+                      />
+                    </IconButton>
+                  </Box>
+
                   <Typography
                     sx={{
                       color: "gray",
@@ -373,7 +553,7 @@ export default function Feedback() {
                       fontFamily: "cursive",
                     }}
                   >
-                    {elem.date}
+                    {date}
                   </Typography>
                 </Box>
               </Stack>
@@ -390,19 +570,19 @@ export default function Feedback() {
           width: "100%",
           position: "absolute",
           zIndex: 1,
-          pointerEvents: "none",
           objectFit: "cover",
+          pointerEvents: "none",
         }}
-      ></Box>
+      />
       <video
         autoPlay
-        playsinline
         muted
         loop
         style={{
           width: "100%",
           height: "100%",
           objectFit: "cover",
+          pointerEvents: "none",
         }}
       >
         <source src="/Bgvdo.mp4" type="video/mp4" />

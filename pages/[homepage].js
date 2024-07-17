@@ -16,7 +16,7 @@ export default function Homepage() {
   const [DATA, setDATA] = useState(null);
   const [profile, setprofile] = useState(null);
   const [credentials, setcredentials] = useState(null);
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const homepage = router.query.homepage
     ? router.query.homepage

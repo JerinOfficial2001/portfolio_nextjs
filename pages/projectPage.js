@@ -22,7 +22,7 @@ export default function ProjectPage() {
     "btn btn-4",
     "btn btn-5",
   ];
-  const cookie = getDecryptedCookie("userData");
+  const cookie = getDecryptedCookie("Jers_folio_userData");
 
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
 
