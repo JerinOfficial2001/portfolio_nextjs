@@ -1,12 +1,13 @@
 import Layout from "@/layouts/Layout";
-import { Box, Button, IconButton, Stack } from "@mui/material";
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import "animate.css";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { GetParticularProjectByID } from "@/controller/project";
-import { Close, Menu } from "@mui/icons-material";
+import { CheckCircle, Close, ContentCopy, Menu } from "@mui/icons-material";
 import { MyContextState } from "./_app";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 export default function ProjectPage() {
   const { setdirection } = useContext(MyContextState);
@@ -30,6 +31,7 @@ export default function ProjectPage() {
     if (projectID) {
       GetParticularProjectByID(projectID).then((data) => {
         setprojectData(data);
+        setCopied(data.credentials?.map(() => ({ isCopied: false })));
       });
     }
     setdirection(true);
@@ -37,6 +39,17 @@ export default function ProjectPage() {
       setdirection(false);
     };
   }, [projectID]);
+  const [copied, setCopied] = useState([]);
+
+  const handleCopy = (index) => {
+    const prevArr = [...copied];
+    prevArr[index].isCopied = true;
+    setCopied(prevArr);
+    setTimeout(() => {
+      prevArr[index].isCopied = false;
+      setCopied(prevArr);
+    }, 3000);
+  };
   return (
     <>
       <div
@@ -189,6 +202,93 @@ export default function ProjectPage() {
             gap: "10px",
           }}
         >
+          {projectData?.credentials &&
+            projectData?.credentials.length !== 0 && (
+              <Stack
+                sx={{
+                  marginBottom: 2,
+                  width: "90%",
+                  borderRadius: "10px",
+                  padding: 2,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "#ffffff0a",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "whitesmoke",
+                    fontFamily: "cursive",
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Credentials
+                </Typography>
+                {projectData?.credentials.map((elem, index) => {
+                  return (
+                    <Stack key={index} sx={{ width: "100%" }}>
+                      <Typography
+                        sx={{ color: "#7c7c7c", fontFamily: "cursive" }}
+                      >
+                        {elem.Key}
+                      </Typography>
+                      <Box
+                        sx={{
+                          background: "#262626",
+                          height: 40,
+                          width: "100%",
+                          borderRadius: "10px",
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            color: "#696666",
+                            fontFamily: "cursive",
+                            marginLeft: 2,
+                          }}
+                        >
+                          {elem.Value}
+                        </Typography>
+                        <Box
+                          sx={{
+                            height: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: "#61616169",
+                            borderRadius: "0 10px 10px 0",
+                          }}
+                        >
+                          <CopyToClipboard
+                            text={elem.Value}
+                            onCopy={() => {
+                              handleCopy(index);
+                            }}
+                          >
+                            <IconButton>
+                              {copied[index]?.isCopied ? (
+                                <CheckCircle
+                                  sx={{
+                                    color: "cornflowerblue",
+                                  }}
+                                />
+                              ) : (
+                                <ContentCopy sx={{ color: "#b5b5b5" }} />
+                              )}
+                            </IconButton>
+                          </CopyToClipboard>
+                        </Box>
+                      </Box>
+                    </Stack>
+                  );
+                })}
+              </Stack>
+            )}
           {projectData?.endpoint?.length !== 0 &&
             projectData?.endpoint?.map((btn, index) => (
               <Button

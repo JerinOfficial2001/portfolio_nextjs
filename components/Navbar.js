@@ -287,6 +287,38 @@ export default function Navbar({ dashboard }) {
           gap: 2,
         }}
       >
+        {!userData && (
+          <Button
+            onClick={() => {
+              router.push("/feedback");
+            }}
+            variant="contained"
+            sx={{
+              color: "white",
+              background: "#323232",
+              borderRadius: 4,
+              "&:hover": {
+                background: "#323232",
+                color: "white",
+                border: "2px solid lavender",
+              },
+              textTransform: "none",
+              height: 43,
+              width: 130,
+              marginBottom: {
+                xl: 0,
+                lg: 0,
+                md: 0,
+                sm: 3,
+                xs: 3,
+              },
+              border: "2px solid cornflowerblue",
+              fontFamily: "cursive",
+            }}
+          >
+            Feedback
+          </Button>
+        )}
         <Button
           onClick={() => {
             if (userData) {

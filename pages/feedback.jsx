@@ -1,3 +1,4 @@
+import AuthModal from "@/components/Auth/AuthModal";
 import {
   AddFeedback,
   DeleteFeedback,
@@ -38,7 +39,7 @@ export default function Feedback() {
   const scrollRef = useRef();
   const router = useRouter();
   const [feedbacks, setfeedbacks] = useState([]);
-
+  const [openAuthModel, setopenAuthModel] = useState(false);
   const fetchDatas = () => {
     GetAllFeedbacks().then((data) => {
       setfeedbacks(data);
@@ -54,11 +55,7 @@ export default function Feedback() {
   }, [socket]);
 
   useEffect(() => {
-    if (!cachedData) {
-      router.push("/");
-    } else {
-      fetchDatas();
-    }
+    fetchDatas();
   }, []);
   useEffect(() => {
     if (scrollRef) {
@@ -130,6 +127,36 @@ export default function Feedback() {
     if (event.key == "Enter") {
       handleSubmit();
     }
+  };
+  const renderTextWithLinks = (text) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
+    return parts.map((part, index) => {
+      if (part.match(urlRegex)) {
+        return (
+          <a
+            title={part}
+            style={{
+              width: "100%",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              color: "#00afff",
+              display: "block",
+              overflow: "hidden",
+            }}
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {part}
+          </a>
+        );
+      } else {
+        // Render normal text
+        return part;
+      }
+    });
   };
   return (
     <Box
@@ -275,8 +302,24 @@ export default function Feedback() {
             style={{ display: "none" }}
             onChange={handleFileInputChange}
           />
-
+          {!cachedData && (
+            <Button
+              onClick={() => {
+                setopenAuthModel(true);
+              }}
+              sx={{
+                color: "red",
+                fontWeight: "bold",
+                position: "absolute",
+                fontFamily: "cursive",
+                zIndex: 1,
+              }}
+            >
+              Login to send feedback
+            </Button>
+          )}
           <TextField
+            disabled={!cachedData}
             // onKeyDown={handleKeyEnter}
             multiline
             onChange={(e) => {
@@ -304,6 +347,7 @@ export default function Feedback() {
             placeholder="Type your feedback here"
           />
           <IconButton
+            disabled={!cachedData}
             sx={{
               color: "white",
               position: "absolute",
@@ -314,6 +358,7 @@ export default function Feedback() {
             <AttachFile />
           </IconButton>
           <IconButton
+            disabled={!cachedData}
             onClick={handleSubmit}
             sx={{
               color: "white",
@@ -506,10 +551,10 @@ export default function Feedback() {
                     color: "#d4d4d4",
                     fontSize: 15,
                     fontFamily: "cursive",
-                    width: "200px",
+                    width: "355px",
                   }}
                 >
-                  {elem.message?.text}
+                  {renderTextWithLinks(elem.message?.text)}
                 </Typography>
                 <Box
                   sx={{
@@ -587,6 +632,12 @@ export default function Feedback() {
       >
         <source src="/Bgvdo.mp4" type="video/mp4" />
       </video>
+      <AuthModal
+        open={openAuthModel}
+        handleClose={() => {
+          setopenAuthModel(false);
+        }}
+      />
     </Box>
   );
 }

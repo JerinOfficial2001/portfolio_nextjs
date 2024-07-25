@@ -14,10 +14,10 @@ export const CreateProjects = async (formDatas) => {
     console.log("CreateProjects ERR", error);
   }
 };
-export const GetProjectsByID = async (id, category) => {
+export const GetProjectsByID = async (id, category, isLoggedIn) => {
   try {
     const { data } = await axios.get(
-      `${API}/Projects/get/${id}?category=${category}`
+      `${API}/Projects/get/${id}?category=${category}&isLoggedIn=${isLoggedIn}`
     );
     if (data.status == "ok") {
       return data.data;
@@ -45,6 +45,21 @@ export const UpdateProject = async (formDatas, id) => {
     const { data } = await axios.put(`${API}/Projects/update/${id}`, formDatas);
     if (data.status == "ok") {
       return data.data;
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log("GetProjects ERR", error);
+  }
+};
+export const ProjectVisibility = async (formDatas, id) => {
+  try {
+    const { data } = await axios.put(
+      `${API}/Projects/visibility/${id}`,
+      formDatas
+    );
+    if (data.status == "ok") {
+      toast.success(data.message);
     } else {
       toast.error(data.message);
     }

@@ -37,6 +37,7 @@ export default function ProjectModal({
     image: null,
     images: [],
     endpoint: [],
+    credentials: [],
     title: "",
     link: "",
     userID: id,
@@ -68,6 +69,7 @@ export default function ProjectModal({
         setinputData({
           image: data?.image ? data?.image : null,
           endpoint: data?.endpoint ? data?.endpoint : [],
+          credentials: data?.credentials ? data?.credentials : [],
           title: data?.title ? data?.title : "",
           link: data?.link ? data?.link : "",
           userID: id,
@@ -114,17 +116,34 @@ export default function ProjectModal({
     Path: "",
     Page: "",
   });
+  const [credentialsData, setcredentialsData] = useState({
+    Key: "",
+    Value: "",
+  });
   const handleAddEndpoints = (value) => {
     handleSetFormDatas("endpoint", [...inputData.endpoint, value]);
+  };
+  const handleAddCredentials = (value) => {
+    handleSetFormDatas("credentials", [...inputData.credentials, value]);
   };
   const handleEndpointOnchange = (event) => {
     const { name, value } = event.target;
     setendPointsData((prev) => ({ ...prev, [name]: value }));
   };
+  const handleCredentialsOnchange = (event) => {
+    const { name, value } = event.target;
+    setcredentialsData((prev) => ({ ...prev, [name]: value }));
+  };
   const handleSubmitEndpoints = () => {
-    if (endPointsData.Title !== "" && endPointsData.Page !== "") {
+    if (endPointsData.Path !== "" && endPointsData.Page !== "") {
       handleAddEndpoints(endPointsData);
       setendPointsData({ Path: "", Page: "" });
+    }
+  };
+  const handleSubmitCredentials = () => {
+    if (credentialsData.Key !== "" && credentialsData.Value !== "") {
+      handleAddCredentials(credentialsData);
+      setcredentialsData({ Key: "", Value: "" });
     }
   };
   const handleUploadApk = () => {
@@ -183,6 +202,27 @@ export default function ProjectModal({
       placeholder: "",
       type: "endpoint",
       value: inputData.endpoint,
+    },
+    {
+      name: "credentials",
+      label: "Credentials",
+      inputs: [
+        {
+          name: "Key",
+          value: credentialsData.Key ? credentialsData.Key : "",
+          onchange: handleCredentialsOnchange,
+          size: "small",
+        },
+        {
+          name: "Value",
+          value: credentialsData.Value ? credentialsData.Value : "",
+          onchange: handleCredentialsOnchange,
+          size: "small",
+        },
+      ],
+      placeholder: "",
+      type: "endpoint",
+      value: inputData.credentials,
     },
     {
       name: "link",
@@ -263,12 +303,22 @@ export default function ProjectModal({
     if (value !== "" && event.key == "Enter") {
       if (name == "Page" || name == "Path") {
         handleSubmitEndpoints();
+      } else if (name == "Key" || name == "Value") {
+        handleSubmitCredentials();
       } else if (name == "tools") {
         handleAddArrayData("tools", inputData, value, settools);
       }
     }
   };
   const submitHandler = async (DATA) => {
+    if (endPointsData.Page !== "" || endPointsData.Path !== "") {
+      toast.error("Kindly add typed endpoints");
+      return;
+    }
+    if (credentialsData.Key !== "" || credentialsData.Value !== "") {
+      toast.error("Kindly add typed credentials");
+      return;
+    }
     const requiredFields = IsApplication
       ? ["description", "file", "image", "title"]
       : ["endpoint", "link", "userID", "image", "title"];
@@ -283,6 +333,7 @@ export default function ProjectModal({
       setisProcessing(true);
       const formDatas = new FormData();
       const endpointJSON = JSON.stringify(DATA.endpoint);
+      const credentialsJSON = JSON.stringify(DATA.credentials);
       const toolsJSON = JSON.stringify(DATA.tools);
       const deletedIdsJSON = JSON.stringify(DATA.deletedIds);
       if (IsApplication) {
@@ -321,6 +372,7 @@ export default function ProjectModal({
           isVisible: DATA.isVisible,
           category: modalType,
           deletedIds: deletedIdsJSON,
+          credentials: credentialsJSON,
         };
       }
       Object.entries(INPUT_DATAS).forEach(([key, value]) =>
@@ -911,7 +963,11 @@ export default function ProjectModal({
                           right: 5,
                           top: 5,
                         }}
-                        onClick={handleSubmitEndpoints}
+                        onClick={
+                          elem.name == "credentials"
+                            ? handleSubmitCredentials
+                            : handleSubmitEndpoints
+                        }
                       >
                         <Add />
                       </IconButton>
@@ -966,11 +1022,11 @@ export default function ProjectModal({
                               }}
                             >
                               <Typography sx={{ fontWeight: "bold" }}>
-                                {edu.Page}
+                                {edu.Page || edu.Key}
                               </Typography>
                               <Chip
                                 size="small"
-                                label={edu.Path}
+                                label={edu.Path || edu.Value}
                                 color="success"
                                 sx={{ color: "white" }}
                               />
@@ -981,11 +1037,16 @@ export default function ProjectModal({
                                   const newData = elem.value.find(
                                     (i, index) => index == eduIndex
                                   );
-                                  setendPointsData(newData);
                                   const newDatas = elem.value.filter(
                                     (i, index) => index !== eduIndex
                                   );
-                                  handleSetFormDatas("endpoint", newDatas);
+                                  if (elem.name == "credentials") {
+                                    setcredentialsData(newData);
+                                    handleSetFormDatas("credentials", newDatas);
+                                  } else {
+                                    setendPointsData(newData);
+                                    handleSetFormDatas("endpoint", newDatas);
+                                  }
                                 }}
                                 sx={{ color: "slategray" }}
                               >
@@ -996,7 +1057,11 @@ export default function ProjectModal({
                                   const newData = elem.value.filter(
                                     (i, index) => index !== eduIndex
                                   );
-                                  handleSetFormDatas("endpoint", newData);
+                                  if (elem.name == "credentials") {
+                                    handleSetFormDatas("credentials", newData);
+                                  } else {
+                                    handleSetFormDatas("endpoint", newData);
+                                  }
                                 }}
                                 sx={{ color: "red" }}
                               >

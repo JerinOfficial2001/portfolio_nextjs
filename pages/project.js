@@ -16,6 +16,7 @@ import ProjectModal from "@/components/Modals/ProjectModal";
 import { MyContextState } from "./_app";
 import WebsiteLayout from "@/components/Projects/WebsiteLayout";
 import AddProjectComponent from "@/components/Projects/AddProjectComponent";
+import { Toaster } from "react-hot-toast";
 
 export default function Project() {
   const { setcustomStyle } = useContext(MyContextState);
@@ -42,16 +43,22 @@ export default function Project() {
     GetAllProfile().then((profiles) => {
       const profileIDs = profiles?.map((elem) => elem.userID);
       if (profileIDs?.includes(id)) {
-        GetProjectsByID(id ? id : cachedCookie?._id, "Website").then((data) => {
+        GetProjectsByID(
+          id ? id : cachedCookie?._id,
+          "Website",
+          cachedCookie ? cachedCookie?._id : false
+        ).then((data) => {
           setisWebLoading(false);
           setprojectsData(data);
         });
-        GetProjectsByID(id ? id : cachedCookie?._id, "Application").then(
-          (data) => {
-            setisApploading(false);
-            setAppDatas(data);
-          }
-        );
+        GetProjectsByID(
+          id ? id : cachedCookie?._id,
+          "Application",
+          cachedCookie ? cachedCookie?._id : false
+        ).then((data) => {
+          setisApploading(false);
+          setAppDatas(data);
+        });
       }
       setisLoading(false);
     });
@@ -116,6 +123,7 @@ export default function Project() {
   ];
   return (
     <>
+      {!openModel && <Toaster position="top-center" />}
       {!noData && isOwner && (
         <Box
           sx={{
@@ -209,6 +217,7 @@ export default function Project() {
               isOwner={isOwner}
               handleOpen={handleOpen}
               title={"Website"}
+              fetchData={fetchData}
             />
           )}
           {!isAddProject && (

@@ -1,5 +1,12 @@
 import { Add } from "@mui/icons-material";
-import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Stack,
+  Switch,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import Loader from "../Loader";
 import Card from "../Card";
@@ -10,13 +17,14 @@ export default function WebsiteLayout({
   handleOpen,
   isLoading,
   title,
+  fetchData,
 }) {
   return (
     <Stack
       sx={{
         overflowY: "scroll",
         height: "520px",
-        width: { lg: "600px", sm: "100%", xs: "100%" },
+        width: { lg: "700px", sm: "100%", xs: "100%" },
         boxShadow:
           projectsData?.length > 4 ? "inset 0 -10px 10px -10px grey" : "none",
       }}
@@ -44,7 +52,10 @@ export default function WebsiteLayout({
         </Typography>
       </Box>
       <Grid
-        sx={{ position: "relative" }}
+        sx={{
+          position: "relative",
+          justifyContent: "space-evenly",
+        }}
         container
         direction="row"
         rowGap={4}
@@ -55,6 +66,7 @@ export default function WebsiteLayout({
           projectsData?.map((project, index) => {
             return (
               <Card
+                fetchData={fetchData}
                 title={title}
                 key={index}
                 project={project}

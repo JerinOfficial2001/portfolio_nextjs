@@ -9,6 +9,8 @@ import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import AppLoader from "./Emulators/AppLoader";
 import NoData from "./Emulators/NoData";
+import { DeviceFrameset } from "react-device-frameset";
+import "react-device-frameset/styles/marvel-devices.min.css";
 
 export default function EmulatorCarousel({ datas, isLoading, id }) {
   const router = useRouter();
@@ -45,79 +47,91 @@ export default function EmulatorCarousel({ datas, isLoading, id }) {
           {datas.map((elem, index) => (
             <SwiperSlide key={index}>
               <Box
-                onClick={() => {
-                  router.push(
-                    `/projects/application?id=${id}&projectID=${elem._id}`
-                  );
-                }}
                 sx={{
-                  position: "relative",
+                  height: "100%",
+                  width: "100%",
                   display: "flex",
-                  alignItems: "center",
                   justifyContent: "center",
-                  height: "90%",
-                  width: "90%",
+                  alignItems: "center",
                 }}
               >
-                <Stack
-                  sx={{
-                    position: "absolute",
-                    height: "94%",
-                    width: "88%",
-                    bottom: 16,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
+                <DeviceFrameset device="HTC One" height={"77%"} width={"100%"}>
                   <Box
-                    sx={{
-                      height: "100%",
-                      width: "100%",
+                    onClick={() => {
+                      router.push(
+                        `/projects/application?id=${id}&projectID=${elem._id}`
+                      );
                     }}
-                    component="img"
-                    src={elem?.images[0]?.url}
-                  />
-
-                  <Box
                     sx={{
-                      background: "#0000009e",
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       height: "100%",
                       width: "100%",
-                      position: "absolute",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      gap: 1,
                     }}
                   >
-                    <Box
+                    <Stack
                       sx={{
-                        height: "80px",
-                        width: "80px",
-                        boxShadow: "0 1px 1px 1px gray",
-                        borderRadius: "50%",
+                        // position: "absolute",
+                        height: "100%",
+                        width: "100%",
+                        bottom: 16,
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
-                      component="img"
-                      src={elem.image ? elem.image.url : "/AndroidIcon.png"}
-                    />
-                    <Typography
-                      sx={{ fontWeight: "bold", fontFamily: "monospace" }}
                     >
-                      {elem.title}
-                    </Typography>
-                  </Box>
-                </Stack>
+                      <Box
+                        sx={{
+                          height: "100%",
+                          width: "100%",
+                        }}
+                        component="img"
+                        src={elem?.images[0]?.url}
+                      />
 
-                <Box
-                  sx={{
-                    height: "100%",
-                    width: "100%",
-                    position: "relative",
-                  }}
-                  component="img"
-                  src={"/Emulators/Emulator2.png"}
-                />
+                      <Box
+                        sx={{
+                          background: "#0000009e",
+                          height: "100%",
+                          width: "100%",
+                          position: "absolute",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flexDirection: "column",
+                          gap: 1,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: "80px",
+                            width: "80px",
+                            boxShadow: "0 1px 1px 1px gray",
+                            borderRadius: "50%",
+                          }}
+                          component="img"
+                          src={elem.image ? elem.image.url : "/AndroidIcon.png"}
+                        />
+                        <Typography
+                          sx={{ fontWeight: "bold", fontFamily: "monospace" }}
+                        >
+                          {elem.title}
+                        </Typography>
+                      </Box>
+                    </Stack>
+
+                    {/* <Box
+                    sx={{
+                      height: "100%",
+                      width: "100%",
+                      position: "relative",
+                    }}
+                    component="img"
+                    src={"/Emulators/Emulator2.png"}
+                  /> */}
+                  </Box>
+                </DeviceFrameset>
               </Box>
             </SwiperSlide>
           ))}
