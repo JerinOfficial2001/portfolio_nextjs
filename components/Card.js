@@ -133,7 +133,11 @@ export default function Card({ project, handleOpen, title, fetchData }) {
               >
                 <Button
                   onClick={() => {
-                    router.push(`/projectPage?projectID=${project?._id}`);
+                    router.push(
+                      title == "Website"
+                        ? `/projectPage?projectID=${project?._id}`
+                        : `/projects/backendProject?projectID=${project?._id}`
+                    );
                   }}
                   sx={{
                     color: "white",

@@ -23,7 +23,7 @@ export default function WebsiteLayout({
     <Stack
       sx={{
         overflowY: "scroll",
-        height: "520px",
+        maxHeight: "520px",
         width: { lg: "700px", sm: "100%", xs: "100%" },
         boxShadow:
           projectsData?.length > 4 ? "inset 0 -10px 10px -10px grey" : "none",

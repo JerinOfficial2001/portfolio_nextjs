@@ -47,12 +47,15 @@ export default function ProjectModal({
     file: null,
     deletedIds: [],
     apk_id: "",
+    request: [],
+    baseUrl: "",
   });
 
   const [tools, settools] = useState("");
   const [apk, setapk] = useState(null);
   const IsApplication = modalType == "Application";
   const IsWebsite = modalType == "Website";
+  const IsBackend = modalType == "Backend";
   const fetchApk = () => {
     if (data._id) {
       GetAPK(id, data._id).then((data) => {
@@ -92,9 +95,20 @@ export default function ProjectModal({
         if (data) {
           fetchApk();
         }
+      } else if (IsBackend) {
+        setinputData({
+          title: data?.title ? data?.title : "",
+          image: data?.image ? data?.image : null,
+          userID: id,
+          isVisible: data?.isVisible ? data?.isVisible : true,
+          baseUrl: data?.baseUrl ? data?.baseUrl : "",
+          request: data?.request ? data?.request : [],
+        });
+      } else {
+        handleClose();
       }
     }
-  }, [data, IsApplication, IsWebsite, open]);
+  }, [data, IsApplication, IsWebsite, IsBackend, open]);
   const handleSetFormDatas = (name, value) => {
     setinputData((prev) => ({ ...prev, [name]: value }));
   };
@@ -115,6 +129,12 @@ export default function ProjectModal({
   const [endPointsData, setendPointsData] = useState({
     Path: "",
     Page: "",
+  });
+  const [requestData, setrequestData] = useState({
+    Path: "",
+    query: "",
+    params: "",
+    token: "",
   });
   const [credentialsData, setcredentialsData] = useState({
     Key: "",

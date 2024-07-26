@@ -120,6 +120,17 @@ export default function Project() {
         />
       ),
     },
+    {
+      name: "Backend",
+      onclick: () => handleOpen(null, "Backend"),
+      icon: (
+        <Box
+          component={"img"}
+          sx={{ objectFit: "contain" }}
+          src="/backend.png"
+        />
+      ),
+    },
   ];
   return (
     <>
@@ -211,14 +222,32 @@ export default function Project() {
             </Box>
           )}
           {!isAddProject && (
-            <WebsiteLayout
-              projectsData={websiteDatas}
-              isLoading={isWebLoading}
-              isOwner={isOwner}
-              handleOpen={handleOpen}
-              title={"Website"}
-              fetchData={fetchData}
-            />
+            <Stack sx={{ width: "100%" }}>
+              <WebsiteLayout
+                projectsData={websiteDatas}
+                isLoading={isWebLoading}
+                isOwner={isOwner}
+                handleOpen={handleOpen}
+                title={"Website"}
+                fetchData={fetchData}
+              />
+              <WebsiteLayout
+                projectsData={[
+                  {
+                    category: "Backend",
+                    image: { url: "/backend.png" },
+                    title: "Account_book API",
+                    isVisible: true,
+                    userID: "66276a73361a148fef6608c2",
+                  },
+                ]}
+                isLoading={isWebLoading}
+                isOwner={isOwner}
+                handleOpen={handleOpen}
+                title={"Backend"}
+                fetchData={fetchData}
+              />
+            </Stack>
           )}
           {!isAddProject && (
             <EmulatorCarousel
