@@ -339,6 +339,17 @@ export default function Firstrow({
           >
             {/* creditials */}
             <div
+              // onClick={() => {
+              //   router.push(
+              //     `/credentials${
+              //       homepage && homepage !== "homepage"
+              //         ? "?id=" + homepage
+              //         : data
+              //         ? "?id=" + data?._id
+              //         : ""
+              //     }`
+              //   );
+              // }}
               className="animate__animated animate__zoomIn animate__delay-1s secondrow"
 
               // onMouseEnter={() => {
@@ -500,7 +511,20 @@ export default function Firstrow({
               </Box>
             </div>
             {/* project*/}
-            <div className="animate__animated animate__zoomIn animate__delay-1s secondrow">
+            <div
+              onClick={() => {
+                router.push(
+                  `/project${
+                    homepage && homepage !== "homepage"
+                      ? "?id=" + homepage
+                      : data
+                      ? "?id=" + data?._id
+                      : ""
+                  }`
+                );
+              }}
+              className="animate__animated animate__zoomIn animate__delay-1s secondrow"
+            >
               <Box
                 sx={{
                   width: "100%",

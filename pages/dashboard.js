@@ -44,10 +44,15 @@ export default function Dashboard() {
   return (
     <Layout dashboard={true}>
       <Toaster position="top-center" />
-      <Grid container columnGap={4} rowGap={1} sx={{ width: "100%" }}>
+      <Grid
+        container
+        columnGap={{ xl: 4, md: 4, sm: 4, xs: 2 }}
+        rowGap={1}
+        sx={{ width: "100%" }}
+      >
         {isLoading ? (
           [1, 2, 3, 4].map((item) => (
-            <Grid key={item} item md={2.7} sm={12} xs={12}>
+            <Grid key={item} item md={2.7} sm={12} xs={5.75}>
               <Skeleton
                 variant="rectangular"
                 sx={{
@@ -56,7 +61,7 @@ export default function Dashboard() {
                     lg: 350,
                     md: 350,
                     sm: 300,
-                    xs: 300,
+                    xs: 200,
                   },
                   width: "100%",
                   background: "#3f3f3f",
@@ -68,8 +73,11 @@ export default function Dashboard() {
         ) : profiles.length > 0 ? (
           profiles?.map((item) => {
             return (
-              <Grid key={item._id} item md={2.5} sm={12} xs={12}>
+              <Grid key={item._id} item md={2.5} sm={12} xs={5.75}>
                 <div
+                  onClick={() => {
+                    handleRoute(item.userID);
+                  }}
                   style={{ width: "100%" }}
                   className="animate__animated animate__zoomIn animate__delay-1s thirdrow"
                 >
@@ -78,27 +86,34 @@ export default function Dashboard() {
                       background:
                         "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
                       height: {
-                        xl: 300,
+                        xl: 350,
                         lg: 350,
                         md: 350,
                         sm: 300,
-                        xs: 300,
+                        xs: 200,
                       },
                       width: "100%",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      gap: 2,
+                      gap: { xl: 2, lg: 2, md: 2, sm: 2, xs: 0 },
                       flexDirection: "column",
                       cursor: "pointer",
                       borderRadius: 8,
                       border: "1px solid #232323",
                       boxShadow: "0 0 0 2px black",
+                      marginTop: { xl: 0, lg: 0, md: 0, sm: 0, xs: 2 },
                     }}
                   >
                     <Box
                       sx={{
-                        height: "215px",
+                        height: {
+                          xl: "215px",
+                          lg: "215px",
+                          md: "215px",
+                          sm: "215px",
+                          xs: "140px",
+                        },
                         width: "100%",
                         background:
                           "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
@@ -114,7 +129,7 @@ export default function Dashboard() {
                           src={item.image.url}
                           alt="ProfilePic"
                           style={{
-                            height: "215px",
+                            height: "100%",
                             width: "100%",
                             objectFit: "cover",
                             objectPosition: "top",
@@ -145,6 +160,7 @@ export default function Dashboard() {
                         width: "100%",
                         justifyContent: "center",
                         alignItems: "center",
+                        padding: { xl: 0, xs: 2 },
                       }}
                     >
                       <Box
@@ -183,7 +199,7 @@ export default function Dashboard() {
                             lg: 60,
                             md: 60,
                             sm: 150,
-                            xs: 100,
+                            xs: 60,
                           },
                           height: "90%",
                           display: "flex",
