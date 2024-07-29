@@ -47,12 +47,22 @@ export default function Dashboard() {
       <Grid
         container
         columnGap={{ xl: 4, md: 4, sm: 4, xs: 2 }}
-        rowGap={1}
-        sx={{ width: "100%" }}
+        rowGap={{ xl: 1, md: 1, sm: 1, xs: 3 }}
+        sx={{
+          width: "100%",
+          justifyContent: {
+            xl: "normal",
+            lg: "normal",
+            md: "normal",
+            sm: "normal",
+            xs: "space-between",
+          },
+          padding: { xl: 0, xs: 2 },
+        }}
       >
         {isLoading ? (
           [1, 2, 3, 4].map((item) => (
-            <Grid key={item} item md={2.7} sm={12} xs={5.75}>
+            <Grid key={item} item md={2.7} sm={12} xs={5.5}>
               <Skeleton
                 variant="rectangular"
                 sx={{
@@ -73,7 +83,7 @@ export default function Dashboard() {
         ) : profiles.length > 0 ? (
           profiles?.map((item) => {
             return (
-              <Grid key={item._id} item md={2.5} sm={12} xs={5.75}>
+              <Grid key={item._id} item md={2.5} sm={12} xs={5.5}>
                 <div
                   onClick={() => {
                     handleRoute(item.userID);
@@ -165,7 +175,7 @@ export default function Dashboard() {
                     >
                       <Box
                         sx={{
-                          width: "60%",
+                          width: { xl: "60%", xs: "100%" },
                           height: "90%",
                           display: "flex",
                           justifyContent: "center",
@@ -175,9 +185,21 @@ export default function Dashboard() {
                         <Typography
                           sx={{
                             color: "#5a5a5a",
-                            fontSize: 13,
+                            fontSize: {
+                              xl: 13,
+                              lg: 13,
+                              md: 13,
+                              sm: 13,
+                              xs: 9,
+                            },
                             fontWeight: "bold",
-                            minWidth: "200px",
+                            minWidth: {
+                              xl: "200px",
+                              lg: "200px",
+                              md: "200px",
+                              sm: "200px",
+                              xs: "100px",
+                            },
                           }}
                         >
                           {item.role}
@@ -185,7 +207,13 @@ export default function Dashboard() {
                         <Typography
                           sx={{
                             color: "white",
-                            fontSize: 23,
+                            fontSize: {
+                              xl: 23,
+                              lg: 23,
+                              md: 23,
+                              sm: 23,
+                              xs: 15,
+                            },
                             textTransform: "capitalize",
                           }}
                         >
@@ -202,7 +230,7 @@ export default function Dashboard() {
                             xs: 60,
                           },
                           height: "90%",
-                          display: "flex",
+                          display: { xl: "flex", xs: "none" },
                           justifyContent: "center",
                           alignItems: "center",
                           gap: 2,
