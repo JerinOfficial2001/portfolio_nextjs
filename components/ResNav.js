@@ -113,13 +113,7 @@ export default function ResNav({
           sm: "column",
           xs: "column",
         },
-        background: {
-          xl: "none",
-          lg: "none",
-          md: "none",
-          sm: "#0f0f0f",
-          xs: "#0f0f0f",
-        },
+
         position: {
           xl: "sticky",
           lg: "sticky",
@@ -143,13 +137,23 @@ export default function ResNav({
           xs: 4,
         },
         zIndex: 1000,
+        borderRadius: 4,
+        boxShadow: "0px 1px 0px 0px white",
+        background: {
+          xl: "none",
+          lg: "none",
+          md: "none",
+          sm: "#0f0f0f",
+          xs: "#0f0f0f",
+        },
       }}
     >
       <Box
         sx={{
+          padding: 2,
           height: "100%",
           display: "flex",
-          width: "45%",
+          width: "100%",
           justifyContent: "space-between",
           flexDirection: {
             xl: "row",

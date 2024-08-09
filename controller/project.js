@@ -99,7 +99,18 @@ export const GetAPK = async (user_id, projectID) => {
     console.log("UploadAPK ERR", error);
   }
 };
-
+export const GetAllVisibleProjects = async (id) => {
+  try {
+    const { data } = await axios.get(`${API}/Projects/getallprojects`);
+    if (data.status == "ok") {
+      return data.data;
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log("GetProjects ERR", error);
+  }
+};
 export const DeleteAPK = async (apk_id) => {
   try {
     const { data } = await axios.delete(`${API}/Projects/deleteapk/${apk_id}`);

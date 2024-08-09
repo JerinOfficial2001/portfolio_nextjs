@@ -38,7 +38,7 @@ export default function Layout({
               ? customStyle
               : {
                   sx: {
-                    alignItems: "center",
+                    alignItems: dashboard ? "flex-start" : "center",
                   },
                 })}
           >

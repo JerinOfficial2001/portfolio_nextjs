@@ -164,8 +164,8 @@ export default function Navbar({ dashboard }) {
         alignItems: "center",
         background: {
           lg: "transparent",
-          sm: "black",
-          xs: "black",
+          sm: "#0f0f0f",
+          xs: "#0f0f0f",
         },
       }}
     >
@@ -188,7 +188,7 @@ export default function Navbar({ dashboard }) {
           </Typography>
         </Button>
       </div>
-      {menuBtn && !dashboard && (
+      {menuBtn && (
         <ResNav
           setmenuBtn={setmenuBtn}
           setopenViewProfile={setopenViewProfile}

@@ -8,7 +8,9 @@ import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import Layout from "@/layouts/Layout";
 import { useRouter } from "next/router";
 import { SocketProvider } from "@/utils/socket";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+const queryClient = new QueryClient();
 export const MyContextState = createContext({});
 export default function App({ Component, pageProps }) {
   const store = configureStore({
@@ -30,27 +32,29 @@ export default function App({ Component, pageProps }) {
   }, [cookie]);
 
   return (
-    <Provider store={store}>
-      <SocketProvider>
-        <MyContextState.Provider
-          value={{
-            setcustomStyle,
-            direction,
-            setdirection,
-            userData,
-            profiles,
-            setprofiles,
-          }}
-        >
-          {router.pathname == "/feedback" || router.pathname == "/" ? (
-            <Component {...pageProps} />
-          ) : (
-            <Layout direction={direction} customStyle={customStyle}>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <SocketProvider>
+          <MyContextState.Provider
+            value={{
+              setcustomStyle,
+              direction,
+              setdirection,
+              userData,
+              profiles,
+              setprofiles,
+            }}
+          >
+            {router.pathname == "/feedback" || router.pathname == "/" ? (
               <Component {...pageProps} />
-            </Layout>
-          )}
-        </MyContextState.Provider>
-      </SocketProvider>
-    </Provider>
+            ) : (
+              <Layout direction={direction} customStyle={customStyle}>
+                <Component {...pageProps} />
+              </Layout>
+            )}
+          </MyContextState.Provider>
+        </SocketProvider>
+      </Provider>
+    </QueryClientProvider>
   );
 }
