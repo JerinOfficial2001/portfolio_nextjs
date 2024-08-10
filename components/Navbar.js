@@ -182,7 +182,7 @@ export default function Navbar({ dashboard }) {
             variant="h6"
             color="white"
             fontWeight="bold"
-            fontFamily="cursive"
+            // fontFamily="cursive"
           >
             Jers-folio
           </Typography>
@@ -259,7 +259,7 @@ export default function Navbar({ dashboard }) {
                       fontWeight: "bold",
                       cursor: "pointer",
                       transition: ".3s",
-                      fontFamily: "cursive",
+                      // fontFamily: "cursive",
                       textTransform: "uppercase",
                       padding: 1,
                       borderRadius: 10,
@@ -313,7 +313,7 @@ export default function Navbar({ dashboard }) {
                 xs: 3,
               },
               border: "2px solid cornflowerblue",
-              fontFamily: "cursive",
+              // fontFamily: "cursive",
             }}
           >
             Feedback
@@ -348,7 +348,7 @@ export default function Navbar({ dashboard }) {
               xs: 3,
             },
             border: "2px solid cornflowerblue",
-            fontFamily: "cursive",
+            // fontFamily: "cursive",
           }}
         >
           {userData ? "Feedback" : "Login"}

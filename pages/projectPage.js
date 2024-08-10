@@ -51,16 +51,22 @@ export default function ProjectPage() {
     }, 3000);
   };
   return (
-    <>
-      <div
-        style={{ width: "70%" }}
-        className="animate__animated animate__zoomIn animate__delay-1s  "
-      >
+    <Stack
+      direction={{ xs: "column", lg: "row" }}
+      sx={{
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "space-between",
+        height: { xs: "100%", lg: "80vh" },
+        gap: 3,
+      }}
+    >
+      <div className="animate__animated animate__zoomIn animate__delay-1s  ">
         <Stack
           direction="row"
           sx={{
             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
-            height: "500px",
+            height: { xs: "300px", lg: "500px" },
             borderRadius: "40px",
             cursor: "pointer",
             justifyContent: "center",
@@ -69,18 +75,20 @@ export default function ProjectPage() {
             border: "1px solid #232323",
             position: "relative",
             padding: "15px",
-            width: "100%",
+            width: { xs: "400px", lg: "800px" },
           }}
         >
           <iframe
             src={`${projectData?.link}${endPoints}`}
-            width="100%"
-            height="100%"
             style={{
               borderRadius: "30px",
               border: "2px solid cornflowerblue",
               cursor: "pointer",
               pointerEvents: showImgs ? "none" : "auto",
+              width: "1200px",
+              transform: "scale(1)",
+              transformOrigin: "0 0",
+              height: "100%",
             }}
           ></iframe>
           {/* <IconButton
@@ -190,10 +198,7 @@ export default function ProjectPage() {
           </Stack> */}
         </Stack>
       </div>
-      <div
-        className="animate__animated animate__zoomIn animate__delay-1s  "
-        style={{ width: "30%" }}
-      >
+      <div className="animate__animated animate__zoomIn animate__delay-1s  ">
         <Stack
           direction="column"
           sx={{
@@ -218,7 +223,6 @@ export default function ProjectPage() {
                 <Typography
                   sx={{
                     color: "whitesmoke",
-                    fontFamily: "cursive",
                     fontWeight: "bold",
                     textTransform: "uppercase",
                   }}
@@ -228,9 +232,7 @@ export default function ProjectPage() {
                 {projectData?.credentials.map((elem, index) => {
                   return (
                     <Stack key={index} sx={{ width: "100%" }}>
-                      <Typography
-                        sx={{ color: "#7c7c7c", fontFamily: "cursive" }}
-                      >
+                      <Typography sx={{ color: "#7c7c7c" }}>
                         {elem.Key}
                       </Typography>
                       <Box
@@ -248,7 +250,6 @@ export default function ProjectPage() {
                         <Typography
                           sx={{
                             color: "#696666",
-                            fontFamily: "cursive",
                             marginLeft: 2,
                           }}
                         >
@@ -311,6 +312,6 @@ export default function ProjectPage() {
           </Button>
         </Stack>
       </div>
-    </>
+    </Stack>
   );
 }

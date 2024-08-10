@@ -245,7 +245,6 @@ export default function Projects() {
                       />
                     )}
                   </Box>
-
                   <Stack
                     direction="row"
                     sx={{

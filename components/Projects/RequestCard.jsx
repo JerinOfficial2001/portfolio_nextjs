@@ -130,13 +130,13 @@ export default function RequestCard({ props }) {
         alignItems: "center",
         justifyContent: "space-between",
         display: "flex",
-        flexDirection: "row",
+        flexDirection: { xs: "column", lg: "row" },
         gap: 2,
       }}
     >
       <Stack
         sx={{
-          width: "60%",
+          width: { xs: "100%", lg: "60%" },
           alignItems: "flex-start",
           justifyContent: "center",
           gap: 1,
@@ -319,7 +319,7 @@ export default function RequestCard({ props }) {
             background: "#1a1a1a",
             padding: 2,
             borderRadius: "10px",
-            width: "40%",
+            width: { xs: "100%", lg: "40%" },
           }}
         >
           <Typography
