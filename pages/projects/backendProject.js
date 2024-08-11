@@ -1,6 +1,8 @@
 import Input from "@/components/Input";
 import RequestCard from "@/components/Projects/RequestCard";
 import {
+  Autorenew,
+  Check,
   CheckCircle,
   ContentCopy,
   KeyboardArrowDown,
@@ -10,21 +12,24 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Collapse,
   IconButton,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import React, { Suspense, useEffect, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function BackendProject() {
   const AllRequests = {
     credentials: [
-      { key: "phone", value: "09876567567557", type: "number" },
-      { key: "password", value: "Demo@123", type: "text" },
-      { key: "role", value: "Demo@123", type: "text" },
+      { key: "phone", value: "9876543210", type: "number" },
+      { key: "password", value: "Test@123", type: "text" },
     ],
     authUrl: "https://accountbookapi.vercel.app/api/v1/auth/login",
     isAuthVisible: true,
@@ -56,8 +61,6 @@ export default function BackendProject() {
             url: "https://accountbookapi.vercel.app",
             title: "GetParty",
             endpoint: "/api/v1/party/get",
-            token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmExZjM5ZGJiZGYwZjY0YWQ3YWZkNTgiLCJpYXQiOjE3MjE5ODcxMTh9.Kwp4efimqaBHvFP4T_KxMBYyHPOADqkDAy83-KbrJC4",
             query: [{ key: "userid", value: "66a1f39dbbdf0f64ad7afd58" }],
             params: [{ key: "StatisticID", value: "66a1f39dbbdf0f64ad7afd5a" }],
             isAuthenticated: true,
@@ -67,8 +70,6 @@ export default function BackendProject() {
             _id: 3,
             url: "https://accountbookapi.vercel.app",
             title: "GetCollections",
-            token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmExZjM5ZGJiZGYwZjY0YWQ3YWZkNTgiLCJpYXQiOjE3MjE5ODcxMTh9.Kwp4efimqaBHvFP4T_KxMBYyHPOADqkDAy83-KbrJC4",
             endpoint: "/api/v1/collection/get",
             query: [{ key: "userid", value: "66a1f39dbbdf0f64ad7afd58" }],
             params: [
@@ -91,8 +92,6 @@ export default function BackendProject() {
             url: "https://accountbookapi.vercel.app",
             title: "CreateParty",
             endpoint: "/api/v1/party/create",
-            token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmExZjM5ZGJiZGYwZjY0YWQ3YWZkNTgiLCJpYXQiOjE3MjE5ODcxMTh9.Kwp4efimqaBHvFP4T_KxMBYyHPOADqkDAy83-KbrJC4",
             query: [{ key: "userid", value: "66a1f39dbbdf0f64ad7afd58" }],
             params: [],
             inputs: [
@@ -129,7 +128,7 @@ export default function BackendProject() {
       ? AllRequests.requests.map(() => ({ isOpen: true }))
       : []
   );
-
+  const [authToken, setauthToken] = useState("");
   const [inputDatas, setinputDatas] = useState(null);
   useEffect(() => {
     if (AllRequests.requests.length > 0) {
@@ -189,8 +188,30 @@ export default function BackendProject() {
       setCopied(prevArr);
     }, 3000);
   };
+  const handleAuthentication = async () => {
+    const requiredFields = AllRequests.credentials.map((elem) => elem.key);
+    const isFilled = requiredFields.every((elem) => inputDatas[elem] != "");
+    if (isFilled) {
+      const { data } = await axios.post(AllRequests.authUrl, inputDatas);
+      if (data) {
+        if (data.status == "ok") {
+          setauthToken(data);
+          setopenAuth(false);
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } else {
+      toast.error("All fields are mandatory");
+    }
+  };
+  const { isPending: isAuthLoading, mutate: authenticate } = useMutation({
+    mutationKey: "authentication",
+    mutationFn: handleAuthentication,
+  });
   return (
     <Suspense>
+      <Toaster position="top-center" />
       <Stack sx={{ width: "100%", gap: 2, alignItems: "flex-start" }}>
         <Stack
           sx={{ width: "100%", justifyContent: "center", alignItems: "center" }}
@@ -209,15 +230,11 @@ export default function BackendProject() {
               top: "100px",
             }}
           >
-            <Chip
-              label="Base URL"
-              sx={{ fontFamily: "cursive", fontWeight: "bold" }}
-            />
+            <Chip label="Base URL" sx={{ fontWeight: "bold" }} />
             <Typography
               // title={URL}
               sx={{
                 color: "gray",
-                fontFamily: "cursive",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: "87%",
@@ -336,7 +353,7 @@ export default function BackendProject() {
                 justifyContent: "center",
                 alignItems: "center",
                 background: "#ffffff0a",
-                gap: 2.5,
+                gap: 0.7,
               }}
             >
               <Typography
@@ -344,7 +361,6 @@ export default function BackendProject() {
                   color: "whitesmoke",
                   fontWeight: "bold",
                   textTransform: "uppercase",
-                  marginBottom: 1,
                 }}
               >
                 Authenticate
@@ -362,6 +378,39 @@ export default function BackendProject() {
                     />
                   );
                 })}
+              <Button
+                onClick={isAuthLoading ? undefined : authenticate}
+                variant="contained"
+                sx={{
+                  color: "white",
+                  background: "#323232",
+                  borderRadius: 4,
+                  "&:hover": {
+                    background: "#323232",
+                    color: "white",
+                    border: "2px solid lavender",
+                  },
+                  textTransform: "none",
+                  border: "2px solid cornflowerblue",
+                }}
+                size="small"
+              >
+                {isAuthLoading ? (
+                  <Autorenew
+                    sx={{
+                      color: "#265482",
+                      transition: ".3s",
+                      marginBottom: 0.3,
+                    }}
+                    className="loadingBtn"
+                  />
+                ) : (
+                  <>
+                    <Check fontSize="small" sx={{ marginRight: "2px" }} />{" "}
+                    Submit
+                  </>
+                )}
+              </Button>
             </Stack>
           ) : (
             <Button
@@ -389,7 +438,6 @@ export default function BackendProject() {
                   xs: 3,
                 },
                 border: "2px solid cornflowerblue",
-                // fontFamily: "cursive",
               }}
             >
               Authenticate
@@ -404,7 +452,6 @@ export default function BackendProject() {
                   color: "white",
                   fontWeight: "bold",
                   textTransform: "none",
-                  fontFamily: "cursive",
                   width: "100%",
                   display: "flex",
                   alignItems: "center",
@@ -432,7 +479,7 @@ export default function BackendProject() {
                   sx={{ gap: 2, display: "flex", flexDirection: "column" }}
                 >
                   {methods.contents.map((elem, index) => {
-                    if (elem.isAuthenticated) {
+                    if (elem.isAuthenticated && authToken == "") {
                       return (
                         <Stack
                           key={elem._id}
@@ -456,7 +503,7 @@ export default function BackendProject() {
                             url: elem.url,
                             title: elem.title,
                             endpoint: elem.endpoint,
-                            token: elem.token,
+                            token: authToken[AllRequests.dataKeyForToken],
                             query: elem.query,
                             params: elem.params,
                             inputs: elem.inputs,

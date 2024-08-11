@@ -8,6 +8,8 @@ export default function Input({
   value,
   onChange,
   placeholder,
+  height,
+  width,
 }) {
   return (
     <TextField
@@ -47,7 +49,9 @@ export default function Input({
         },
         "& input": {
           color: "white",
+          height: height ? height : "auto",
         },
+        width: width ? width : "100%",
       }}
       fullWidth
     />

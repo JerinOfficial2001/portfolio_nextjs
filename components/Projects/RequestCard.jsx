@@ -10,11 +10,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { CheckCircle, ContentCopy } from "@mui/icons-material";
+import { Autorenew, CheckCircle, ContentCopy } from "@mui/icons-material";
 import CopyToClipboard from "react-copy-to-clipboard";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "../Loader";
+import Input from "../Input";
 
 export default function RequestCard({ props }) {
   const { inputs, request, url, title, token, query, params, endpoint } = props;
@@ -120,8 +121,6 @@ export default function RequestCard({ props }) {
       }
       return acc;
     }, {});
-
-    console.log(result); // Log the final object
   }
   return (
     <Box
@@ -157,13 +156,10 @@ export default function RequestCard({ props }) {
             sx={{
               background: color,
               color: "white",
-              fontFamily: "cursive",
               fontWeight: "bold",
             }}
           />
-          <Typography sx={{ color: "gray", fontFamily: "cursive" }}>
-            / {title}
-          </Typography>
+          <Typography sx={{ color: "gray" }}>/ {title}</Typography>
         </Box>
         {/** URL  **/}
         <Box
@@ -182,7 +178,6 @@ export default function RequestCard({ props }) {
             title={URL}
             sx={{
               color: "gray",
-              fontFamily: "cursive",
               overflow: "hidden",
               textOverflow: "ellipsis",
               maxWidth: "87%",
@@ -224,7 +219,7 @@ export default function RequestCard({ props }) {
           }}
         >
           {queryDatas(query) && (
-            <Stack sx={{ fontFamily: "cursive" }}>
+            <Stack>
               <Typography sx={{ color: "gray", fontWeight: "bold" }}>
                 Query
               </Typography>
@@ -238,7 +233,7 @@ export default function RequestCard({ props }) {
             </Stack>
           )}
           {paramsData(params) && (
-            <Stack sx={{ fontFamily: "cursive" }}>
+            <Stack>
               <Typography sx={{ color: "gray", fontWeight: "bold" }}>
                 Params
               </Typography>
@@ -256,7 +251,6 @@ export default function RequestCard({ props }) {
         {token && (
           <Box
             sx={{
-              fontFamily: "cursive",
               color: "#424242",
               display: "flex",
               flexDirection: "row",
@@ -269,7 +263,7 @@ export default function RequestCard({ props }) {
             Token :
             <Typography
               sx={{
-                maxWidth: "550px",
+                maxWidth: { xs: "200px", sm: "500px", lg: "550px" },
                 flexWrap: "nowrap",
                 display: "-webkit-box",
                 overflow: "hidden",
@@ -283,31 +277,108 @@ export default function RequestCard({ props }) {
         )}
         {/** Inputs  **/}
         {inputs && (
-          <Grid container rowGap={0.3} columnGap={0.3} sx={{ width: "100%" }}>
-            {inputs.map((elem, index) => {
-              return (
-                <Grid xl={3.9} lg={3.9} item key={index}>
-                  <Box>
-                    <TextField
-                      type={elem.type}
-                      variant="outlined"
+          <Grid
+            container
+            rowGap={0.3}
+            columnGap={0.3}
+            direction={"row"}
+            sx={{ width: "100%", justifyContent: "space-between" }}
+          >
+            <Grid xs={12} sm={7.5} md={6} lg={6.5}>
+              <Typography sx={{ color: "gray", fontWeight: "bold" }}>
+                Payload :
+              </Typography>
+              <Typography sx={{ color: "gray", fontWeight: "bold" }}>
+                {"{"}
+              </Typography>
+              {inputs.map((elem, index) => {
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      color: "white",
+                      marginBottom: 1,
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography
                       sx={{
-                        width: "100%",
-                        outline: "none",
-                        background: "#252525",
-                        borderRadius: 3,
-                        "& fieldset": { border: "none" },
-                        input: { color: "white" },
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 1,
+                        justifyContent: "center",
+                        color: "gray",
+                        fontWeight: "bold",
                       }}
-                      label={elem.label}
-                      value={elem.name}
-                      onChange={elem.onChange}
-                      name={elem.name}
-                    />
+                    >
+                      {elem.name}
+                    </Typography>
+                    <Stack direction={"row"} gap={1}>
+                      <Typography sx={{ color: "gray", fontWeight: "bold" }}>
+                        :
+                      </Typography>
+
+                      <Input
+                        type={elem.type}
+                        label={elem.label}
+                        onChange={elem.onChange}
+                        name={elem.name}
+                        height="10px"
+                        width="250px"
+                      />
+                    </Stack>
                   </Box>
-                </Grid>
-              );
-            })}
+                );
+              })}
+              <Typography sx={{ color: "gray", fontWeight: "bold" }}>
+                {"}"}
+              </Typography>
+            </Grid>
+            <Grid
+              xs={12}
+              sm={4}
+              md={6}
+              lg={5}
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                onClick={isLoading ? undefined : handleSubmit}
+                variant="contained"
+                sx={{
+                  color: "white",
+                  background: "#323232",
+                  borderRadius: 4,
+                  "&:hover": {
+                    background: "#323232",
+                    color: "white",
+                    border: "2px solid lavender",
+                  },
+                  textTransform: "none",
+                  border: "2px solid cornflowerblue",
+                }}
+                size="small"
+              >
+                {isLoading ? (
+                  <Autorenew
+                    sx={{
+                      color: "#265482",
+                      transition: ".3s",
+                      marginBottom: 0.3,
+                    }}
+                    className="loadingBtn"
+                  />
+                ) : (
+                  <>Submit</>
+                )}
+              </Button>
+            </Grid>
           </Grid>
         )}
       </Stack>
@@ -315,7 +386,6 @@ export default function RequestCard({ props }) {
       {!isLoading ? (
         <Stack
           sx={{
-            fontFamily: "cursive",
             background: "#1a1a1a",
             padding: 2,
             borderRadius: "10px",
