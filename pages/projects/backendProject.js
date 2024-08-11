@@ -232,20 +232,27 @@ export default function BackendProject() {
           >
             <Chip label="Base URL" sx={{ fontWeight: "bold" }} />
             <Typography
+              sx={{
+                color: "gray",
+              }}
+            >
+              :
+            </Typography>
+            <Typography
               // title={URL}
               sx={{
                 color: "gray",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                maxWidth: "87%",
+                maxWidth: "70%",
                 flexWrap: "nowrap",
-                display: "-webkit-box",
-                overflow: "hidden",
                 WebkitBoxOrient: "vertical",
                 WebkitLineClamp: 1,
+                display: "block",
+                flexDirection: "row",
               }}
             >
-              : https://accountbookapi.vercel.app
+              https://accountbookapi.vercel.app
             </Typography>
           </Box>
         </Stack>

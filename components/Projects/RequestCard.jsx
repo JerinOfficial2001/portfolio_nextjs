@@ -16,6 +16,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "../Loader";
 import Input from "../Input";
+import { useMutation } from "@tanstack/react-query";
 
 export default function RequestCard({ props }) {
   const { inputs, request, url, title, token, query, params, endpoint } = props;
@@ -64,12 +65,40 @@ export default function RequestCard({ props }) {
   };
   const URL = url + endpoint + paramsData(params) + queryDatas(query);
   const handleSubmit = async () => {
+    const requiredFields = inputs.map((elem) => elem.name);
+    const isFilled = requiredFields.every((elem) => inputDatas[elem] != "");
     switch (request) {
       case "POST":
-        color = "#b5b50c";
+        if (isFilled) {
+          try {
+            const { data } = await axios.post(URL, inputDatas, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            if (data) {
+              setoutput(data);
+            } else {
+              toast.error("Failed");
+            }
+          } catch (error) {
+            console.log(error);
+
+            toast.error("Something went wrong");
+          }
+        } else {
+          toast.error("All fields are mandatory");
+        }
         break;
       case "PUT":
-        color = "#0c57b0";
+        if (isFilled) {
+          try {
+          } catch (error) {
+            toast.error("Something went wrong");
+          }
+        } else {
+          toast.error("All fields are mandatory");
+        }
         break;
       case "DELETE":
         color = "#b00c0c";
@@ -108,7 +137,24 @@ export default function RequestCard({ props }) {
     if (inputs && inputs.label > 0) {
       setinputDatas();
     }
+    const inputData = {};
+    inputs?.forEach((elem) => {
+      inputData[elem.name] = "";
+    });
+    setinputDatas(inputData);
   }, []);
+  const inputFields = inputs?.map((elem) => ({
+    name: elem.name,
+    placeholder: "",
+    value: inputDatas ? inputDatas[elem.name] : "",
+    onChange: (e) => handleOnchange(e),
+    type: elem.type,
+  }));
+  const handleOnchange = (event) => {
+    const { name, value } = event.target;
+    setinputDatas((prev) => ({ ...prev, [name]: value }));
+  };
+
   if (inputs && inputs.length > 0) {
     // Reduce the array to a single object
     const result = inputs.reduce((acc, item) => {
@@ -122,6 +168,10 @@ export default function RequestCard({ props }) {
       return acc;
     }, {});
   }
+  const { mutate: handleRequest, isPending } = useMutation({
+    mutationFn: handleSubmit,
+    mutationKey: ["requestHandler"],
+  });
   return (
     <Box
       sx={{
@@ -209,7 +259,7 @@ export default function RequestCard({ props }) {
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: { xs: "column", sm: "row" },
             alignItems: "center",
             justifyContent: "center",
             width: "100%",
@@ -258,12 +308,13 @@ export default function RequestCard({ props }) {
               justifyContent: "center",
               fontWeight: "bold",
               marginTop: 2,
+              width: "100%",
             }}
           >
             Token :
             <Typography
               sx={{
-                maxWidth: { xs: "200px", sm: "500px", lg: "550px" },
+                maxWidth: "70%",
                 flexWrap: "nowrap",
                 display: "-webkit-box",
                 overflow: "hidden",
@@ -276,7 +327,7 @@ export default function RequestCard({ props }) {
           </Box>
         )}
         {/** Inputs  **/}
-        {inputs && (
+        {inputFields && (
           <Grid
             container
             rowGap={0.3}
@@ -291,7 +342,7 @@ export default function RequestCard({ props }) {
               <Typography sx={{ color: "gray", fontWeight: "bold" }}>
                 {"{"}
               </Typography>
-              {inputs.map((elem, index) => {
+              {inputFields.map((elem, index) => {
                 return (
                   <Box
                     key={index}
@@ -349,7 +400,7 @@ export default function RequestCard({ props }) {
               }}
             >
               <Button
-                onClick={isLoading ? undefined : handleSubmit}
+                onClick={isPending ? undefined : handleRequest}
                 variant="contained"
                 sx={{
                   color: "white",
@@ -365,7 +416,7 @@ export default function RequestCard({ props }) {
                 }}
                 size="small"
               >
-                {isLoading ? (
+                {isPending ? (
                   <Autorenew
                     sx={{
                       color: "#265482",
