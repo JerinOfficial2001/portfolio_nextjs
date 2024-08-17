@@ -458,3 +458,11 @@ a {
 .swiper-slide:nth-child(10n) {
   /* background-color: rgb(54, 94, 77); */
 }
+.swiper-pagination .swiper-pagination-bullet-active-next {
+  background: #797979;
+  opacity: 1;
+}
+.swiper-pagination .swiper-pagination-bullet-active-prev {
+  background: #797979;
+  opacity: 1;
+}

@@ -4,6 +4,7 @@ import {
   Box,
   Grid,
   IconButton,
+  Link,
   Skeleton,
   Stack,
   Typography,
@@ -19,6 +20,8 @@ import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { MyContextState } from "@/pages/_app";
 import { useQuery } from "@tanstack/react-query";
 import { GetAllVisibleProjects } from "@/controller/project";
+import BulletCarousel from "../Projects/BulletCarousel";
+import { SwiperSlide } from "swiper/react";
 
 export default function Projects() {
   const [isHovered, setisHovered] = useState(false);
@@ -74,6 +77,7 @@ export default function Projects() {
                 width: "100%",
                 background: "#3f3f3f",
                 borderRadius: 10,
+                marginBottom: 2,
               }}
             />
           </Grid>
@@ -81,11 +85,8 @@ export default function Projects() {
       ) : projects.length > 0 ? (
         projects?.map((item) => {
           return (
-            <Grid key={item._id} item>
+            <Grid key={item._id} item sx={{ width: "-webkit-fill-available" }}>
               <div
-                // onClick={() => {
-                //   handleRoute(item.userID);
-                // }}
                 style={{ width: "100%" }}
                 className="animate__animated animate__zoomIn animate__delay-1s thirdrow"
               >
@@ -112,137 +113,177 @@ export default function Projects() {
                     sx={{
                       height: "90px",
                       width: "100%",
-                      justifyContent: "flex-start",
+                      justifyContent: "space-between",
                       alignItems: "center",
                       padding: 2,
                       gap: 2,
                     }}
                   >
-                    <Box
+                    <Stack
+                      direction={"row"}
                       sx={{
-                        height: "60px",
-                        width: "60px",
-                        background:
-                          "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
-                        boxShadow: "0px 0px 5px black",
-                        display: "flex",
-                        alignItem: "center",
+                        alignItems: "center",
                         justifyContent: "center",
-                        borderRadius: "50%",
-                        padding: 0.2,
+                        gap: 2,
                       }}
                     >
-                      {item.profileImg !== "null" && item.profileImg ? (
-                        <Box
-                          component={"img"}
-                          src={item.profileImg.url}
+                      <Box
+                        sx={{
+                          height: "60px",
+                          width: "60px",
+                          background:
+                            "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
+                          boxShadow: "0px 0px 5px black",
+                          display: "flex",
+                          alignItem: "center",
+                          justifyContent: "center",
+                          borderRadius: "50%",
+                          padding: 0.2,
+                        }}
+                      >
+                        {item.profileImg !== "null" && item.profileImg ? (
+                          <Box
+                            component={"img"}
+                            src={item.profileImg.url}
+                            alt="ProfilePic"
+                            style={{
+                              height: "100%",
+                              width: "100%",
+                              objectFit: "contain",
+                              objectPosition: "center",
+                              borderRadius: "50%",
+                            }}
+                          />
+                        ) : (
+                          <Image
+                            src={require(!item.gender ||
+                              item.gender == "male" ||
+                              item.gender == "MALE"
+                              ? "../../assets/male.png"
+                              : "../../assets/female.png")}
+                            alt="NoProfile"
+                            style={{
+                              height: "80%",
+                              width: "80%",
+                            }}
+                          />
+                        )}
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: {
+                              xl: 23,
+                              lg: 23,
+                              md: 23,
+                              sm: 23,
+                              xs: 15,
+                            },
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          {item.userName}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: "#5a5a5a",
+                            fontSize: {
+                              xl: 13,
+                              lg: 13,
+                              md: 13,
+                              sm: 13,
+                              xs: 10,
+                            },
+                            fontWeight: "bold",
+                            minWidth: {
+                              xl: "200px",
+                              lg: "200px",
+                              md: "200px",
+                              sm: "200px",
+                              xs: "100px",
+                            },
+                          }}
+                        >
+                          {item.role}
+                        </Typography>
+                      </Box>
+                    </Stack>
+
+                    <Link href={`/project?id=${item.userID}`}>visit</Link>
+                  </Stack>
+                  <Box
+                    sx={{
+                      height: { xs: "150px", md: "300px" },
+                      width: "100%",
+                      display: "flex",
+                      alignItem: "center",
+                      justifyContent: "center",
+                      borderRadius: "30px 30px 0 0",
+                      position: "relative",
+                    }}
+                  >
+                    {item.image !== "null" &&
+                      item.image &&
+                      item.images.length == 0 && (
+                        <img
+                          src={item.image.url}
                           alt="ProfilePic"
                           style={{
                             height: "100%",
                             width: "100%",
                             objectFit: "contain",
                             objectPosition: "center",
-                            borderRadius: "50%",
-                          }}
-                        />
-                      ) : (
-                        <Image
-                          src={require(!item.gender ||
-                            item.gender == "male" ||
-                            item.gender == "MALE"
-                            ? "../../assets/male.png"
-                            : "../../assets/female.png")}
-                          alt="NoProfile"
-                          style={{
-                            height: "80%",
-                            width: "80%",
                           }}
                         />
                       )}
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          color: "white",
-                          fontSize: {
-                            xl: 23,
-                            lg: 23,
-                            md: 23,
-                            sm: 23,
-                            xs: 15,
-                          },
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        {item.userName}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          color: "#5a5a5a",
-                          fontSize: {
-                            xl: 13,
-                            lg: 13,
-                            md: 13,
-                            sm: 13,
-                            xs: 10,
-                          },
-                          fontWeight: "bold",
-                          minWidth: {
-                            xl: "200px",
-                            lg: "200px",
-                            md: "200px",
-                            sm: "200px",
-                            xs: "100px",
-                          },
-                        }}
-                      >
-                        {item.role}
-                      </Typography>
-                    </Box>
-                  </Stack>
-                  <Box
-                    sx={{
-                      height: { xs: "200px", md: "300px" },
-                      width: "100%",
-                      display: "flex",
-                      alignItem: "center",
-                      justifyContent: "center",
-                      borderRadius: "30px 30px 0 0",
-                    }}
-                  >
-                    {item.image !== "null" && item.image ? (
+                    {item.images && item.images.length > 0 && (
                       <img
                         src={item.image.url}
                         alt="ProfilePic"
                         style={{
-                          height: "100%",
-                          width: "100%",
+                          height: "60%",
                           objectFit: "contain",
                           objectPosition: "center",
-                        }}
-                      />
-                    ) : (
-                      <Image
-                        src={require(!item.gender ||
-                          item.gender == "male" ||
-                          item.gender == "MALE"
-                          ? "../../assets/male.png"
-                          : "../../assets/female.png")}
-                        alt="NoProfile"
-                        style={{
-                          height: "100%",
-                          width: "100%",
                           borderRadius: "50%",
-                          objectFit: "contain",
-                          objectPosition: "bottom",
                         }}
                       />
+                    )}
+                    {item.images && item.images.length > 0 && (
+                      <Stack
+                        sx={{
+                          width: "60%",
+                          justifyContent: "center",
+                          height: "100%",
+                          alignItems: "center",
+                        }}
+                      >
+                        <BulletCarousel disableAutoPlay={true}>
+                          {item.images.map((image, index) => {
+                            return (
+                              <SwiperSlide key={index}>
+                                <img
+                                  src={image.url}
+                                  alt="ProfilePic"
+                                  style={{
+                                    height: "100%",
+                                    objectFit: "contain",
+                                    objectPosition: "center",
+                                    zIndex: 1,
+                                    width: "100%",
+                                  }}
+                                />
+                              </SwiperSlide>
+                            );
+                          })}
+                        </BulletCarousel>
+                      </Stack>
                     )}
                   </Box>
                   <Stack

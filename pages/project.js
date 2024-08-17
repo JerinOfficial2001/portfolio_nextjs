@@ -63,19 +63,12 @@ export default function Project() {
       setisLoading(false);
     });
   };
-  useEffect(() => {
-    if (id) {
-      fetchData();
-    } else {
-      router.push("/");
-    }
-    // setcustomStyle({ alignItems: "center", position: "sticky", top: "70px" });
-  }, []);
+
   useEffect(() => {
     if (id && !openModel) {
       fetchData();
     }
-  }, [openModel]);
+  }, [openModel, id]);
   useEffect(() => {
     if (appDatas.length == 0 && websiteDatas.length == 0) {
       setisAddProject(true);

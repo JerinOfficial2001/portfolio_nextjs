@@ -10,17 +10,21 @@ import { Autoplay, Pagination } from "swiper/modules";
 
 // import required modules
 
-export default function BulletCarousel({ children }) {
+export default function BulletCarousel({ disableAutoPlay, children }) {
   return (
     <Swiper
       pagination={{
         dynamicBullets: true,
         clickable: true,
       }}
-      autoplay={{
-        delay: 2500,
-        disableOnInteraction: true,
-      }}
+      autoplay={
+        disableAutoPlay
+          ? false
+          : {
+              delay: 2500,
+              disableOnInteraction: true,
+            }
+      }
       modules={[Pagination, Autoplay]}
       className="mySwiper"
       style={{

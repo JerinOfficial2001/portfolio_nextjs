@@ -9,6 +9,7 @@ export const CreateProjects = async (formDatas) => {
       return data;
     } else {
       toast.error(data.message);
+      return [];
     }
   } catch (error) {
     console.log("CreateProjects ERR", error);
@@ -23,6 +24,7 @@ export const GetProjectsByID = async (id, category, isLoggedIn) => {
       return data.data;
     } else {
       toast.error(data.message);
+      return [];
     }
   } catch (error) {
     console.log("GetProjects ERR", error);

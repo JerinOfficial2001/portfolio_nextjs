@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { SocketProvider } from "@/utils/socket";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 export const MyContextState = createContext({});
 export default function App({ Component, pageProps }) {
   const store = configureStore({

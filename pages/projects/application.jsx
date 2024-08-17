@@ -156,7 +156,7 @@ export default function Application() {
                 textTransform: "none",
                 "&:hover": {
                   background: "#ffffff70",
-                  color: "green",
+                  color: "white",
                 },
               }}
             >

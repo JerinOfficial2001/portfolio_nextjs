@@ -62,7 +62,7 @@ export default function WebsiteLayout({
         columnGap={4}
         columns={8}
       >
-        {projectsData.length > 0 ? (
+        {projectsData?.length > 0 ? (
           projectsData?.map((project, index) => {
             return (
               <Card
