@@ -18,6 +18,11 @@ export default function Document() {
           sizes="48x48"
           type="image/png"
         />
+        <meta
+          name="description"
+          content={`Welcome to Jers-folio,
+            Let's collaborate to bring your vision to life!`}
+        />
       </Head>
       <body>
         <Main />
