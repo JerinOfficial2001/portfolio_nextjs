@@ -125,8 +125,13 @@ export default function Project() {
       ),
     },
   ];
+  const yourName = "Jerin";
   return (
     <>
+      <meta
+        name="description"
+        content={`Welcome to Jers-folio, the professional portfolio of ${yourName}. Explore a diverse range of projects showcasing expertise in web development, app development, UI/UX design. Discover innovative solutions, creative designs, and a commitment to delivering excellence. Let's collaborate to bring your vision to life!`}
+      />
       {!openModel && <Toaster position="top-center" />}
       {!noData && isOwner && (
         <Box

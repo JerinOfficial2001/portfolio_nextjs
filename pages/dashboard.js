@@ -18,6 +18,7 @@ import { Add } from "@mui/icons-material";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ProfileModal from "@/components/ProfileModal";
 import Projects from "@/components/dashboard/Projects";
+import Head from "next/head";
 export default function Dashboard() {
   const [isLoading, setisLoading] = useState(true);
   const { profiles, setprofiles } = useContext(MyContextState);
@@ -42,8 +43,15 @@ export default function Dashboard() {
   const handleClose = () => {
     setopenModel(false);
   };
+
   return (
     <Layout dashboard={true} direction={true}>
+      <Head>
+        <meta
+          name="description"
+          content={`Welcome to Jers-folio,Explore a diverse range of projects showcasing expertise in web development, app development, UI/UX design. Discover innovative solutions, creative designs, and a commitment to delivering excellence. Let's collaborate to bring your vision to life!`}
+        />
+      </Head>
       <Toaster position="top-center" />
 
       <Projects />
