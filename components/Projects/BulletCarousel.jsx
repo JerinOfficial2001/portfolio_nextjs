@@ -18,9 +18,7 @@ export default function BulletCarousel({ disableAutoPlay, children }) {
         clickable: true,
       }}
       autoplay={
-        disableAutoPlay
-          ? false
-          : {
+        {
               delay: 2500,
               disableOnInteraction: true,
             }
