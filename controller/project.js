@@ -69,14 +69,43 @@ export const ProjectVisibility = async (formDatas, id) => {
     console.log("GetProjects ERR", error);
   }
 };
-export const UploadAPK = async (user_id, projectID, apk) => {
+// export const UploadAPK = async (user_id, projectID, apk) => {
+//   try {
+//     const { data } = await axios.post(
+//       `${APK_URL}/Projects/uploadapk?userID=${user_id}&projectID=${projectID}`,
+//       apk
+//     );
+//     if (data) {
+//       if (data.status == "ok") {
+//         toast.success("APK uploaded successfully");
+//       } else {
+//         toast.error(data.message);
+//       }
+//       return data;
+//     }
+//   } catch (error) {
+//     console.log("UploadAPK ERR", error);
+//   }
+// };
+export const UploadAPK = async (user_id, projectID, apk, progressCallback) => {
   try {
     const { data } = await axios.post(
       `${APK_URL}/Projects/uploadapk?userID=${user_id}&projectID=${projectID}`,
-      apk
+      apk,
+      {
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.lengthComputable && progressCallback) {
+            const progress = Math.round(
+              (progressEvent.loaded / progressEvent.total) * 100
+            );
+            progressCallback(progress);
+          }
+        },
+      }
     );
+
     if (data) {
-      if (data.status == "ok") {
+      if (data.status === "ok") {
         toast.success("APK uploaded successfully");
       } else {
         toast.error(data.message);
@@ -85,6 +114,7 @@ export const UploadAPK = async (user_id, projectID, apk) => {
     }
   } catch (error) {
     console.log("UploadAPK ERR", error);
+    toast.error("Failed to upload APK");
   }
 };
 export const GetAPK = async (user_id, projectID) => {

@@ -23,6 +23,7 @@ import {
   UploadAPK,
 } from "@/controller/project";
 import "animate.css";
+import CircularProgressWithLabel from "../Projects/CircularProgressWithLabel";
 
 export default function ProjectModal({
   open,
@@ -166,18 +167,43 @@ export default function ProjectModal({
       setcredentialsData({ Key: "", Value: "" });
     }
   };
+  // const handleUploadApk = () => {
+  //   if (inputData.file) {
+  //     setisProcessing(true);
+  //     const formData = new FormData();
+  //     formData.append("file", inputData.file);
+  //     UploadAPK(id, data._id, formData).then((data) => {
+  //       if (data && data?.status == "ok") {
+  //         handleSetFormDatas("apk_id", data.fileId);
+  //         handleSetFormDatas("file", null);
+  //         fetchApk();
+  //       }
+  //       setisProcessing(false);
+  //     });
+  //   } else {
+  //     toast.error("Pick a file to upload");
+  //   }
+  // };
+  const [uploadProgress, setUploadProgress] = useState(0);
   const handleUploadApk = () => {
     if (inputData.file) {
       setisProcessing(true);
       const formData = new FormData();
       formData.append("file", inputData.file);
-      UploadAPK(id, data._id, formData).then((data) => {
-        if (data && data?.status == "ok") {
+
+      // Set up a state to track progress
+
+      // Pass the progress callback to UploadAPK
+      UploadAPK(id, data._id, formData, (progress) => {
+        setUploadProgress(progress);
+      }).then((data) => {
+        if (data && data.status === "ok") {
           handleSetFormDatas("apk_id", data.fileId);
           handleSetFormDatas("file", null);
           fetchApk();
         }
         setisProcessing(false);
+        setUploadProgress(0); // Reset progress after upload is complete
       });
     } else {
       toast.error("Pick a file to upload");
@@ -432,7 +458,7 @@ export default function ProjectModal({
   return (
     <>
       <Modal
-        open={open}
+        open={open || uploadProgress > 0 || isProcessing}
         onClose={handleClose}
         sx={{
           height: "100vh",
@@ -642,7 +668,14 @@ export default function ProjectModal({
                       columnGap={2}
                     >
                       {data != null && data != undefined && (
-                        <Stack sx={{ width: "100%", position: "relative" }}>
+                        <Stack
+                          sx={{
+                            width: "100%",
+                            position: "relative",
+                            justifyContent: "center",
+                            position: "relative",
+                          }}
+                        >
                           <Typography
                             sx={{ color: "#808080", fontWeight: "bold" }}
                           >
@@ -658,6 +691,7 @@ export default function ProjectModal({
                                 marginBottom: 2,
                                 marginTop: 2,
                                 transition: ".3s",
+                                flexDirection: "column",
                               }}
                             >
                               <Box
@@ -695,66 +729,87 @@ export default function ProjectModal({
                                   <Close fontSize="small" />
                                 </IconButton>
                               </Box>
+                              <Typography
+                                sx={{
+                                  color: "gray",
+                                  fontWeight: "bold",
+                                  marginTop: "10px",
+                                }}
+                              >
+                                <span style={{ color: "yellow" }}> *</span>{" "}
+                                Don't forget to save after Uploading APK
+                              </Typography>
                             </Box>
                           )}
 
                           {!apk && (
-                            <TextField
-                              accept=".apk"
-                              type="file"
-                              variant="outlined"
+                            <Stack
                               sx={{
-                                width: "100%",
-                                outline: "none",
-                                background: "#252525",
-                                borderRadius: 3,
-                                "& fieldset": { border: "none" },
-                                input: { color: "white" },
-                                transition: ".3s",
-                              }}
-                              onChange={elem.onChange}
-                              name={elem.name}
-                            />
-                          )}
-
-                          {inputData.file && !apk && (
-                            <Box
-                              sx={{
-                                position: "absolute",
-                                right: 10,
-                                bottom: 10,
+                                position: "relative",
+                                justifyContent: "center",
                               }}
                             >
-                              {isProcessing ? (
-                                <Autorenew
+                              <TextField
+                                accept=".apk"
+                                type="file"
+                                variant="outlined"
+                                sx={{
+                                  width: "100%",
+                                  outline: "none",
+                                  background: "#252525",
+                                  borderRadius: 3,
+                                  "& fieldset": { border: "none" },
+                                  input: { color: "white" },
+                                  transition: ".3s",
+                                }}
+                                onChange={elem.onChange}
+                                name={elem.name}
+                              />
+                              {inputData.file && !apk && (
+                                <Box
                                   sx={{
-                                    color: "#265482",
-                                    transition: ".3s",
-                                    marginBottom: 0.3,
+                                    position: "absolute",
+                                    right: 10,
                                   }}
-                                  className="loadingBtn"
-                                />
-                              ) : (
-                                <Button
-                                  onClick={() => {
-                                    console.log("test");
-                                    isProcessing
-                                      ? undefined
-                                      : handleUploadApk();
-                                  }}
-                                  sx={{
-                                    border: "2px solid #265482",
-                                    color: "#265482",
-                                    borderRadius: 6,
-                                    transition: ".3s",
-                                    zIndex: 10,
-                                  }}
-                                  size="small"
                                 >
-                                  Upload
-                                </Button>
+                                  {uploadProgress != 0 && (
+                                    <CircularProgressWithLabel
+                                      value={uploadProgress}
+                                    />
+                                  )}
+                                  {uploadProgress == 0 &&
+                                    (isProcessing ? (
+                                      <Autorenew
+                                        sx={{
+                                          color: "#265482",
+                                          transition: ".3s",
+                                          marginBottom: 0.3,
+                                        }}
+                                        className="loadingBtn"
+                                      />
+                                    ) : (
+                                      <Button
+                                        onClick={() => {
+                                          console.log("test");
+                                          isProcessing
+                                            ? undefined
+                                            : handleUploadApk();
+                                        }}
+                                        sx={{
+                                          border: "2px solid #265482",
+                                          color: "#265482",
+                                          borderRadius: 6,
+                                          transition: ".3s",
+                                          zIndex: 10,
+                                        }}
+                                        size="small"
+                                      >
+                                        Upload
+                                      </Button>
+                                    ))}
+                                </Box>
                               )}
-                            </Box>
+                            </Stack>
                           )}
                         </Stack>
                       )}
