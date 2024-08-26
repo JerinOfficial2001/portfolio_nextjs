@@ -4,7 +4,7 @@ import AddIconButton from "@/components/Projects/AddIconButton";
 import { GetParticularProjectByID } from "@/controller/project";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { API, APK_URL } from "@/utils/api";
-import { Download } from "@mui/icons-material";
+import { Autorenew, Download } from "@mui/icons-material";
 import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
@@ -18,7 +18,6 @@ export default function Application() {
   const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const isOwner = cachedCookie && cachedCookie?._id == id;
-  const [isLoading, setisLoading] = useState(false);
   const [projectData, setprojectData] = useState(null);
   const [openModel, setopenModel] = useState(false);
   useEffect(() => {
@@ -36,11 +35,41 @@ export default function Application() {
   };
   const handleDownloadAPK = async () => {
     if (projectData && projectData.apk_id) {
-      window.open(`${APK_URL}/Projects/downloadapk/${projectData.apk_id}`);
+      setIsLoading(true);
+
+      try {
+        const downloadUrl = `${APK_URL}/Projects/downloadapk/${projectData.apk_id}`;
+        const response = await fetch(downloadUrl);
+
+        if (response.ok) {
+          const blob = await response.blob();
+          const contentDisposition =
+            response.headers.get("Content-Disposition") || "";
+          const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+          const filename = filenameMatch ? filenameMatch[1] : "download.apk"; // Default filename if not provided
+
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+
+          document.body.removeChild(link);
+          URL.revokeObjectURL(link.href);
+        } else {
+          console.error("Download failed");
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      } finally {
+        setIsLoading(false);
+      }
     } else {
       toast.error("APK not found");
     }
   };
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <Box
       sx={{
@@ -132,21 +161,29 @@ export default function Application() {
               ))}
             </Box>
             <Button
-              onClick={handleDownloadAPK}
-              disabled={!projectData?.apk_id || projectData?.apk_id == "null"}
+              onClick={isLoading ? undefined : handleDownloadAPK}
+              disabled={
+                !projectData?.apk_id ||
+                projectData?.apk_id == "null" ||
+                isLoading
+              }
               endIcon={<Download />}
               startIcon={
-                <Box
-                  component={"img"}
-                  sx={{ height: 30, borderRadius: "50%" }}
-                  src={
-                    projectData?.image &&
-                    projectData?.apk_id &&
-                    projectData?.apk_id != "null"
-                      ? projectData?.image.url
-                      : "/AndroidIcon.jpg"
-                  }
-                />
+                isLoading ? (
+                  <Autorenew className="loadingBtn" />
+                ) : (
+                  <Box
+                    component={"img"}
+                    sx={{ height: 30, borderRadius: "50%" }}
+                    src={
+                      projectData?.image &&
+                      projectData?.apk_id &&
+                      projectData?.apk_id != "null"
+                        ? projectData?.image.url
+                        : "/AndroidIcon.jpg"
+                    }
+                  />
+                )
               }
               sx={{
                 borderRadius: 2,
