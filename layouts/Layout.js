@@ -1,9 +1,10 @@
 import Container from "@mui/material/Container";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Stack from "@mui/material/Stack";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Box } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default function Layout({
   children,
@@ -12,6 +13,14 @@ export default function Layout({
   maxWidth,
   customStyle,
 }) {
+  const router = useRouter();
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [router.pathname]);
   return (
     <div className="animate__animated animate__fadeInDownBig ">
       <Container maxWidth={maxWidth}>
@@ -31,6 +40,7 @@ export default function Layout({
           >
             <Navbar dashboard={dashboard} />
           </Box>
+          <div ref={scrollRef}></div>
           <Stack
             direction={direction ? "row" : "column"}
             spacing={3}

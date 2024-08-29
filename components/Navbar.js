@@ -139,6 +139,29 @@ export default function Navbar({ dashboard }) {
       icon: <ContactPhoneOutlinedIcon />,
     },
   ];
+  const dashboardMenus = [
+    {
+      id: 1,
+      title: "Portfolio's",
+      to: "#portfolio",
+      path: "/#portfolio",
+      icon: <HomeOutlinedIcon />,
+    },
+    {
+      id: 2,
+      title: "Applications",
+      to: "#applications",
+      path: "/#applications",
+      icon: <InventoryOutlinedIcon />,
+    },
+    {
+      id: 3,
+      title: "Websites",
+      to: "#websites",
+      path: "/#websites",
+      icon: <InventoryOutlinedIcon />,
+    },
+  ];
   const handleLogout = () => {
     Cookies.remove("Jers_folio_userData");
     Cookies.remove("token");
@@ -152,6 +175,7 @@ export default function Navbar({ dashboard }) {
   const handleViewProfileClose = () => {
     setopenViewProfile(false);
   };
+  const MenuData = dashboard ? dashboardMenus : menus;
   return (
     <Box
       sx={{
@@ -190,90 +214,92 @@ export default function Navbar({ dashboard }) {
       </div>
       {menuBtn && (
         <ResNav
+          dashboard={dashboard}
           setmenuBtn={setmenuBtn}
           setopenViewProfile={setopenViewProfile}
           setopenAuthModel={setopenAuthModel}
         />
       )}
-      {!dashboard && (
-        <Stack
-          direction="row"
+
+      <Stack
+        direction="row"
+        sx={{
+          display: {
+            xl: "block",
+            lg: "block",
+            md: "block",
+            sm: "none",
+            xs: "none",
+          },
+        }}
+      >
+        <Box
           sx={{
-            display: {
-              xl: "block",
-              lg: "block",
-              md: "block",
-              sm: "none",
-              xs: "none",
+            height: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: {
+              xl: "row",
+              lg: "row",
+              md: "row",
+              sm: "column",
+              xs: "column",
             },
+
+            gap: {
+              xl: 8,
+              lg: 8,
+              md: 8,
+              sm: 4,
+              xs: 4,
+            },
+            alignItems: "center",
           }}
         >
-          <Box
-            sx={{
-              height: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              flexDirection: {
-                xl: "row",
-                lg: "row",
-                md: "row",
-                sm: "column",
-                xs: "column",
-              },
+          {MenuData.map((menu, id) => {
+            return (
+              <div
+                key={id}
+                onClick={() => {
+                  if (location !== menu.path) {
+                    router.push(menu.to);
+                  }
+                }}
+              >
+                <Typography
+                  sx={{
+                    ...(location.includes(menu.path) ||
+                    (location == "/" && menu.title == "Home") ||
+                    window.location.hash == menu.to
+                      ? {
+                          color: "cornflowerblue",
+                          border: "2px solid cornflowerblue",
 
-              gap: {
-                xl: 8,
-                lg: 8,
-                md: 8,
-                sm: 4,
-                xs: 4,
-              },
-              alignItems: "center",
-            }}
-          >
-            {menus.map((menu, id) => {
-              return (
-                <div
-                  key={id}
-                  onClick={() => {
-                    if (location !== menu.path) {
-                      router.push(menu.to);
-                    }
+                          "&:hover": { scale: "1.1", color: "white" },
+                        }
+                      : {
+                          border: "none",
+                          color: " #606060",
+                          "&:hover": { scale: "1.2", color: "white" },
+                        }),
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                    transition: ".3s",
+                    // fontFamily: "cursive",
+                    textTransform: "uppercase",
+                    padding: 1,
+                    borderRadius: 10,
+                    paddingX: 2,
                   }}
                 >
-                  <Typography
-                    sx={{
-                      ...(location.includes(menu.path) ||
-                      (location == "/" && menu.title == "Home")
-                        ? {
-                            color: "cornflowerblue",
-                            border: "2px solid cornflowerblue",
+                  {menu.title}
+                </Typography>
+              </div>
+            );
+          })}
+        </Box>
+      </Stack>
 
-                            "&:hover": { scale: "1.1", color: "white" },
-                          }
-                        : {
-                            border: "none",
-                            color: " #606060",
-                            "&:hover": { scale: "1.2", color: "white" },
-                          }),
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      transition: ".3s",
-                      // fontFamily: "cursive",
-                      textTransform: "uppercase",
-                      padding: 1,
-                      borderRadius: 10,
-                      paddingX: 2,
-                    }}
-                  >
-                    {menu.title}
-                  </Typography>
-                </div>
-              );
-            })}
-          </Box>
-        </Stack>
-      )}
       <Box
         sx={{
           display: {

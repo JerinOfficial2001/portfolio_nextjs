@@ -31,3 +31,8 @@ export const getDecryptedCookie = (name) => {
   }
   return null;
 };
+export const GET_USERDATA = () => {
+  const data = getDecryptedCookie("Jers_folio_userData");
+  const userData = data ? JSON.parse(data) : null;
+  return userData;
+};

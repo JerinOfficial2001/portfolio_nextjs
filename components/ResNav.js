@@ -16,6 +16,7 @@ export default function ResNav({
   setmenuBtn,
   setopenViewProfile,
   setopenAuthModel,
+  dashboard,
 }) {
   const router = useRouter();
   const location = router.pathname;
@@ -90,11 +91,35 @@ export default function ResNav({
       icon: <ContactPhoneOutlinedIcon />,
     },
   ];
+  const dashboardMenus = [
+    {
+      id: 1,
+      title: "Portfolio's",
+      to: "#portfolio",
+      path: "/#portfolio",
+      icon: <HomeOutlinedIcon />,
+    },
+    {
+      id: 2,
+      title: "Applications",
+      to: "#applications",
+      path: "/#applications",
+      icon: <InventoryOutlinedIcon />,
+    },
+    {
+      id: 3,
+      title: "Websites",
+      to: "#websites",
+      path: "/#websites",
+      icon: <InventoryOutlinedIcon />,
+    },
+  ];
   const handleLogout = () => {
     Cookies.remove("Jers_folio_userData");
     Cookies.remove("token");
     window.location.href = "/";
   };
+  const MenuData = dashboard ? dashboardMenus : menus;
   return (
     <Stack
       sx={{
@@ -224,28 +249,29 @@ export default function ResNav({
             </Button>
           )}
         </Box>
-        {menus.map((menu, id) => {
+        {MenuData.map((menu, id) => {
           return (
-            <>
-              <div
-                key={id}
-                onClick={() => {
-                  router.push(menu.to);
-                  setmenuBtn(false);
+            <div
+              key={id}
+              onClick={() => {
+                router.push(menu.to);
+                setmenuBtn(false);
+              }}
+            >
+              <Typography
+                sx={{
+                  color:
+                    location == menu.to || window.location.hash == menu.to
+                      ? "white"
+                      : "#606060",
+                  fontWeight: "bold",
+                  "&:hover": { color: "white" },
+                  cursor: "pointer",
                 }}
               >
-                <Typography
-                  sx={{
-                    color: location == menu.to ? "white" : "#606060",
-                    fontWeight: "bold",
-                    "&:hover": { color: "white" },
-                    cursor: "pointer",
-                  }}
-                >
-                  {menu.title}
-                </Typography>
-              </div>
-            </>
+                {menu.title}
+              </Typography>
+            </div>
           );
         })}{" "}
         <Button

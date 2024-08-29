@@ -24,6 +24,7 @@ import {
 } from "@/controller/project";
 import "animate.css";
 import CircularProgressWithLabel from "../Projects/CircularProgressWithLabel";
+import { queryClient } from "@/pages/_app";
 
 export default function ProjectModal({
   open,
@@ -428,6 +429,7 @@ export default function ProjectModal({
       if (data == null || data == undefined) {
         CreateProjects(formDatas).then((response) => {
           if (response?.status == "ok") {
+            queryClient.invalidateQueries({ queryKey: ["projects"] });
             toast.success(response.message);
             handleClose();
             fetchData();
@@ -442,6 +444,7 @@ export default function ProjectModal({
             fetchData();
             toast.success(response.message);
             handleClose();
+            queryClient.invalidateQueries({ queryKey: ["projects"] });
           } else {
             handleClose();
           }
