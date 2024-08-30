@@ -19,7 +19,6 @@ import {
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ResNav from "./ResNav";
-import { MyContextState } from "@/pages/_app";
 import { Logout } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";

@@ -13,13 +13,13 @@ import { Add, MapsUgcOutlined, Reply } from "@mui/icons-material";
 import Loader from "@/components/Loader";
 import EmulatorCarousel from "@/components/EmulatorCarousel";
 import ProjectModal from "@/components/Modals/ProjectModal";
-import { MyContextState } from "./_app";
 import WebsiteLayout from "@/components/Projects/WebsiteLayout";
 import AddProjectComponent from "@/components/Projects/AddProjectComponent";
 import { Toaster } from "react-hot-toast";
+import { useGlobalContext } from "@/utils/globalContext";
 
 export default function Project() {
-  const { setcustomStyle } = useContext(MyContextState);
+  const { setcustomStyle } = useGlobalContext;
   const router = useRouter();
   const { id } = router.query;
   const [websiteDatas, setprojectsData] = useState([]);

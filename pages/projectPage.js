@@ -6,11 +6,11 @@ import "animate.css";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { GetParticularProjectByID } from "@/controller/project";
 import { CheckCircle, Close, ContentCopy, Menu } from "@mui/icons-material";
-import { MyContextState } from "./_app";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { useGlobalContext } from "@/utils/globalContext";
 
 export default function ProjectPage() {
-  const { setdirection } = useContext(MyContextState);
+  const { setdirection } = useGlobalContext();
   const router = useRouter();
   const { projectID } = router.query;
   const [projectData, setprojectData] = useState({});

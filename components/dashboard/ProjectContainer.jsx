@@ -34,7 +34,7 @@ export default function ProjectContainer({
       <p className="md:text-[2.25rem] text-white font-bold tracking-wider">
         {title}
       </p>
-      <p className="md:text-[1.125rem] text-[#9ca3af] font-semibold tracking-wider">
+      <p className="md:text-[1.125rem] text-[#9ca3af] font-semibold tracking-wider text-center">
         {description}
       </p>
       <Grid container spacing={2} sx={{ width: "100%" }}>

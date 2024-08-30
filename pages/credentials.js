@@ -9,11 +9,11 @@ import ProfileCard from "@/components/ProfileCard";
 import { Chip, Grid } from "@mui/material";
 import { GetAllProfile, GetProfileByID } from "@/controller/profile";
 import { GetCredentialsByID } from "@/controller/credentials";
-import { MyContextState } from "./_app";
+import { useGlobalContext } from "@/utils/globalContext";
 
 export default function Credentials() {
   const router = useRouter();
-  const { profiles } = useContext(MyContextState);
+  const { profiles } = useGlobalContext();
 
   const { id } = router.query;
   const [Credentials, setCredentials] = useState({});

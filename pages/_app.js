@@ -11,42 +11,23 @@ import { SocketProvider } from "@/utils/socket";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
 import { Box, Stack } from "@mui/material";
+import GlobalContextProvider from "@/utils/globalContext";
 
 export const queryClient = new QueryClient();
-export const MyContextState = createContext({});
 export default function App({ Component, pageProps }) {
   const store = configureStore({
     reducer: {
       counter: counterReducer,
     },
   });
-  const cookie = getDecryptedCookie("Jers_folio_userData");
-  const [userData, setuserData] = useState(null);
-  const [profiles, setprofiles] = useState([]);
-  const [direction, setdirection] = useState(false);
-  const [customStyle, setcustomStyle] = useState(null);
+
   const router = useRouter();
-  useEffect(() => {
-    const cachedData = cookie ? cookie : false;
-    if (cachedData) {
-      setuserData(cachedData);
-    }
-  }, [cookie]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <SocketProvider>
-          <MyContextState.Provider
-            value={{
-              setcustomStyle,
-              direction,
-              setdirection,
-              userData,
-              profiles,
-              setprofiles,
-            }}
-          >
+          <GlobalContextProvider>
             {router.pathname == "/feedback" ? (
               <Component {...pageProps} />
             ) : (
@@ -64,16 +45,12 @@ export default function App({ Component, pageProps }) {
                 >
                   <Navbar dashboard={router.pathname == "/"} />
                 </Box>
-                <Layout
-                  direction={direction}
-                  customStyle={customStyle}
-                  dashboard={router.pathname == "/"}
-                >
+                <Layout dashboard={router.pathname == "/"}>
                   <Component {...pageProps} />
                 </Layout>
               </Stack>
             )}
-          </MyContextState.Provider>
+          </GlobalContextProvider>
         </SocketProvider>
       </Provider>
     </QueryClientProvider>

@@ -274,6 +274,32 @@ export default function ResNav({
             </div>
           );
         })}{" "}
+        {!userData && (
+          <Button
+            onClick={() => {
+              router.push("/feedback");
+            }}
+            variant="contained"
+            sx={{
+              color: "white",
+              background: "#323232",
+              borderRadius: 4,
+              "&:hover": {
+                background: "#323232",
+                color: "white",
+                border: "2px solid lavender",
+              },
+              textTransform: "none",
+              height: 43,
+              width: 130,
+
+              border: "2px solid cornflowerblue",
+              // fontFamily: "cursive",
+            }}
+          >
+            Global Chat
+          </Button>
+        )}
         <Button
           onClick={() => {
             if (userData) {

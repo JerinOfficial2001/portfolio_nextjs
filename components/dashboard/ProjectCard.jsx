@@ -212,8 +212,8 @@ export default function ProjectCard({
           <span
             className={
               !APK
-                ? "text-[red] flex gap-2 align-center rounded-[11px] relative px-5 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 group-hover:bg-opacity-0"
-                : "flex gap-2 align-center rounded-[11px] relative px-5 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 group-hover:bg-opacity-0"
+                ? "text-[red] flex gap-2 items-center justify-center rounded-[11px] relative px-5 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 group-hover:bg-opacity-0"
+                : "flex gap-2 items-center justify-center rounded-[11px] relative px-5 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 group-hover:bg-opacity-0"
             }
           >
             {isApkLoading || isLoading ? (

@@ -17,7 +17,6 @@ import { Toaster } from "react-hot-toast";
 import { Add } from "@mui/icons-material";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
-import { MyContextState } from "@/pages/_app";
 import { useQuery } from "@tanstack/react-query";
 import { GetAllVisibleProjects } from "@/controller/project";
 import BulletCarousel from "../Projects/BulletCarousel";

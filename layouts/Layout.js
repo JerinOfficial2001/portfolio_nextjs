@@ -1,18 +1,12 @@
 import Container from "@mui/material/Container";
 import React, { useEffect, useRef, useState } from "react";
 import Stack from "@mui/material/Stack";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Box } from "@mui/material";
 import { useRouter } from "next/router";
+import { useGlobalContext } from "@/utils/globalContext";
 
-export default function Layout({
-  children,
-  direction,
-  dashboard,
-  maxWidth,
-  customStyle,
-}) {
+export default function Layout({ children, dashboard, maxWidth }) {
+  const { direction, customStyle } = useGlobalContext();
   const router = useRouter();
   const scrollRef = useRef();
   const scrollContainerRef = useRef();

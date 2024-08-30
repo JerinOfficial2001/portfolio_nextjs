@@ -6,6 +6,7 @@ import {
 } from "@/controller/feedbacks";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { getTime } from "@/utils/getTime";
+import { useGlobalContext } from "@/utils/globalContext";
 import { useSocket } from "@/utils/socket";
 import {
   ArrowDropDown,
@@ -40,6 +41,7 @@ export default function Feedback() {
   const router = useRouter();
   const [feedbacks, setfeedbacks] = useState([]);
   const [openAuthModel, setopenAuthModel] = useState(false);
+  const { isLg, isMd, isXl, issm, isxs } = useGlobalContext();
   const fetchDatas = () => {
     GetAllFeedbacks().then((data) => {
       setfeedbacks(data);
@@ -137,7 +139,7 @@ export default function Feedback() {
           <a
             title={part}
             style={{
-              width: "100%",
+              width: isxs ? "210px" : "100%",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
               color: "#00afff",
@@ -177,7 +179,7 @@ export default function Feedback() {
           zIndex: 2,
           transform: "rotate(270deg)",
           position: "absolute",
-          left: -30,
+          left: { xs: -60, md: -30 },
           top: 150,
         }}
       >
@@ -225,8 +227,8 @@ export default function Feedback() {
           display: { lg: "none", sm: "flex", xs: "flex" },
           position: "absolute",
           right: 5,
-          top: 50,
-          zIndex: 2,
+          top: { xs: 10, md: 50 },
+          zIndex: 3,
           border: "2px solid  #828282",
           borderRadius: 10,
           color: " white",
@@ -244,8 +246,9 @@ export default function Feedback() {
           zIndex: 3,
           position: "absolute",
           left: { lg: 10, sm: 0, xs: 0 },
-          bottom: 40,
+          bottom: { xs: 10, md: 40 },
           width: { lg: "35%", sm: "100%", xs: "100%" },
+          alignItems: { xs: "center", md: "unset" },
         }}
       >
         <Typography
@@ -253,6 +256,7 @@ export default function Feedback() {
             color: "white",
             fontWeight: "bold",
             fontSize: 20,
+            display: { xs: "none", md: "flex" },
           }}
         >
           FOLLOW US
@@ -262,12 +266,17 @@ export default function Feedback() {
             color: "gray",
             fontSize: 15,
             width: "200px",
+            display: { xs: "none", md: "flex" },
           }}
         >
           You can Create your own portfolio here and give us your feedback
         </Typography>
         <Box
-          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+          sx={{
+            display: { xs: "none", md: "flex" },
+            flexDirection: "row",
+            alignItems: "center",
+          }}
         >
           {[
             { icon: <LinkedIn />, link: "" },
@@ -289,6 +298,7 @@ export default function Feedback() {
             alignItems: "center",
             marginTop: 2,
             flexDirection: "column",
+            width: { xs: "90%", md: "100%" },
           }}
         >
           <input
@@ -433,15 +443,17 @@ export default function Feedback() {
       {/* //*ChatBubble */}
       <Stack
         sx={{
-          zIndex: 1,
+          zIndex: { xs: 2, md: 1 },
           position: "absolute",
-          right: { lg: 60, sm: 0, xs: 0 },
-          width: { lg: "45%", sm: "70%", xs: "70%" },
+          right: { xs: 0, md: 60 },
+          width: { xs: "100%", md: "45%" },
           padding: 2,
           gap: 2,
-          maxHeight: { xl: "625px", lg: "625px", sm: "85vh", xs: "85vh" },
+          maxHeight: { xs: "90vh", xl: "625px", lg: "625px" },
           overflowY: "auto",
-          bottom: "20px",
+          bottom: { xs: 0, md: "20px" },
+          pt: { xs: 8, md: 15 },
+          mb: { xs: 8, md: 0 },
         }}
       >
         {[
@@ -513,6 +525,7 @@ export default function Feedback() {
                     : "0px 20px 20px 20px",
                   background: "#17981252",
                   padding: 2,
+                  width: { xs: "80%", md: "auto" },
                 }}
               >
                 <Typography
@@ -530,9 +543,9 @@ export default function Feedback() {
                     component={"img"}
                     sx={{
                       height: "200px",
-                      objectFit: "cover",
+                      objectFit: { xs: "contain", md: "cover" },
                       borderRadius: 6,
-                      maxWidth: { lg: "500px", sm: "280px", xs: "280px" },
+                      maxWidth: { xs: "100%", lg: "500px" },
                     }}
                     src={elem.message?.image?.url}
                   />
@@ -601,6 +614,7 @@ export default function Feedback() {
         component={"img"}
         src="/Subtract.png"
         sx={{
+          display: { xs: "none", md: "block" },
           height: "100%",
           width: "100%",
           position: "absolute",

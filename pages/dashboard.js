@@ -1,27 +1,11 @@
 import { GetAllProfile } from "@/controller/profile";
-import Layout from "@/layouts/Layout";
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Skeleton,
-  Stack,
-  Typography,
-} from "@mui/material";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import { Button } from "@mui/material";
+import React from "react";
 import { Toaster } from "react-hot-toast";
-import { MyContextState } from "./_app";
-import { getDecryptedCookie } from "@/utils/EncryteCookies";
-import { Add } from "@mui/icons-material";
-import GroupsIcon from "@mui/icons-material/Groups";
-import ProfileModal from "@/components/ProfileModal";
 import ProjectContainer from "@/components/dashboard/ProjectContainer";
 import { useQuery } from "@tanstack/react-query";
 import { GetAllVisibleProjects } from "@/controller/project";
-import FlipCard from "@/components/dashboard/FlipCard";
+
 export default function Dashboard() {
   const { data: Projects, isLoading: projectLoading } = useQuery({
     queryKey: ["projects"],
@@ -39,9 +23,7 @@ export default function Dashboard() {
   //     setwindowPathName(window.location.hash);
   //   }
   // }, [currentHash]);
-  if (!Profiles || !Projects) {
-    return <Button>Refresh</Button>;
-  }
+
   return (
     <>
       <Toaster position="top-center" />
