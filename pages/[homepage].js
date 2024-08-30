@@ -63,17 +63,15 @@ export default function Homepage() {
   }, [homepage]);
   return (
     <>
-      <>
-        <Firstrow
-          fetchData={fetchData}
-          data={DATA}
-          profile={profile}
-          isMyProfile={isMyProfile}
-          credentials={credentials}
-        />
-        <Secondrow data={DATA} />
-        <Thirdrow />
-      </>
+      <Firstrow
+        fetchData={fetchData}
+        data={DATA}
+        profile={profile}
+        isMyProfile={isMyProfile}
+        credentials={credentials}
+      />
+      <Secondrow data={DATA} />
+      <Thirdrow />
     </>
   );
 }

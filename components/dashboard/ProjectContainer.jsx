@@ -10,6 +10,7 @@ export default function ProjectContainer({
   description,
   type,
   isLoading,
+  Profiles,
 }) {
   const [visibleCount, setvisibleCount] = useState(3);
   const handleViewMore = () => {
@@ -17,6 +18,14 @@ export default function ProjectContainer({
       setvisibleCount(3);
     } else {
       setvisibleCount(projects.length);
+    }
+  };
+  const getProfile = async (userID) => {
+    const currentProfile = Profiles?.find((elem) => elem.userID == userID);
+    if (currentProfile) {
+      return currentProfile;
+    } else {
+      return null;
     }
   };
   const displayProjects = projects ? projects?.slice(0, visibleCount) : [];
@@ -46,6 +55,7 @@ export default function ProjectContainer({
                       type={type}
                       apk_id={elem.apk_id}
                       userID={elem.userID}
+                      getProfile={getProfile}
                     />
                   </div>
                 </Grid>

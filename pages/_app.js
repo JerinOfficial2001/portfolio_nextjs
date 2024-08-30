@@ -9,6 +9,8 @@ import Layout from "@/layouts/Layout";
 import { useRouter } from "next/router";
 import { SocketProvider } from "@/utils/socket";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Navbar from "@/components/Navbar";
+import { Box, Stack } from "@mui/material";
 
 export const queryClient = new QueryClient();
 export const MyContextState = createContext({});
@@ -45,12 +47,31 @@ export default function App({ Component, pageProps }) {
               setprofiles,
             }}
           >
-            {router.pathname == "/feedback" || router.pathname == "/" ? (
+            {router.pathname == "/feedback" ? (
               <Component {...pageProps} />
             ) : (
-              <Layout direction={direction} customStyle={customStyle}>
-                <Component {...pageProps} />
-              </Layout>
+              <Stack sx={{ width: "100%", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    width: "75%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // position: "fixed",
+                    // top: 0,
+                    zIndex: 2,
+                  }}
+                >
+                  <Navbar dashboard={router.pathname == "/"} />
+                </Box>
+                <Layout
+                  direction={direction}
+                  customStyle={customStyle}
+                  dashboard={router.pathname == "/"}
+                >
+                  <Component {...pageProps} />
+                </Layout>
+              </Stack>
             )}
           </MyContextState.Provider>
         </SocketProvider>

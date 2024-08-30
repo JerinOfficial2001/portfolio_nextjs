@@ -2,6 +2,7 @@ import { GetAllProfile } from "@/controller/profile";
 import Layout from "@/layouts/Layout";
 import {
   Box,
+  Button,
   Grid,
   IconButton,
   Skeleton,
@@ -20,6 +21,7 @@ import ProfileModal from "@/components/ProfileModal";
 import ProjectContainer from "@/components/dashboard/ProjectContainer";
 import { useQuery } from "@tanstack/react-query";
 import { GetAllVisibleProjects } from "@/controller/project";
+import FlipCard from "@/components/dashboard/FlipCard";
 export default function Dashboard() {
   const { data: Projects, isLoading: projectLoading } = useQuery({
     queryKey: ["projects"],
@@ -29,20 +31,25 @@ export default function Dashboard() {
     queryKey: ["profiles"],
     queryFn: GetAllProfile,
   });
-  const [windowPathName, setwindowPathName] = useState("");
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setwindowPathName(window.location.hash);
-    }
-  }, []);
+
+  // const [windowPathName, setwindowPathName] = useState("");
+  // const currentHash = typeof window !== "undefined" ? window.location.hash : "";
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     setwindowPathName(window.location.hash);
+  //   }
+  // }, [currentHash]);
+  if (!Profiles || !Projects) {
+    return <Button>Refresh</Button>;
+  }
   return (
-    <Layout dashboard={true} direction={false}>
+    <>
       <Toaster position="top-center" />
       <div
         id="portfolio"
         className="w-[100%]"
         style={{
-          paddingTop: windowPathName == "#portfolio" ? "80px" : "0px",
+          paddingTop: 30,
         }}
       >
         <ProjectContainer
@@ -57,7 +64,7 @@ export default function Dashboard() {
       </div>
       <div
         style={{
-          paddingTop: windowPathName == "#applications" ? "80px" : "0px",
+          paddingTop: 50,
         }}
         id={"applications"}
         className="w-[100%]"
@@ -74,13 +81,14 @@ export default function Dashboard() {
             "Empower users with a seamless and intuitive mobile app experience."
           }
           type={"Application"}
+          Profiles={Profiles}
         />
       </div>
       <div
         id={"websites"}
         className="w-[100%] "
         style={{
-          paddingTop: windowPathName == "#websites" ? "80px" : "0px",
+          paddingTop: 50,
         }}
       >
         <ProjectContainer
@@ -95,8 +103,9 @@ export default function Dashboard() {
             "Showcase your work and skills with a personalized online portfolio."
           }
           type={"Website"}
+          Profiles={Profiles}
         />
       </div>
-    </Layout>
+    </>
   );
 }

@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  scroll-behavior: smooth;
-}
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -84,16 +81,14 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  scroll-behavior: smooth;
 }
 
 html,
 body {
   overflow: hidden;
 }
-
 body {
-  overflow-y: scroll;
-  height: 100vh;
   color: black;
   background: #0f0f0f;
 }
@@ -493,4 +488,50 @@ a {
 .custom-underline:hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
+}
+
+/* Flip card */
+.flipcard {
+  width: 100%;
+  height: 100%;
+  perspective: 500px;
+  transform: none;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.content {
+  width: 100%;
+  height: 250px;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.flipcard:hover .content {
+  transform: rotateY(180deg);
+  transition: transform 0.5s;
+}
+
+.front,
+.back {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  color: #03446a;
+  text-align: center;
+  border-radius: 5px;
+  backface-visibility: hidden;
+}
+
+.back {
+  color: white;
+  transform: rotateY(180deg);
+  display: none;
+}
+
+.content:hover .back {
+  display: block;
+}
+.content:hover .front {
+  display: none;
 }

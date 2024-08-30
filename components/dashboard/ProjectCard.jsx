@@ -8,8 +8,10 @@ import {
 import { useMediaQuery, useTheme } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import FlipCard from "./FlipCard";
+import { GetProfileByUserID } from "@/controller/profile";
 
 export default function ProjectCard({
   title,
@@ -20,6 +22,7 @@ export default function ProjectCard({
   type,
   userID,
   apk_id,
+  getProfile,
 }) {
   const { data: APK, isLoading: isApkLoading } = useQuery({
     queryKey: ["apk"],
@@ -69,8 +72,8 @@ export default function ProjectCard({
   const isMd = useMediaQuery(theme.breakpoints.only("md"));
   const isLg = useMediaQuery(theme.breakpoints.only("lg"));
   const isXl = useMediaQuery(theme.breakpoints.only("xl"));
-  return (
-    <div className="cursor-pointer flex items-center flex-col justify-start  bg-[#34363a] rounded-2xl hover:translate-y-[-5px] transition-all duration-[.5s]">
+  const Card = ({ title, description, link, image, mode }) => {
+    return (
       <div
         onClick={() => {
           if (type == "Application") {
@@ -82,19 +85,25 @@ export default function ProjectCard({
         <p className="text-[16px] text-white font-bold tracking-wider">
           {title}
         </p>
-        {type == "Application" && description && (
-          <p className="text-[14px] text-[#9ca3af] font-semibold tracking-wider">
-            {description}
-          </p>
-        )}
+        {(type == "Application" || type == "Profile" || mode == "Profile") &&
+          description && (
+            <p className="text-[14px] text-[#9ca3af] font-semibold tracking-wider">
+              {description}
+            </p>
+          )}
         {link && (
           <div
             style={{
               color: "#2a81a5",
               fontWeight: "bold",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 4,
             }}
           >
-            Visit :{" "}
+            Visit :
             <a
               className="custom-underline"
               target="_blank"
@@ -102,11 +111,11 @@ export default function ProjectCard({
               style={{
                 color: "#2a81a5",
                 fontWeight: "normal",
-                maxWidth: "180px",
                 textOverflow: "ellipsis",
-                whiteSpace: "none",
-                flexWrap: "nowrap",
                 overflow: "hidden",
+                WebkitLineClamp: 1,
+                whiteSpace: "nowrap",
+                maxWidth: isxs || isMd ? "180px" : "100%",
               }}
             >
               {link}
@@ -121,24 +130,73 @@ export default function ProjectCard({
             }
           }}
           style={{
-            height:
-              type == "Profile"
-                ? isxs
-                  ? "150px"
-                  : "200px"
-                : isxs
-                ? "auto"
-                : "200px",
-            width: type == "Profile" ? (isxs ? "150px" : "200px") : "auto",
+            height: "150px",
+            width: type == "Profile" || mode == "Profile" ? "150px" : "auto",
             objectFit: "cover",
-            borderRadius: type == "Profile" ? "50%" : "",
-            objectPosition: type == "Profile" ? "top" : "center",
+            borderRadius: type == "Profile" || mode == "Profile" ? "50%" : "",
+            objectPosition:
+              type == "Profile" || mode == "Profile" ? "top" : "center",
           }}
           className="rounded-md mt-3"
           src={image}
           alt="Project"
         />
       </div>
+    );
+  };
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        setLoading(true);
+        const data = await getProfile(userID);
+        setProfile(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [userID]);
+  const Layout = (data) => {
+    return (
+      <div className="h-[100%] w-[100%] flex justify-center items-center">
+        <p>{data}</p>
+      </div>
+    );
+  };
+  return (
+    <div className="cursor-pointer flex items-center flex-col justify-start  bg-[#34363a] rounded-2xl hover:translate-y-[-5px] transition-all duration-[.5s]">
+      <FlipCard
+        normal={type == "Profile"}
+        front={
+          <Card
+            title={title}
+            description={description}
+            link={link}
+            image={image}
+          />
+        }
+        back={
+          loading ? (
+            "Loading..."
+          ) : error ? (
+            "Error"
+          ) : (
+            <Card
+              title={profile?.name}
+              image={profile?.image?.url}
+              description={profile?.role}
+              mode={"Profile"}
+            />
+          )
+        }
+      />
+
       {type == "Application" && (
         <button
           onClick={

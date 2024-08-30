@@ -176,11 +176,13 @@ export default function Navbar({ dashboard }) {
     setopenViewProfile(false);
   };
   const [windowPathName, setwindowPathName] = useState("");
+  const currentHash = typeof window !== "undefined" ? window.location.hash : "";
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       setwindowPathName(window.location.hash);
     }
-  }, []);
+  }, [currentHash]);
   const MenuData = dashboard ? dashboardMenus : menus;
   return (
     <Box
@@ -192,32 +194,26 @@ export default function Navbar({ dashboard }) {
         height: 80,
         position: "relative",
         alignItems: "center",
-        background: {
-          lg: "transparent",
-          sm: "#0f0f0f",
-          xs: "#0f0f0f",
-        },
+        background: "#0f0f0f",
       }}
     >
-      <div
+      <Button
         onClick={() => {
           router.push("/");
         }}
-        style={{
+        sx={{
+          width: "150px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           cursor: "pointer",
+          borderRadius: "10px",
+          p: 2,
         }}
       >
-        <Button sx={{ textTransform: "none" }}>
-          <Typography
-            variant="h6"
-            color="white"
-            fontWeight="bold"
-            // fontFamily="cursive"
-          >
-            Jers-folio
-          </Typography>
-        </Button>
-      </div>
+        <img src="/NameLogo.png" />
+      </Button>
+
       {menuBtn && (
         <ResNav
           dashboard={dashboard}
@@ -349,7 +345,7 @@ export default function Navbar({ dashboard }) {
               // fontFamily: "cursive",
             }}
           >
-            Feedback
+            Global Chat
           </Button>
         )}
         <Button
@@ -384,7 +380,7 @@ export default function Navbar({ dashboard }) {
             // fontFamily: "cursive",
           }}
         >
-          {userData ? "Feedback" : "Login"}
+          {userData ? "Global Chat" : "Login"}
         </Button>
         {userData !== null && (
           <IconButton

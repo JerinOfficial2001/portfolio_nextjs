@@ -50,3 +50,22 @@ export const GetAllProfile = async () => {
     console.log("GetProfile ERR", error);
   }
 };
+export const GetProfileByUserID = async (UserID) => {
+  try {
+    const { data } = await axios.get(`${API}/profile/get`);
+    if (data.status == "ok") {
+      const profiles = data.data;
+
+      const currentProfile = profiles.find((elem) => elem.userID == UserID);
+      if (currentProfile) {
+        return currentProfile;
+      } else {
+        return null;
+      }
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log("GetProfile ERR", error);
+  }
+};

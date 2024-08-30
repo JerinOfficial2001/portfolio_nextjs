@@ -195,7 +195,6 @@ export default function Feedback() {
           sx={{
             color: "gray",
             fontSize: 15,
-            fontFamily: "cursive",
           }}
         >
           Create your portfolio
@@ -214,7 +213,6 @@ export default function Feedback() {
           height: "60px",
           color: " #828282",
           fontWeight: "bold",
-          fontFamily: "cursive",
         }}
         onClick={() => {
           router.push("/");
@@ -233,7 +231,6 @@ export default function Feedback() {
           borderRadius: 10,
           color: " white",
           fontWeight: "bold",
-          fontFamily: "cursive",
         }}
         onClick={() => {
           router.push("/");
@@ -256,7 +253,6 @@ export default function Feedback() {
             color: "white",
             fontWeight: "bold",
             fontSize: 20,
-            fontFamily: "cursive",
           }}
         >
           FOLLOW US
@@ -265,7 +261,6 @@ export default function Feedback() {
           sx={{
             color: "gray",
             fontSize: 15,
-            fontFamily: "cursive",
             width: "200px",
           }}
         >
@@ -308,14 +303,13 @@ export default function Feedback() {
                 setopenAuthModel(true);
               }}
               sx={{
-                color: "red",
+                color: "gray",
                 fontWeight: "bold",
                 position: "absolute",
-                fontFamily: "cursive",
                 zIndex: 1,
               }}
             >
-              Login to send feedback
+              Login to start global chat
             </Button>
           )}
           <TextField
@@ -341,10 +335,9 @@ export default function Feedback() {
               style: {
                 color: "gray",
                 fontWeight: "bold",
-                fontFamily: "cursive",
               },
             }}
-            placeholder="Type your feedback here"
+            placeholder="Type here"
           />
           <IconButton
             disabled={!cachedData}
@@ -431,7 +424,6 @@ export default function Feedback() {
           sx={{
             color: "gray",
             fontSize: 15,
-            fontFamily: "cursive",
             width: "200px",
           }}
         >
@@ -500,9 +492,9 @@ export default function Feedback() {
                   src={
                     elem.image && elem.image != "null"
                       ? elem?.image?.url
-                      : elem?.gender == "MALE"
-                      ? "/male.png"
-                      : "/female.png"
+                      : elem?.gender == "FEMALE"
+                      ? "/female.png"
+                      : "/male.png"
                   }
                   alt="profile"
                   style={{
@@ -550,7 +542,6 @@ export default function Feedback() {
                   sx={{
                     color: "#d4d4d4",
                     fontSize: 15,
-                    fontFamily: "cursive",
                     width: "355px",
                   }}
                 >
@@ -595,7 +586,6 @@ export default function Feedback() {
                     sx={{
                       color: "gray",
                       fontSize: 10,
-                      fontFamily: "cursive",
                     }}
                   >
                     {date}

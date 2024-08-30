@@ -223,7 +223,6 @@ export default function ResNav({
               sx={{
                 color: "white",
                 textTransform: "capitalize",
-                fontFamily: "cursive",
               }}
               startIcon={
                 <StyledBadge
@@ -298,10 +297,9 @@ export default function ResNav({
             width: 130,
 
             border: "2px solid cornflowerblue",
-            fontFamily: "cursive",
           }}
         >
-          {userData ? "Feedback" : "Login"}
+          {userData ? "Global chat" : "Login"}
         </Button>
         {userData !== null && (
           <Button

@@ -25,6 +25,7 @@ export default function Card({ project, handleOpen, title, fetchData }) {
     if (project && project?._id) setvisible(e.target.checked);
     ProjectVisibility({ isVisible: e.target.checked }, project?._id);
   };
+
   return (
     <>
       <Box
