@@ -175,6 +175,12 @@ export default function Navbar({ dashboard }) {
   const handleViewProfileClose = () => {
     setopenViewProfile(false);
   };
+  const [windowPathName, setwindowPathName] = useState("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setwindowPathName(window.location.hash);
+    }
+  }, []);
   const MenuData = dashboard ? dashboardMenus : menus;
   return (
     <Box
@@ -218,6 +224,7 @@ export default function Navbar({ dashboard }) {
           setmenuBtn={setmenuBtn}
           setopenViewProfile={setopenViewProfile}
           setopenAuthModel={setopenAuthModel}
+          windowPathName={windowPathName}
         />
       )}
 
@@ -270,7 +277,7 @@ export default function Navbar({ dashboard }) {
                   sx={{
                     ...(location.includes(menu.path) ||
                     (location == "/" && menu.title == "Home") ||
-                    window.location.hash == menu.to
+                    windowPathName == menu.to
                       ? {
                           color: "cornflowerblue",
                           border: "2px solid cornflowerblue",

@@ -29,6 +29,12 @@ export default function Dashboard() {
     queryKey: ["profiles"],
     queryFn: GetAllProfile,
   });
+  const [windowPathName, setwindowPathName] = useState("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setwindowPathName(window.location.hash);
+    }
+  }, []);
   return (
     <Layout dashboard={true} direction={false}>
       <Toaster position="top-center" />
@@ -36,7 +42,7 @@ export default function Dashboard() {
         id="portfolio"
         className="w-[100%]"
         style={{
-          paddingTop: window.location.hash == "#portfolio" ? "80px" : "0px",
+          paddingTop: windowPathName == "#portfolio" ? "80px" : "0px",
         }}
       >
         <ProjectContainer
@@ -51,7 +57,7 @@ export default function Dashboard() {
       </div>
       <div
         style={{
-          paddingTop: window.location.hash == "#applications" ? "80px" : "0px",
+          paddingTop: windowPathName == "#applications" ? "80px" : "0px",
         }}
         id={"applications"}
         className="w-[100%]"
@@ -74,7 +80,7 @@ export default function Dashboard() {
         id={"websites"}
         className="w-[100%] "
         style={{
-          paddingTop: window.location.hash == "#websites" ? "80px" : "0px",
+          paddingTop: windowPathName == "#websites" ? "80px" : "0px",
         }}
       >
         <ProjectContainer

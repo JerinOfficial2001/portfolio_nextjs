@@ -17,6 +17,7 @@ export default function ResNav({
   setopenViewProfile,
   setopenAuthModel,
   dashboard,
+  windowPathName,
 }) {
   const router = useRouter();
   const location = router.pathname;
@@ -261,7 +262,7 @@ export default function ResNav({
               <Typography
                 sx={{
                   color:
-                    location == menu.to || window.location.hash == menu.to
+                    location == menu.to || windowPathName == menu.to
                       ? "white"
                       : "#606060",
                   fontWeight: "bold",
