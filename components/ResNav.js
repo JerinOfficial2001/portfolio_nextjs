@@ -126,14 +126,14 @@ export default function ResNav() {
         borderRadius: 2,
         boxShadow: "0px -1px 3px gray",
         background: "#0f0f0f",
-        height: "50px",
+        height: "70px",
       }}
     >
       <Box
         sx={{
           height: "100%",
           display: "flex",
-          width: "98%",
+          width: location == "/" ? "80%" : "90%",
           justifyContent: "space-between",
           flexDirection: "row",
           alignItems: "center",
@@ -144,7 +144,8 @@ export default function ResNav() {
             location.includes(menu.path) ||
             (location == "/" && menu.title == "Home") ||
             windowPathName == menu.to ||
-            (menu.title == "Portfolio" && windowPathName == "#portfolio")
+            (menu.title == "Portfolio" && windowPathName == "#portfolio") ||
+            (menu.title == "Portfolio" && !windowPathName && location == "/")
               ? true
               : false;
           return (
@@ -172,26 +173,35 @@ export default function ResNav() {
                 width: "90px",
               }}
             >
-              {menu.icon}
-              <Typography
+              <Stack
                 sx={{
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  transition: "all .3s",
-                  fontSize: "8px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mt: activeMenu ? 1 : 0,
                 }}
               >
-                {menu.title}
-              </Typography>
+                {menu.icon}
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                    transition: "all .3s",
+                    fontSize: "8px",
+                  }}
+                >
+                  {menu.title}
+                </Typography>
+              </Stack>
               {activeMenu && (
                 <Box
                   component={"img"}
                   src="/ActiveBar.svg"
                   sx={{
                     position: "absolute",
-                    top: -1,
+                    top: 0,
                     filter: "contrast(0.5)",
                     zIndex: -1,
+                    maxWidth: "fit-content",
                   }}
                 />
               )}
