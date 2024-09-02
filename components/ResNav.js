@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from "react";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import ContactPhoneOutlinedIcon from "@mui/icons-material/ContactPhoneOutlined";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useRouter } from "next/router";
-import { Avatar, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
-import Cookies from "js-cookie";
-import { Logout } from "@mui/icons-material";
-import { StyledBadge } from "./Navbar";
+import { useGlobalContext } from "@/utils/globalContext";
+import { IoDesktopOutline } from "react-icons/io5";
+import { LuLayoutList } from "react-icons/lu";
+import { CgProfile } from "react-icons/cg";
+import { IoHome } from "react-icons/io5";
+import { PhoneAndroid } from "@mui/icons-material";
 
-export default function ResNav({
-  setmenuBtn,
-  setopenViewProfile,
-  setopenAuthModel,
-  dashboard,
-  windowPathName,
-}) {
+export default function ResNav() {
   const router = useRouter();
   const location = router.pathname;
   const cookie = getDecryptedCookie("Jers_folio_userData");
@@ -44,7 +39,7 @@ export default function ResNav({
           : "66276a73361a148fef6608c2"
       }`,
       path: "/[homepage]",
-      icon: <HomeOutlinedIcon />,
+      icon: <IoHome size={"25px"} />,
     },
     {
       id: 2,
@@ -59,7 +54,7 @@ export default function ResNav({
           : "?id=66276a73361a148fef6608c2"
       }`,
       path: "/credentials",
-      icon: <InventoryOutlinedIcon />,
+      icon: <CgProfile size={"25px"} />,
     },
     {
       id: 3,
@@ -95,253 +90,114 @@ export default function ResNav({
   const dashboardMenus = [
     {
       id: 1,
-      title: "Portfolio's",
+      title: "Portfolio",
       to: "#portfolio",
       path: "/#portfolio",
-      icon: <HomeOutlinedIcon />,
+      icon: <LuLayoutList size={"25px"} />,
     },
     {
       id: 2,
-      title: "Applications",
+      title: "Application",
       to: "#applications",
       path: "/#applications",
-      icon: <InventoryOutlinedIcon />,
+      icon: <PhoneAndroid />,
     },
     {
       id: 3,
-      title: "Websites",
+      title: "Website",
       to: "#websites",
       path: "/#websites",
-      icon: <InventoryOutlinedIcon />,
+      icon: <IoDesktopOutline size={"25px"} />,
     },
   ];
-  const handleLogout = () => {
-    Cookies.remove("Jers_folio_userData");
-    Cookies.remove("token");
-    window.location.href = "/";
-  };
-  const MenuData = dashboard ? dashboardMenus : menus;
+  const { windowPathName } = useGlobalContext();
+
+  const MenuData = location == "/" ? dashboardMenus : menus;
   return (
     <Stack
       sx={{
-        width: {
-          xl: "67%",
-          lg: "67%",
-          md: "67%",
-          sm: "100%",
-          xs: "100%",
-        },
-        justifyContent: "space-between",
-        flexDirection: {
-          xl: "row",
-          lg: "row",
-          md: "row",
-          sm: "column",
-          xs: "column",
-        },
-
-        position: {
-          xl: "sticky",
-          lg: "sticky",
-          md: "sticky",
-          sm: "absolute",
-          xs: "absolute",
-        },
-        top: 60,
-        alignItems: {
-          xl: "normal",
-          lg: "normal",
-          md: "normal",
-          sm: "center",
-          xs: "center",
-        },
-        gap: {
-          xl: 0,
-          lg: 0,
-          md: 0,
-          sm: 4,
-          xs: 4,
-        },
+        width: "100%",
+        justifyContent: "center",
+        flexDirection: "row",
+        position: "fixed",
+        bottom: 0,
+        alignItems: "center",
         zIndex: 1000,
-        borderRadius: 4,
-        boxShadow: "0px 1px 0px 0px white",
-        background: {
-          xl: "none",
-          lg: "none",
-          md: "none",
-          sm: "#0f0f0f",
-          xs: "#0f0f0f",
-        },
+        borderRadius: 2,
+        boxShadow: "0px -1px 3px gray",
+        background: "#0f0f0f",
+        height: "50px",
       }}
     >
       <Box
         sx={{
-          padding: 2,
           height: "100%",
           display: "flex",
-          width: "100%",
+          width: "98%",
           justifyContent: "space-between",
-          flexDirection: {
-            xl: "row",
-            lg: "row",
-            md: "row",
-            sm: "column",
-            xs: "column",
-          },
-          alignItems: {
-            xl: "normal",
-            lg: "normal",
-            md: "normal",
-            sm: "center",
-            xs: "center",
-          },
-          gap: {
-            xl: 0,
-            lg: 0,
-            md: 0,
-            sm: 4,
-            xs: 4,
-          },
+          flexDirection: "row",
+          alignItems: "center",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 1,
-            width: "100%",
-          }}
-        >
-          {userData && (
-            <Button
-              onClick={() => {
-                setmenuBtn(false);
-                setopenViewProfile(true);
-              }}
-              sx={{
-                color: "white",
-                textTransform: "capitalize",
-              }}
-              startIcon={
-                <StyledBadge
-                  overlap="circular"
-                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  variant="dot"
-                >
-                  <Avatar
-                    alt={userData?.name}
-                    src={
-                      userData?.image !== "null"
-                        ? userData?.image?.url
-                        : userData.gender == "male" || userData.gender == "MALE"
-                        ? "/male.png"
-                        : "/female.png"
-                    }
-                    sx={{ objectFit: "cover", objectPosition: "top" }}
-                    sizes="small"
-                  />
-                </StyledBadge>
-              }
-            >
-              View Profile
-            </Button>
-          )}
-        </Box>
         {MenuData.map((menu, id) => {
+          const activeMenu =
+            location.includes(menu.path) ||
+            (location == "/" && menu.title == "Home") ||
+            windowPathName == menu.to ||
+            (menu.title == "Portfolio" && windowPathName == "#portfolio")
+              ? true
+              : false;
           return (
-            <div
+            <Box
               key={id}
               onClick={() => {
                 router.push(menu.to);
-                setmenuBtn(false);
+              }}
+              sx={{
+                ...(activeMenu
+                  ? {
+                      color: "white",
+                    }
+                  : {
+                      color: "#606060",
+                    }),
+
+                "&:hover": { color: "white" },
+                display: "flex",
+                justifyContent: activeMenu ? "flex-start" : "center",
+                alignItems: "center",
+                flexDirection: "column",
+                position: "relative",
+                height: "100%",
+                width: "90px",
               }}
             >
+              {menu.icon}
               <Typography
                 sx={{
-                  color:
-                    location == menu.to || windowPathName == menu.to
-                      ? "white"
-                      : "#606060",
                   fontWeight: "bold",
-                  "&:hover": { color: "white" },
                   cursor: "pointer",
+                  transition: "all .3s",
+                  fontSize: "8px",
                 }}
               >
                 {menu.title}
               </Typography>
-            </div>
+              {activeMenu && (
+                <Box
+                  component={"img"}
+                  src="/ActiveBar.svg"
+                  sx={{
+                    position: "absolute",
+                    top: -1,
+                    filter: "contrast(0.5)",
+                    zIndex: -1,
+                  }}
+                />
+              )}
+            </Box>
           );
-        })}{" "}
-        {!userData && (
-          <Button
-            onClick={() => {
-              router.push("/feedback");
-            }}
-            variant="contained"
-            sx={{
-              color: "white",
-              background: "#323232",
-              borderRadius: 4,
-              "&:hover": {
-                background: "#323232",
-                color: "white",
-                border: "2px solid lavender",
-              },
-              textTransform: "none",
-              height: 43,
-              width: 130,
-
-              border: "2px solid cornflowerblue",
-              // fontFamily: "cursive",
-            }}
-          >
-            Global Chat
-          </Button>
-        )}
-        <Button
-          onClick={() => {
-            if (userData) {
-              router.push("/feedback");
-            } else {
-              setopenAuthModel(true);
-            }
-          }}
-          variant="contained"
-          sx={{
-            color: "white",
-            background: "#323232",
-            borderRadius: 4,
-            "&:hover": {
-              background: "#323232",
-              color: "white",
-              border: "2px solid lavender",
-            },
-            textTransform: "none",
-            height: 43,
-            width: 130,
-
-            border: "2px solid cornflowerblue",
-          }}
-        >
-          {userData ? "Global chat" : "Login"}
-        </Button>
-        {userData !== null && (
-          <Button
-            sx={{
-              color: "white",
-              borderRadius: 4,
-              "&:hover": {
-                color: "white",
-              },
-            }}
-            startIcon={<Logout />}
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
-        )}
+        })}
       </Box>
     </Stack>
   );

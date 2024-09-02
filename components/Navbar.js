@@ -19,11 +19,12 @@ import {
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ResNav from "./ResNav";
-import { Logout } from "@mui/icons-material";
+import { Login, Logout, MoreVert } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import AuthModal from "./Auth/AuthModal";
 import ViewProfileModal from "./ViewProfileModal";
+import { useGlobalContext } from "@/utils/globalContext";
 
 export const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -64,6 +65,7 @@ export default function Navbar({ dashboard }) {
     setAnchorEl(null);
   };
   const [menuBtn, setmenuBtn] = useState(false);
+
   const router = useRouter();
   const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedData = cookie ? JSON.parse(cookie) : false;
@@ -167,6 +169,10 @@ export default function Navbar({ dashboard }) {
     window.location.href = "/";
     handleClose();
   };
+  const handleLogin = () => {
+    setopenAuthModel(true);
+    handleClose();
+  };
   const handleAuthModalClose = () => {
     setopenAuthModel(false);
   };
@@ -174,15 +180,12 @@ export default function Navbar({ dashboard }) {
   const handleViewProfileClose = () => {
     setopenViewProfile(false);
   };
-  const [windowPathName, setwindowPathName] = useState("");
-  const currentHash = typeof window !== "undefined" ? window.location.hash : "";
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setwindowPathName(window.location.hash);
-    }
-  }, [currentHash]);
+  const { windowPathName, isMd, isXl, isLg, isxs, issm } = useGlobalContext();
   const MenuData = dashboard ? dashboardMenus : menus;
+  useEffect(() => {
+    handleClose();
+  }, [isMd, isXl, isLg, isxs, issm]);
+
   return (
     <Box
       sx={{
@@ -212,16 +215,6 @@ export default function Navbar({ dashboard }) {
       >
         <img src="/NameLogo.png" />
       </Button>
-
-      {menuBtn && (
-        <ResNav
-          dashboard={dashboard}
-          setmenuBtn={setmenuBtn}
-          setopenViewProfile={setopenViewProfile}
-          setopenAuthModel={setopenAuthModel}
-          windowPathName={windowPathName}
-        />
-      )}
 
       <Stack
         direction="row"
@@ -417,7 +410,8 @@ export default function Navbar({ dashboard }) {
               color: "whitesmoke",
               boxShadow: "0 0 0 1px #4d59a9",
               borderRadius: 5,
-              padding: 1,
+              padding: { xs: 0, md: 1 },
+              height: !userData ? "50px" : "auto",
             },
           }}
           id="basic-menu"
@@ -436,64 +430,70 @@ export default function Navbar({ dashboard }) {
             horizontal: "center",
           }}
         >
-          <MenuItem
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              fontSize: "medium",
-              width: 250,
-            }}
-            onClick={() => {
-              handleClose();
-              setopenViewProfile(true);
-              // router.push("/profilePage");
-            }}
-          >
-            <Avatar
-              sx={{ width: 50, height: 50, objectPosition: "top" }}
-              alt={userData?.name}
-              src={
-                userData?.image && userData?.image !== "null"
-                  ? userData?.image?.url
-                  : userData?.gender == "male" || userData?.gender == "MALE"
-                  ? "/male.png"
-                  : "/female.png"
-              }
+          {userData && (
+            <MenuItem
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                fontSize: "medium",
+                width: 250,
+              }}
+              onClick={() => {
+                handleClose();
+                setopenViewProfile(true);
+                // router.push("/profilePage");
+              }}
+            >
+              <Avatar
+                sx={{ width: 50, height: 50, objectPosition: "top" }}
+                alt={userData?.name}
+                src={
+                  userData?.image && userData?.image !== "null"
+                    ? userData?.image?.url
+                    : userData?.gender == "male" || userData?.gender == "MALE"
+                    ? "/male.png"
+                    : "/female.png"
+                }
+              />
+              <Stack>
+                <Typography
+                  sx={{ textTransform: "uppercase", fontWeight: "bold" }}
+                >
+                  {userData?.name}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "slategray",
+                    fontWeight: "bold",
+                    fontSize: 13,
+                  }}
+                >
+                  View Profile
+                </Typography>
+              </Stack>
+            </MenuItem>
+          )}
+          {userData && (
+            <Divider
+              variant="middle"
+              sx={{
+                borderColor: "cornflowerblue",
+                borderWidth: 2,
+                borderRadius: 10,
+              }}
             />
-            <Stack>
-              <Typography
-                sx={{ textTransform: "uppercase", fontWeight: "bold" }}
-              >
-                {userData?.name}
-              </Typography>
-              <Typography
-                sx={{
-                  color: "slategray",
-                  fontWeight: "bold",
-                  fontSize: 13,
-                }}
-              >
-                View Profile
-              </Typography>
-            </Stack>
-          </MenuItem>
-          <Divider
-            variant="middle"
-            sx={{
-              borderColor: "cornflowerblue",
-              borderWidth: 2,
-              borderRadius: 10,
-            }}
-          />
+          )}
           <MenuItem
             sx={{
               display: "flex",
               alignItems: "center",
               gap: 1,
               fontSize: "medium",
+              p: { xs: 0, md: "auto" },
+              px: { xs: 2, md: "auto" },
             }}
-            onClick={handleLogout}
+            onClick={userData ? handleLogout : handleLogin}
           >
             <Box
               sx={{
@@ -504,9 +504,9 @@ export default function Navbar({ dashboard }) {
                 justifyContent: "center",
               }}
             >
-              <Logout fontSize="medium" />
+              {userData ? <Logout fontSize="medium" /> : <Login />}
             </Box>
-            Logout
+            {userData ? "Logout" : "Login"}
           </MenuItem>
         </Menu>
       </Box>
@@ -521,23 +521,36 @@ export default function Navbar({ dashboard }) {
           },
         }}
       >
-        {!menuBtn ? (
+        {userData !== null ? (
           <IconButton
-            size="big"
-            onClick={() => {
-              setmenuBtn(true);
-            }}
+            title={userData?.name}
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
           >
-            <MenuOutlinedIcon sx={{ color: "white", fontSize: 40 }} />
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
+              <Avatar
+                alt={userData?.name}
+                src={
+                  userData?.image && userData?.image !== "null"
+                    ? userData?.image?.url
+                    : userData.gender == "male" || userData.gender == "MALE"
+                    ? "/male.png"
+                    : "/female.png"
+                }
+                sx={{ objectFit: "cover", objectPosition: "top" }}
+              />
+            </StyledBadge>
           </IconButton>
         ) : (
-          <IconButton
-            size="big"
-            onClick={() => {
-              setmenuBtn(false);
-            }}
-          >
-            <CloseOutlinedIcon sx={{ color: "white", fontSize: 40 }} />
+          <IconButton size="big" onClick={handleClick}>
+            <MoreVert sx={{ color: "white", fontSize: 30 }} />
           </IconButton>
         )}
       </Box>

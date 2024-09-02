@@ -10,8 +10,9 @@ import { useRouter } from "next/router";
 import { SocketProvider } from "@/utils/socket";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
 import GlobalContextProvider from "@/utils/globalContext";
+import ResNav from "@/components/ResNav";
 
 export const queryClient = new QueryClient();
 export default function App({ Component, pageProps }) {
@@ -22,6 +23,9 @@ export default function App({ Component, pageProps }) {
   });
 
   const router = useRouter();
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.only("sm"));
+  const isxs = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -34,7 +38,7 @@ export default function App({ Component, pageProps }) {
               <Stack sx={{ width: "100%", alignItems: "center" }}>
                 <Box
                   sx={{
-                    width: "75%",
+                    width: { xs: "100%", md: "75%" },
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -48,6 +52,7 @@ export default function App({ Component, pageProps }) {
                 <Layout dashboard={router.pathname == "/"}>
                   <Component {...pageProps} />
                 </Layout>
+                {(isSm || isxs) && <ResNav />}
               </Stack>
             )}
           </GlobalContextProvider>

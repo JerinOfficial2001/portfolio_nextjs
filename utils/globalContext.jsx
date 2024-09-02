@@ -27,6 +27,14 @@ export default function GlobalContextProvider({ children }) {
   const isMd = useMediaQuery(theme.breakpoints.only("md"));
   const isLg = useMediaQuery(theme.breakpoints.only("lg"));
   const isXl = useMediaQuery(theme.breakpoints.only("xl"));
+  const [windowPathName, setwindowPathName] = useState("#portfolio");
+  const currentHash = typeof window !== "undefined" ? window.location.hash : "";
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setwindowPathName(window.location.hash);
+    }
+  }, [currentHash]);
   return (
     <GlobalContext.Provider
       value={{
@@ -42,6 +50,8 @@ export default function GlobalContextProvider({ children }) {
         profiles,
         setprofiles,
         customStyle,
+        windowPathName,
+        setwindowPathName,
       }}
     >
       {children}
