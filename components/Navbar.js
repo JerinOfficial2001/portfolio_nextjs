@@ -197,6 +197,7 @@ export default function Navbar({ dashboard }) {
         position: "relative",
         alignItems: "center",
         background: "#0f0f0f",
+        pt: 3,
       }}
     >
       <Button
