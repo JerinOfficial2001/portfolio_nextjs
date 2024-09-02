@@ -37,7 +37,7 @@ export default function ProjectContainer({
     } else {
       setdisplayProjects([]);
     }
-  }, [projects?.length, projects]);
+  }, [projects?.length, projects, visibleCount]);
 
   return (
     <div className="w-[100%] flex flex-col items-center justify-center gap-5 ">
