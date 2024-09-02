@@ -52,7 +52,7 @@ export default function Dashboard() {
         className="w-[100%]"
       >
         <ProjectContainer
-          isLoading={projectLoading}
+          isLoading={projectLoading || profileLoading}
           projects={
             Projects
               ? Projects.filter((elem) => elem.category == "Application")
@@ -74,7 +74,7 @@ export default function Dashboard() {
         }}
       >
         <ProjectContainer
-          isLoading={projectLoading}
+          isLoading={projectLoading || profileLoading}
           projects={
             Projects
               ? Projects.filter((elem) => elem.category == "Website")

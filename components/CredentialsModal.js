@@ -34,14 +34,9 @@ import {
 } from "@mui/icons-material";
 import { getUserByID } from "@/controller/auth";
 import { CreateCredentials, UpdateCredentials } from "@/controller/credentials";
+import { queryClient } from "@/pages/_app";
 
-export default function CredentialsModal({
-  open,
-  handleClose,
-  data,
-  id,
-  fetchData,
-}) {
+export default function CredentialsModal({ open, handleClose, data, id }) {
   const router = useRouter();
   const [isProcessing, setisProcessing] = useState(false);
   const [inputData, setinputData] = useState({
@@ -68,14 +63,16 @@ export default function CredentialsModal({
         education: data ? data.education : [],
         skills: data ? data.skills : [],
         link: {
-          Github: data ? data.link.Github : "",
-          LinkedIn: data ? data.link.LinkedIn : "",
-          Whatsapp: data ? data.link.Whatsapp : "",
+          Github: data ? data.link?.Github : "",
+          LinkedIn: data ? data.link?.LinkedIn : "",
+          Whatsapp: data ? data.link?.Whatsapp : "",
         },
         userID: id,
         isDeleteImage: false,
       });
-      GetGender();
+      if (data) {
+        GetGender();
+      }
     }
   }, [open]);
 
@@ -255,7 +252,7 @@ export default function CredentialsModal({
           if (response?.status == "ok") {
             toast.success(response.message);
             handleClose();
-            fetchData();
+            queryClient.invalidateQueries({ queryKey: ["credential"] });
           } else {
             handleClose();
           }
@@ -264,7 +261,10 @@ export default function CredentialsModal({
       } else {
         UpdateCredentials(formDatas, data._id).then((response) => {
           if (response?.status == "ok") {
-            fetchData();
+            queryClient.invalidateQueries({
+              queryKey: ["credential"],
+            });
+
             toast.success(response.message);
             handleClose();
           } else {

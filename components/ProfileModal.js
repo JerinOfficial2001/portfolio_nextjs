@@ -22,8 +22,9 @@ import { Toaster, toast } from "react-hot-toast";
 import { Autorenew, Close } from "@mui/icons-material";
 import { CreateProfile, UpdateProfile } from "@/controller/profile";
 import { getUserByID } from "@/controller/auth";
+import { queryClient } from "@/pages/_app";
 
-export default function ProfileModal({ open, handleClose, data, fetchData }) {
+export default function ProfileModal({ open, handleClose, data }) {
   const router = useRouter();
   const { homepage } = router.query;
   const id = homepage;
@@ -78,7 +79,7 @@ export default function ProfileModal({ open, handleClose, data, fetchData }) {
             if (response.status == "ok") {
               toast.success(response.message);
               handleClose();
-              fetchData();
+              queryClient.invalidateQueries({ queryKey: ["profile"] });
             } else {
               handleClose();
             }
@@ -88,7 +89,7 @@ export default function ProfileModal({ open, handleClose, data, fetchData }) {
       } else {
         UpdateProfile(formDatas, data._id).then((response) => {
           if (response.status == "ok") {
-            fetchData();
+            queryClient.invalidateQueries({ queryKey: ["profile"] });
             toast.success(response.message);
             handleClose();
           } else {

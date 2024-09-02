@@ -10,6 +10,8 @@ import TextField from "@mui/material/TextField";
 import { inputLabelClasses } from "@mui/material";
 import ContactInfo from "@/components/ContactInfo";
 import * as icon from "react-icons/ai";
+import { useQuery } from "@tanstack/react-query";
+import { GetCredentialsByID } from "@/controller/credentials";
 
 export default function contact() {
   const router = useRouter();
@@ -38,7 +40,16 @@ export default function contact() {
       });
     }
   };
-
+  const { id } = router.query;
+  const {
+    data: Credentials,
+    isError: credentialErr,
+    isLoading: CredentialsLoading,
+  } = useQuery({
+    queryKey: ["credential"],
+    queryFn: () => GetCredentialsByID(id),
+    enabled: !!id,
+  });
   return (
     <Box
       sx={{
@@ -116,7 +127,7 @@ export default function contact() {
           >
             <Button
               onClick={() => {
-                router.push("https://www.linkedin.com/in/jerin-t-8866581a0");
+                window.open(Credentials?.link?.LinkedIn, "_blank");
               }}
               sx={{
                 color: "white",
@@ -142,7 +153,7 @@ export default function contact() {
 
             <Button
               onClick={() => {
-                router.push("https://github.com/jerin2001");
+                window.open(Credentials?.link?.Github, "_blank");
               }}
               sx={{
                 color: "white",
@@ -167,7 +178,7 @@ export default function contact() {
             </Button>
             <Button
               onClick={() => {
-                router.push("https://wa.me/qr/EMQB2VSLPRJLL1");
+                window.open(Credentials?.link?.Whatsapp, "_blank");
               }}
               sx={{
                 color: "white",

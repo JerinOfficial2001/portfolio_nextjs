@@ -9,13 +9,11 @@ import { getUserByID } from "@/controller/auth";
 import { GetAllProfile, GetProfileByID } from "@/controller/profile";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import { GetCredentialsByID } from "@/controller/credentials";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Homepage() {
   // const [hoverEffect, sethoverEffect] = useState(false);
   const router = useRouter();
-  const [DATA, setDATA] = useState(null);
-  const [profile, setprofile] = useState(null);
-  const [credentials, setcredentials] = useState(null);
   const cookie = getDecryptedCookie("Jers_folio_userData");
   const cachedCookie = cookie ? JSON.parse(cookie) : false;
   const homepage = router.query.homepage
@@ -24,51 +22,64 @@ export default function Homepage() {
     ? "66276a73361a148fef6608c2"
     : cachedCookie?._id;
   const [isMyProfile, setisMyProfile] = useState(false);
-  const fetchData = () => {
-    GetAllProfile().then((profiles) => {
-      const profileIDs = profiles?.map((elem) => elem.userID);
-      if (profileIDs?.includes(homepage)) {
-        getUserByID(homepage).then((data) => {
-          setDATA(data);
-        });
-        GetProfileByID(homepage).then((data) => {
-          setprofile(data);
-        });
-        GetCredentialsByID(homepage).then((data) => {
-          setcredentials(data);
-        });
+  const {
+    data: DATA,
+    isError: usersErr,
+    isLoading: usersLoading,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => getUserByID(homepage),
+    enabled: !!homepage,
+  });
+  const {
+    data: profile,
+    isError: profileErr,
+    isLoading: profileLoading,
+  } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => GetProfileByID(homepage),
+    enabled: !!homepage && !!DATA,
+  });
+  const {
+    data: credentials,
+    isError: credentialErr,
+    isLoading: CredentialsLoading,
+    error,
+  } = useQuery({
+    queryKey: ["credential"],
+    queryFn: () => GetCredentialsByID(homepage),
+    enabled: !!homepage && !!DATA,
+  });
+  useEffect(() => {
+    if (usersErr || profileErr || credentialErr) {
+      console.log(usersErr, profileErr, credentialErr, error);
+      router.push("/");
+    }
+  }, [usersErr, profileErr, credentialErr]);
 
-        if (cachedCookie) {
-          if (homepage == cachedCookie._id) {
-            setisMyProfile(true);
-          } else {
-            setisMyProfile(false);
-          }
-        } else {
-          if (router.pathname == "/" && cachedCookie) {
-            setisMyProfile(true);
-          } else {
-            setisMyProfile(false);
-          }
-        }
-      } else if (cachedCookie) {
+  useEffect(() => {
+    if (cachedCookie) {
+      if (homepage == cachedCookie._id) {
         setisMyProfile(true);
       } else {
-        router.push("/");
+        setisMyProfile(false);
       }
-    });
-  };
-  useEffect(() => {
-    fetchData();
-  }, [homepage]);
+    } else {
+      if (router.pathname == "/" && cachedCookie) {
+        setisMyProfile(true);
+      } else {
+        setisMyProfile(false);
+      }
+    }
+  }, [homepage, cachedCookie]);
   return (
     <>
       <Firstrow
-        fetchData={fetchData}
         data={DATA}
         profile={profile}
         isMyProfile={isMyProfile}
         credentials={credentials}
+        isLoading={profileLoading}
       />
       <Secondrow data={DATA} />
       <Thirdrow />

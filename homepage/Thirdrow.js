@@ -22,7 +22,7 @@ export default function Thirdrow() {
         },
       }}
     >
-      <div className="animate__animated animate__zoomIn animate__delay-1s secondrow">
+      <div className="animate__animated animate__zoomIn  secondrow">
         <Box
           sx={{
             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
@@ -153,7 +153,7 @@ export default function Thirdrow() {
       </div>
 
       <div
-        className="animate__animated animate__zoomIn animate__delay-1s secondrow"
+        className="animate__animated animate__zoomIn  secondrow"
         onClick={() => {
           router.push("/contact");
         }}

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useGlobalContext } from "@/utils/globalContext";
 
 export default function Layout({ children, dashboard, maxWidth }) {
-  const { direction, customStyle } = useGlobalContext();
+  const { direction, customStyle, isxs, issm } = useGlobalContext();
   const router = useRouter();
   const scrollRef = useRef();
   const scrollContainerRef = useRef();
@@ -40,7 +40,7 @@ export default function Layout({ children, dashboard, maxWidth }) {
       className="animate__animated animate__fadeInDownBig w-[100%]"
       style={{
         overflowY: "scroll",
-        height: "88vh",
+        height: issm || isxs ? "80vh" : "88vh",
       }}
     >
       <Container maxWidth={maxWidth}>

@@ -35,9 +35,7 @@ export default function App({ Component, pageProps }) {
             {router.pathname == "/feedback" ? (
               <Component {...pageProps} />
             ) : (
-              <Stack
-                sx={{ width: "100%", alignItems: "center", height: "100vh" }}
-              >
+              <Stack sx={{ width: "100%", alignItems: "center" }}>
                 <Box
                   sx={{
                     width: { xs: "100%", md: "75%" },

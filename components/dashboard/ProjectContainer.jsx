@@ -1,5 +1,5 @@
 import { Grid, Skeleton } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProjectCard from "./ProjectCard";
 import { ChevronDown, ChevronUp } from "lucide";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
@@ -28,7 +28,17 @@ export default function ProjectContainer({
       return null;
     }
   };
-  const displayProjects = projects ? projects?.slice(0, visibleCount) : [];
+  const [displayProjects, setdisplayProjects] = useState([]);
+  useEffect(() => {
+    if (projects && projects.length > 3) {
+      setdisplayProjects(projects?.slice(0, visibleCount));
+    } else if (projects && projects.length > 0) {
+      setdisplayProjects(projects);
+    } else {
+      setdisplayProjects([]);
+    }
+  }, [projects?.length, projects]);
+
   return (
     <div className="w-[100%] flex flex-col items-center justify-center gap-5 ">
       <p className="md:text-[2.25rem] text-white font-bold tracking-wider">
@@ -39,7 +49,7 @@ export default function ProjectContainer({
       </p>
       <Grid container spacing={2} sx={{ width: "100%" }}>
         {!isLoading
-          ? displayProjects.map((elem, index) => {
+          ? displayProjects?.map((elem, index) => {
               return (
                 <Grid key={index} item md={4} xs={12}>
                   <div
@@ -61,7 +71,7 @@ export default function ProjectContainer({
                 </Grid>
               );
             })
-          : [1, 2, 3].map((elem, index) => {
+          : [1, 2, 3].map((_, index) => {
               return (
                 <Grid key={index} item md={4} xs={12}>
                   <Skeleton

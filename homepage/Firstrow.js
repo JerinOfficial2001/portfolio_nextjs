@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import "animate.css";
 import { useRouter } from "next/router";
-import { IconButton, TextField } from "@mui/material";
+import { IconButton, Skeleton, TextField } from "@mui/material";
 import { Add, Edit } from "@mui/icons-material";
 import ProfileModal from "@/components/ProfileModal";
 import CredentialsModal from "@/components/CredentialsModal";
@@ -16,6 +16,7 @@ export default function Firstrow({
   isMyProfile,
   fetchData,
   credentials,
+  isLoading,
 }) {
   const router = useRouter();
   const { homepage } = router.query;
@@ -46,69 +47,71 @@ export default function Firstrow({
         }}
       >
         {/* 1st */}
-        <div className="animate__animated animate__zoomIn animate__delay-1s  secondrow">
-          <Stack
-            direction="row"
-            sx={{
-              background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
-              height: "310px",
-              width: "100%",
-              borderRadius: "40px",
-              cursor: "pointer",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "10px",
-              marginTop: "15px",
-              border: "1px solid #232323",
-              position: "relative",
-            }}
-          >
-            <Box
+        <div className="animate__animated animate__zoomIn   secondrow">
+          {!isLoading ? (
+            <Stack
+              direction="row"
               sx={{
-                height: "70%",
-                width: "40%",
-                background: "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
-                borderRadius: "40px 5px 40px 5px",
-                boxShadow: "0px 0px 5px black",
-                display: "flex",
+                background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+                height: { xs: "250px", md: "310px" },
+                width: "100%",
+                borderRadius: "40px",
+                cursor: "pointer",
                 justifyContent: "center",
                 alignItems: "center",
+                gap: "10px",
+                marginTop: "15px",
+                border: "1px solid #232323",
                 position: "relative",
               }}
             >
-              {profile?.image !== "null" && profile?.image ? (
-                <img
-                  // className="userImg"
-                  src={profile.image.url}
-                  alt="ProfilePic"
-                  style={{
-                    height: "85%",
-                    width: "100%",
-                    position: "absolute",
-                    bottom: 0,
-                    borderRadius: "0 0 40px 5px",
-                    // height: "85%",
-                    // width: "85%",
-                    // borderRadius: "50%",
-                  }}
-                />
-              ) : (
-                <Image
-                  className="userImg"
-                  src={require(!data?.gender ||
-                    data?.gender == "male" ||
-                    data?.gender == "MALE"
-                    ? "../assets/male.png"
-                    : "../assets/female.png")}
-                  alt="NoProfile"
-                  style={{
-                    height: "85%",
-                    width: "80%",
-                    borderRadius: "0px 0px 40px 0px",
-                  }}
-                />
-              )}
-              {/* {isMyProfile && (
+              <Box
+                sx={{
+                  height: "70%",
+                  width: "40%",
+                  background:
+                    "linear-gradient(to right,#6a8bec,#b9e1fd,#61b8e4)",
+                  borderRadius: "40px 5px 40px 5px",
+                  boxShadow: "0px 0px 5px black",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  position: "relative",
+                }}
+              >
+                {profile?.image !== "null" && profile?.image ? (
+                  <img
+                    // className="userImg"
+                    src={profile.image.url}
+                    alt="ProfilePic"
+                    style={{
+                      height: "85%",
+                      width: "100%",
+                      position: "absolute",
+                      bottom: 0,
+                      borderRadius: "0 0 40px 5px",
+                      // height: "85%",
+                      // width: "85%",
+                      // borderRadius: "50%",
+                    }}
+                  />
+                ) : (
+                  <Image
+                    className="userImg"
+                    src={require(!data?.gender ||
+                      data?.gender == "male" ||
+                      data?.gender == "MALE"
+                      ? "../assets/male.png"
+                      : "../assets/female.png")}
+                    alt="NoProfile"
+                    style={{
+                      height: "85%",
+                      width: "80%",
+                      borderRadius: "0px 0px 40px 0px",
+                    }}
+                  />
+                )}
+                {/* {isMyProfile && (
                 <Box
                   onMouseEnter={() => {
                     setisImgHover(true);
@@ -134,110 +137,212 @@ export default function Firstrow({
                   )}
                 </Box>
               )} */}
-            </Box>
-            <Box
-              sx={{
-                height: "60%",
-                width: "45%",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
+              </Box>
               <Box
                 sx={{
-                  width: "90%",
-                  height: "90%",
+                  height: "60%",
+                  width: "45%",
                   display: "flex",
                   justifyContent: "center",
-                  flexDirection: "column",
                 }}
               >
-                <Typography
+                <Box
                   sx={{
-                    color: "#5a5a5a",
-                    fontSize: {
-                      xl: 15,
-                      lg: 15,
-                      md: 15,
-                      sm: 15,
-                      xs: 10,
-                    },
-                    fontWeight: "bold",
-                    textTransform: "uppercase",
+                    width: "90%",
+                    height: "90%",
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
                   }}
                 >
-                  {profile ? profile?.role : "Add Role"}
-                </Typography>
-                <Typography
-                  sx={{
-                    color: "white",
-                    fontSize: {
-                      xl: 40,
-                      lg: 40,
-                      md: 40,
-                      sm: 40,
-                      xs: 20,
-                    },
-                    fontWeight: "bold",
-                  }}
-                >
-                  {profile ? profile.name : "Add Name"}
-                </Typography>
-                <Typography
-                  sx={{
-                    color: "white",
-                    fontSize: {
-                      xl: 15,
-                      lg: 15,
-                      md: 15,
-                      sm: 15,
-                      xs: 10,
-                    },
-                    fontWeight: "bold",
-                    marginBottom: 2,
-                  }}
-                >
-                  {profile ? profile.qualification : "Add Qualification"}
-                </Typography>
-                <Typography
-                  sx={{
-                    color: "#5a5a5a",
-                    fontSize: {
-                      xl: 15,
-                      lg: 15,
-                      md: 15,
-                      sm: 15,
-                      xs: 10,
-                    },
-                    fontWeight: "bold",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {/* An Aspiring MERN stack Developer */}
-                  {profile ? profile.about : "Add About"}
-                </Typography>
+                  <Typography
+                    sx={{
+                      color: "#5a5a5a",
+                      fontSize: {
+                        xl: 15,
+                        lg: 15,
+                        md: 15,
+                        sm: 15,
+                        xs: 10,
+                      },
+                      fontWeight: "bold",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {profile ? profile?.role : "Add Role"}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: {
+                        xl: 40,
+                        lg: 40,
+                        md: 40,
+                        sm: 40,
+                        xs: 20,
+                      },
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {profile ? profile.name : "Add Name"}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: {
+                        xl: 15,
+                        lg: 15,
+                        md: 15,
+                        sm: 15,
+                        xs: 10,
+                      },
+                      fontWeight: "bold",
+                      marginBottom: 2,
+                    }}
+                  >
+                    {profile ? profile.qualification : "Add Qualification"}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#5a5a5a",
+                      fontSize: {
+                        xl: 15,
+                        lg: 15,
+                        md: 15,
+                        sm: 15,
+                        xs: 10,
+                      },
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {/* An Aspiring MERN stack Developer */}
+                    {profile ? profile.about : "Add About"}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-            {isMyProfile && (
-              <IconButton
-                onClick={() => {
-                  setopenProfile(true);
-                }}
+              {isMyProfile && (
+                <IconButton
+                  onClick={() => {
+                    setopenProfile(true);
+                  }}
+                  sx={{
+                    position: "absolute",
+                    bottom: 15,
+                    right: 15,
+                    color: "whitesmoke",
+                    background: "#9d999924 !important",
+                    "&:hover": {
+                      boxShadow: "0 0 0 1px black",
+                    },
+                  }}
+                >
+                  {profile == null || profile == undefined ? <Add /> : <Edit />}
+                </IconButton>
+              )}
+            </Stack>
+          ) : (
+            <Stack
+              direction="row"
+              sx={{
+                background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
+                height: { xs: "250px", md: "310px" },
+                width: "100%",
+                borderRadius: "40px",
+                cursor: "pointer",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "10px",
+                marginTop: "15px",
+                border: "1px solid #232323",
+                position: "relative",
+              }}
+            >
+              <Skeleton
                 sx={{
-                  position: "absolute",
-                  bottom: 15,
-                  right: 15,
-                  color: "whitesmoke",
-                  background: "#9d999924 !important",
-                  "&:hover": {
-                    boxShadow: "0 0 0 1px black",
-                  },
+                  borderRadius: "40px 5px 40px 5px",
+                  boxShadow: "0px 0px 5px black",
+                  width: "40%",
+                  height: "100%",
+                  bgcolor: "#34363a",
+                }}
+              />
+              <Box
+                sx={{
+                  height: "60%",
+                  width: "45%",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
               >
-                {profile == null || profile == undefined ? <Add /> : <Edit />}
-              </IconButton>
-            )}
-          </Stack>
+                <Box
+                  sx={{
+                    width: "90%",
+                    height: "90%",
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Skeleton
+                    sx={{
+                      width: "100%",
+                      bgcolor: "#34363a",
+                    }}
+                  />
+                  <Skeleton
+                    sx={{
+                      width: "80%",
+                      bgcolor: "#34363a",
+                      height: "30px",
+                    }}
+                  />
+                  <Skeleton
+                    sx={{
+                      width: "70%",
+                      bgcolor: "#34363a",
+                    }}
+                  />
+                  <Skeleton
+                    sx={{
+                      width: "90%",
+                      bgcolor: "#34363a",
+                    }}
+                  />
+                  <Skeleton
+                    sx={{
+                      width: "100%",
+                      bgcolor: "#34363a",
+                    }}
+                  />
+                  <Skeleton
+                    sx={{
+                      width: "100%",
+                      bgcolor: "#34363a",
+                    }}
+                  />
+                </Box>
+              </Box>
+              {isMyProfile && (
+                <IconButton
+                  onClick={() => {
+                    setopenProfile(true);
+                  }}
+                  sx={{
+                    position: "absolute",
+                    bottom: 15,
+                    right: 15,
+                    color: "whitesmoke",
+                    background: "#9d999924 !important",
+                    "&:hover": {
+                      boxShadow: "0 0 0 1px black",
+                    },
+                  }}
+                >
+                  {profile == null || profile == undefined ? <Add /> : <Edit />}
+                </IconButton>
+              )}
+            </Stack>
+          )}
         </div>
 
         {/* 2nd */}
@@ -258,7 +363,7 @@ export default function Firstrow({
           }}
         >
           <div
-            className="animate__animated animate__zoomIn animate__delay-1s "
+            className="animate__animated animate__zoomIn  "
             style={{ width: "100%" }}
           >
             <Stack
@@ -350,7 +455,7 @@ export default function Firstrow({
               //     }`
               //   );
               // }}
-              className="animate__animated animate__zoomIn animate__delay-1s secondrow"
+              className="animate__animated animate__zoomIn  secondrow"
 
               // onMouseEnter={() => {
               //   sethoverEffect(true);
@@ -523,7 +628,7 @@ export default function Firstrow({
                   }`
                 );
               }}
-              className="animate__animated animate__zoomIn animate__delay-1s secondrow"
+              className="animate__animated animate__zoomIn  secondrow"
             >
               <Box
                 sx={{

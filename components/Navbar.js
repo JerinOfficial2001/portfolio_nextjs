@@ -193,6 +193,7 @@ export default function Navbar({ dashboard }) {
         width: "100%",
         justifyContent: "space-between",
         left: 0,
+        top: 0,
         height: 80,
         position: "relative",
         alignItems: "center",

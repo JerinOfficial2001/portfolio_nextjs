@@ -27,7 +27,7 @@ export default function Secondrow({ data }) {
       }}
     >
       {/* blog          */}
-      <div className="animate__animated animate__zoomIn animate__delay-1s thirdrow">
+      <div className="animate__animated animate__zoomIn  thirdrow">
         <Box
           sx={{
             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
@@ -129,7 +129,7 @@ export default function Secondrow({ data }) {
         </Box>
       </div>
       {/* specialization */}
-      <div className="animate__animated animate__zoomIn animate__delay-1s secondrow">
+      <div className="animate__animated animate__zoomIn  secondrow">
         <Box
           sx={{
             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
@@ -239,7 +239,7 @@ export default function Secondrow({ data }) {
         </Box>
       </div>
       {/* profiles          */}
-      <div className="animate__animated animate__zoomIn animate__delay-1s thirdrow">
+      <div className="animate__animated animate__zoomIn  thirdrow">
         <Box
           sx={{
             background: "linear-gradient(to right,#1e1e1e,#1a1a1a,#141414)",
@@ -280,7 +280,7 @@ export default function Secondrow({ data }) {
             }}
           >
             <div
-              className="animate__animated animate__zoomIn animate__delay-1s"
+              className="animate__animated animate__zoomIn "
               style={{
                 height: "80%",
                 width: "100%",

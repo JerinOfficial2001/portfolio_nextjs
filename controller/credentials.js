@@ -24,7 +24,8 @@ export const GetCredentialsByID = async (id) => {
     if (data.status == "ok") {
       return data.data;
     } else {
-      toast.error(data.message);
+      // toast.error(data.message);
+      return null;
     }
   } catch (error) {
     console.log("GetCredentials ERR", error);
