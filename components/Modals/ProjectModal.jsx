@@ -1013,6 +1013,11 @@ export default function ProjectModal({
                     </Grid>
                   );
                 } else if (elem.type == "endpoint") {
+                  const isComplete =
+                    elem.name != "credentials"
+                      ? endPointsData.Path !== "" && endPointsData.Page !== ""
+                      : credentialsData.Key !== "" &&
+                        credentialsData.Value !== "";
                   return (
                     <Grid
                       item
@@ -1036,10 +1041,12 @@ export default function ProjectModal({
                     >
                       <IconButton
                         sx={{
-                          color: "white",
+                          color: isComplete ? "green" : "white",
                           position: "absolute",
                           right: 5,
                           top: 5,
+                          border: isComplete ? "1px solid green" : "none",
+                          transition: "all .3s",
                         }}
                         onClick={
                           elem.name == "credentials"
@@ -1173,7 +1180,14 @@ export default function ProjectModal({
                         }}
                         endAdornment={
                           <IconButton
-                            sx={{ color: "white" }}
+                            sx={{
+                              color: elem.value.length > 0 ? "green" : "white",
+                              border:
+                                elem.value.length > 0
+                                  ? "1px solid green"
+                                  : "none",
+                              transition: "all .3s",
+                            }}
                             onClick={elem.addHandler}
                           >
                             <Add />

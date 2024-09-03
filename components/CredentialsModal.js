@@ -502,7 +502,12 @@ export default function CredentialsModal({ open, handleClose, data, id }) {
                       style={{ zIndex: 1 }}
                       endAdornment={
                         <IconButton
-                          sx={{ color: "white" }}
+                          sx={{
+                            color: skills.length > 0 ? "green" : "white",
+                            border:
+                              skills.length > 0 ? "1px solid green" : "none",
+                            transition: "all .3s",
+                          }}
                           onClick={() => {
                             if (skills !== "") {
                               handleAddSkills(skills);
@@ -642,10 +647,22 @@ export default function CredentialsModal({ open, handleClose, data, id }) {
                   >
                     <IconButton
                       sx={{
-                        color: "white",
+                        color:
+                          educationData.Institution !== "" &&
+                          educationData.Course !== "" &&
+                          educationData.Year !== ""
+                            ? "green"
+                            : "white",
                         position: "absolute",
                         right: 5,
                         top: 5,
+                        border:
+                          educationData.Institution !== "" &&
+                          educationData.Course !== "" &&
+                          educationData.Year !== ""
+                            ? "1px solid green"
+                            : "none",
+                        transition: "all .3s",
                       }}
                       onClick={handleSubmitEducations}
                     >

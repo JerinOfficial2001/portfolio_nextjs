@@ -10,6 +10,7 @@ export default function Input({
   placeholder,
   height,
   width,
+  multiline,
 }) {
   return (
     <TextField
@@ -21,16 +22,17 @@ export default function Input({
       value={value}
       type={type}
       onChange={onChange}
+      multiline={multiline}
+      rows={5}
+      InputLabelProps={type == "date" ? { shrink: true } : {}}
       sx={{
         "& .MuiOutlinedInput-notchedOutline": {
           border: "2px solid gray",
         },
-
         "& .MuiFormLabel-root": {
           color: "gray",
           textTransform: "capitalize",
         },
-
         "&:hover": {
           "& .MuiInputBase-root .MuiOutlinedInput-notchedOutline": {
             border: "2px solid cornflowerblue",
@@ -50,6 +52,9 @@ export default function Input({
         "& input": {
           color: "white",
           height: height ? height : "auto",
+        },
+        "& .MuiInputBase-root": {
+          color: "white",
         },
         width: width ? width : "100%",
       }}
