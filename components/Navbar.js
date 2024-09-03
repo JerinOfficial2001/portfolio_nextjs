@@ -16,15 +16,13 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import ResNav from "./ResNav";
 import { Login, Logout, MoreVert } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
 import AuthModal from "./Auth/AuthModal";
 import ViewProfileModal from "./ViewProfileModal";
 import { useGlobalContext } from "@/utils/globalContext";
+import { IoHome } from "react-icons/io5";
 
 export const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -340,6 +338,30 @@ export default function Navbar({ dashboard }) {
           >
             Global Chat
           </Button>
+        )}
+        {dashboard && userData && (
+          <IconButton
+            onClick={() => {
+              if (userData) {
+                router.push("/" + userData._id);
+              }
+            }}
+            variant="contained"
+            sx={{
+              color: "white",
+              background: "#323232",
+              "&:hover": {
+                background: "#323232",
+                color: "white",
+                border: "2px solid lavender",
+              },
+              textTransform: "none",
+              border: "2px solid cornflowerblue",
+              // fontFamily: "cursive",
+            }}
+          >
+            <IoHome />
+          </IconButton>
         )}
         <Button
           onClick={() => {

@@ -45,7 +45,7 @@ export default function Thirdrow() {
             position: "relative",
           }}
         >
-          <Box
+          {/* <Box
             sx={{
               position: "absolute",
               height: "100%",
@@ -63,7 +63,7 @@ export default function Thirdrow() {
             >
               Upcoming Feature...
             </Typography>
-          </Box>
+          </Box> */}
           <Stack sx={{ height: "70%", width: "100%" }}>
             <Box
               component="img"

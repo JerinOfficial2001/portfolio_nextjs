@@ -89,30 +89,42 @@ export default function ResNav() {
   ];
   const dashboardMenus = [
     {
+      id: 0,
+      title: "Home",
+      to: `/${userData?._id}`,
+      path: "/[homepage]",
+      icon: <IoHome size={"25px"} />,
+    },
+    {
       id: 1,
       title: "Portfolio",
       to: "#portfolio",
-      path: "/#portfolio",
+      path: "#portfolio",
       icon: <LuLayoutList size={"25px"} />,
     },
     {
       id: 2,
       title: "Application",
       to: "#applications",
-      path: "/#applications",
+      path: "#applications",
       icon: <PhoneAndroid />,
     },
     {
       id: 3,
       title: "Website",
       to: "#websites",
-      path: "/#websites",
+      path: "#websites",
       icon: <IoDesktopOutline size={"25px"} />,
     },
   ];
   const { windowPathName } = useGlobalContext();
 
-  const MenuData = location == "/" ? dashboardMenus : menus;
+  const MenuData =
+    location == "/"
+      ? userData
+        ? dashboardMenus
+        : dashboardMenus.filter((elem) => elem.title != "Home")
+      : menus;
   return (
     <Stack
       sx={{
@@ -140,14 +152,19 @@ export default function ResNav() {
         }}
       >
         {MenuData.map((menu, id) => {
-          const activeMenu =
+          const otherRouteActiveCondition =
             location.includes(menu.path) ||
-            (location == "/" && menu.title == "Home") ||
+            (location == "/" && menu.title == "Home");
+          const dashboardRouteActiveCondition =
             windowPathName == menu.to ||
             (menu.title == "Portfolio" && windowPathName == "#portfolio") ||
-            (menu.title == "Portfolio" && !windowPathName && location == "/")
-              ? true
-              : false;
+            (menu.title == "Portfolio" && !windowPathName && location == "/");
+
+          const activeMenu =
+            location == "/"
+              ? dashboardRouteActiveCondition
+              : otherRouteActiveCondition;
+
           return (
             <Box
               key={id}

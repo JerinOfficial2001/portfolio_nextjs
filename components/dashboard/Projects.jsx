@@ -1,5 +1,3 @@
-import { GetAllProfile } from "@/controller/profile";
-import Layout from "@/layouts/Layout";
 import {
   Box,
   Grid,
@@ -12,8 +10,6 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
-
 import { Add } from "@mui/icons-material";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { getDecryptedCookie } from "@/utils/EncryteCookies";
@@ -21,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { GetAllVisibleProjects } from "@/controller/project";
 import BulletCarousel from "../Projects/BulletCarousel";
 import { SwiperSlide } from "swiper/react";
+import "animate.css";
 
 export default function Projects() {
   const [isHovered, setisHovered] = useState(false);
