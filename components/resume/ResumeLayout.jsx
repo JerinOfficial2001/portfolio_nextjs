@@ -1,8 +1,11 @@
 import React from "react";
 import styles from "./resume.module.css";
 import { Divider } from "@mui/material";
+import { useGlobalContext } from "@/utils/globalContext";
 
-export default function ResumeLayout({ data, size }) {
+export default function ResumeLayout({ data, size, notRes }) {
+  const { isxs } = useGlobalContext();
+  let isResponsive = !notRes && (size || isxs);
   const SkillsComponent = (arr) => {
     return (
       <>
@@ -11,7 +14,7 @@ export default function ResumeLayout({ data, size }) {
           return (
             <p
               key={index}
-              className={`${size == "small" ? styles.smallText : styles.text}`}
+              className={`${isResponsive ? styles.smallText : styles.text}`}
             >
               {elem} {!isLastItem && ", "}
             </p>
@@ -22,35 +25,32 @@ export default function ResumeLayout({ data, size }) {
   };
   return (
     <div
-      className={`w-full h-full bg-white flex items-center justify-start p-[${
-        size == "small" ? "20px" : "70px"
-      }] flex-col`}
+      className={`w-full h-full bg-white flex items-center justify-start flex-col`}
+      style={{
+        padding: isResponsive ? "20px" : "70px",
+      }}
     >
-      <h1 className={`font-[800] text-[${size == "small" ? "10px" : "25px"}]`}>
+      <h1 className={`font-[800] text-[${isResponsive ? "10px" : "25px"}]`}>
         {data?.name}
       </h1>
       <div className={`w-full flex items-center justify-center gap-1`}>
         <p
           className={`${
-            size == "small"
-              ? styles.smallText
-              : size == "small"
-              ? styles.smallText
-              : styles.text
+            isResponsive ? styles.smallText : styles.text
           } font-bold`}
         >
           {data?.role}
         </p>
-        <span className={`${size == "small" ? styles.smallText : ""}`}>|</span>
+        <span className={`${isResponsive ? styles.smallText : ""}`}>|</span>
         <p
           className={`${
-            size == "small" ? styles.smallText : styles.text
+            isResponsive ? styles.smallText : styles.text
           } font-bold`}
         >
           Porfolio
         </p>
         <a
-          className={`${size == "small" ? styles.smallText : styles.link}`}
+          className={`${isResponsive ? styles.smallText : styles.link}`}
           href="/"
         >
           {data?.portfolio_link}
@@ -59,27 +59,27 @@ export default function ResumeLayout({ data, size }) {
       <div className={`w-full flex items-center justify-center gap-1`}>
         <p
           className={`${
-            size == "small" ? styles.smallText : styles.text
+            isResponsive ? styles.smallText : styles.text
           } font-bold`}
         >
           Mail :
         </p>
         <a
           className={`${
-            size == "small" ? styles.smallText : styles.link
+            isResponsive ? styles.smallText : styles.link
           } font-semibold`}
           href="/"
         >
           {data?.mail}
         </a>
-        <span className={`${size == "small" ? styles.smallText : ""}`}>|</span>
-        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+        <span className={`${isResponsive ? styles.smallText : ""}`}>|</span>
+        <p className={`${isResponsive ? styles.smallText : styles.text}`}>
           +91 {data?.phone}
         </p>
-        <span className={`${size == "small" ? styles.smallText : ""}`}>|</span>
+        <span className={`${isResponsive ? styles.smallText : ""}`}>|</span>
         <p
           className={`${
-            size == "small" ? styles.smallText : styles.text
+            isResponsive ? styles.smallText : styles.text
           } font-bold`}
         >
           LinkedIn :
@@ -87,7 +87,7 @@ export default function ResumeLayout({ data, size }) {
         <a
           href="/"
           className={`${
-            size == "small" ? styles.smallText : styles.link
+            isResponsive ? styles.smallText : styles.link
           } font-semibold`}
         >
           {data?.linkedIn}
@@ -96,29 +96,29 @@ export default function ResumeLayout({ data, size }) {
       <div className={`w-full flex items-center justify-center gap-1`}>
         <p
           className={`${
-            size == "small" ? styles.smallText : styles.text
+            isResponsive ? styles.smallText : styles.text
           } font-bold`}
         >
           GitHub :
         </p>
         <a
           className={`${
-            size == "small" ? styles.smallText : styles.link
+            isResponsive ? styles.smallText : styles.link
           } font-semibold`}
           href="/"
         >
           {data?.git}
         </a>
-        <span className={`${size == "small" ? styles.smallText : ""}`}>|</span>
-        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+        <span className={`${isResponsive ? styles.smallText : ""}`}>|</span>
+        <p className={`${isResponsive ? styles.smallText : styles.text}`}>
           {data?.district}
         </p>
-        <span className={`${size == "small" ? styles.smallText : ""}`}>,</span>
-        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+        <span className={`${isResponsive ? styles.smallText : ""}`}>,</span>
+        <p className={`${isResponsive ? styles.smallText : styles.text}`}>
           {data?.state}
         </p>
-        <span className={`${size == "small" ? styles.smallText : ""}`}>,</span>
-        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+        <span className={`${isResponsive ? styles.smallText : ""}`}>,</span>
+        <p className={`${isResponsive ? styles.smallText : styles.text}`}>
           {data?.country}
         </p>
       </div>
@@ -128,7 +128,7 @@ export default function ResumeLayout({ data, size }) {
       >
         <p
           className={`${
-            size == "small" ? styles.smallText : styles.title
+            isResponsive ? styles.smallText : styles.title
           } font-bold uppercase`}
         >
           Career objective
@@ -136,7 +136,7 @@ export default function ResumeLayout({ data, size }) {
         <Divider
           sx={{ width: "100%", borderWidth: "1.5px", borderColor: "black" }}
         />
-        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+        <p className={`${isResponsive ? styles.smallText : styles.text}`}>
           {data?.about}
         </p>
       </div>
@@ -146,7 +146,7 @@ export default function ResumeLayout({ data, size }) {
       >
         <p
           className={`${
-            size == "small" ? styles.smallText : styles.title
+            isResponsive ? styles.smallText : styles.title
           } font-bold uppercase text-[15px]`}
         >
           Education
@@ -156,18 +156,18 @@ export default function ResumeLayout({ data, size }) {
         />
         {data?.education.map((elem, index) => {
           return (
-            <div className={`w-full mb-${size == "small" ? 0 : 2}`} key={index}>
+            <div className={`w-full mb-${isResponsive ? 0 : 2}`} key={index}>
               <div className="w-full flex flex-row items-center justify-between">
                 <p
                   className={`${
-                    size == "small" ? styles.smallText : styles.text
+                    isResponsive ? styles.smallText : styles.text
                   } font-bold`}
                 >
                   {elem.department}
                 </p>
                 <p
                   className={`${
-                    size == "small" ? styles.smallText : styles.text
+                    isResponsive ? styles.smallText : styles.text
                   } font-bold`}
                 >
                   {elem.from.slice(0, 4)}-{elem.to.slice(0, 4)}
@@ -175,29 +175,25 @@ export default function ResumeLayout({ data, size }) {
               </div>
               <div className="w-full flex flex-row items-center justify-start gap-2">
                 <p
-                  className={`${
-                    size == "small" ? styles.smallText : styles.text
-                  }`}
+                  className={`${isResponsive ? styles.smallText : styles.text}`}
                 >
                   {elem.institution}
                 </p>
-                <span className={`${size == "small" ? styles.smallText : ""}`}>
+                <span className={`${isResponsive ? styles.smallText : ""}`}>
                   |
                 </span>
                 <p
                   className={`${
-                    size == "small" ? styles.smallText : styles.text
+                    isResponsive ? styles.smallText : styles.text
                   } font-bold`}
                 >
                   {elem.percentage.includes(".") ? "CGPA" : "Percentage"}
                 </p>
-                <span className={`${size == "small" ? styles.smallText : ""}`}>
+                <span className={`${isResponsive ? styles.smallText : ""}`}>
                   -
                 </span>
                 <p
-                  className={`${
-                    size == "small" ? styles.smallText : styles.text
-                  }`}
+                  className={`${isResponsive ? styles.smallText : styles.text}`}
                 >
                   {elem.percentage.includes(".")
                     ? elem.percentage + "/10"
@@ -214,7 +210,7 @@ export default function ResumeLayout({ data, size }) {
       >
         <p
           className={`${
-            size == "small" ? styles.smallText : styles.title
+            isResponsive ? styles.smallText : styles.title
           } font-bold uppercase text-[15px]`}
         >
           Skills
@@ -224,20 +220,18 @@ export default function ResumeLayout({ data, size }) {
         />
 
         <ul
-          className={`list-disc ml-5 ${
-            size == "small" ? styles.smallText : ""
-          }`}
+          className={`list-disc ml-5 ${isResponsive ? styles.smallText : ""}`}
         >
           <li>
             <div className="w-full flex flex-row items-center justify-start gap-2">
               <p
                 className={`${
-                  size == "small" ? styles.smallText : styles.text
+                  isResponsive ? styles.smallText : styles.text
                 } font-bold`}
               >
                 Technical Skills
               </p>
-              <span className={`${size == "small" ? styles.smallText : ""}`}>
+              <span className={`${isResponsive ? styles.smallText : ""}`}>
                 -
               </span>
               {SkillsComponent(data?.skills?.technical)}
@@ -247,12 +241,12 @@ export default function ResumeLayout({ data, size }) {
             <div className="w-full flex flex-row items-center justify-start gap-1">
               <p
                 className={`${
-                  size == "small" ? styles.smallText : styles.text
+                  isResponsive ? styles.smallText : styles.text
                 } font-bold`}
               >
                 Soft Skills
               </p>
-              <span className={`${size == "small" ? styles.smallText : ""}`}>
+              <span className={`${isResponsive ? styles.smallText : ""}`}>
                 -
               </span>
               {SkillsComponent(data?.skills?.soft)}
@@ -262,12 +256,12 @@ export default function ResumeLayout({ data, size }) {
             <div className="w-full flex flex-row items-center justify-start gap-1">
               <p
                 className={`${
-                  size == "small" ? styles.smallText : styles.text
+                  isResponsive ? styles.smallText : styles.text
                 } font-bold`}
               >
                 Languages
               </p>
-              <span className={`${size == "small" ? styles.smallText : ""}`}>
+              <span className={`${isResponsive ? styles.smallText : ""}`}>
                 -
               </span>
               {SkillsComponent(data?.skills?.language)}
@@ -281,7 +275,7 @@ export default function ResumeLayout({ data, size }) {
       >
         <p
           className={`${
-            size == "small" ? styles.smallText : styles.title
+            isResponsive ? styles.smallText : styles.title
           } font-bold uppercase text-[15px]`}
         >
           Experience
@@ -295,14 +289,14 @@ export default function ResumeLayout({ data, size }) {
               <div className="w-full flex flex-row items-center justify-between">
                 <p
                   className={`${
-                    size == "small" ? styles.smallText : styles.text
+                    isResponsive ? styles.smallText : styles.text
                   } font-bold`}
                 >
                   {elem.role}
                 </p>
                 <p
                   className={`${
-                    size == "small" ? styles.smallText : styles.text
+                    isResponsive ? styles.smallText : styles.text
                   } font-bold`}
                 >
                   {elem.from.slice(0, 4)}-{elem.to.slice(0, 4)}
@@ -311,28 +305,24 @@ export default function ResumeLayout({ data, size }) {
               <div className="w-full flex flex-row items-center justify-start gap-1">
                 <p
                   className={`${
-                    size == "small" ? styles.smallText : styles.text
+                    isResponsive ? styles.smallText : styles.text
                   } font-bold`}
                 >
                   {elem.company_name}
                 </p>
-                <span className={`${size == "small" ? styles.smallText : ""}`}>
+                <span className={`${isResponsive ? styles.smallText : ""}`}>
                   |
                 </span>
                 <p
-                  className={`${
-                    size == "small" ? styles.smallText : styles.text
-                  }`}
+                  className={`${isResponsive ? styles.smallText : styles.text}`}
                 >
                   {elem.place}
                 </p>
-                <span className={`${size == "small" ? styles.smallText : ""}`}>
+                <span className={`${isResponsive ? styles.smallText : ""}`}>
                   ,
                 </span>
                 <p
-                  className={`${
-                    size == "small" ? styles.smallText : styles.text
-                  }`}
+                  className={`${isResponsive ? styles.smallText : styles.text}`}
                 >
                   {elem.state}{" "}
                 </p>
@@ -341,7 +331,7 @@ export default function ResumeLayout({ data, size }) {
                 <li>
                   <p
                     className={`${
-                      size == "small" ? styles.smallText : styles.text
+                      isResponsive ? styles.smallText : styles.text
                     }`}
                   >
                     {elem.description}
@@ -350,12 +340,12 @@ export default function ResumeLayout({ data, size }) {
                 <li>
                   <div
                     className={`${
-                      size == "small" ? styles.smallText : styles.text
+                      isResponsive ? styles.smallText : styles.text
                     } w-full flex gap-1`}
                   >
                     <span
                       className={`${
-                        size == "small" ? styles.smallText : styles.text
+                        isResponsive ? styles.smallText : styles.text
                       } font-bold`}
                     >
                       Learned Skill :

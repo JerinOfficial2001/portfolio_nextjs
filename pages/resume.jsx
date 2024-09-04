@@ -24,7 +24,7 @@ export default function Resume() {
             {resumes.length > 0
               ? resumes?.map((elem, index) => {
                   return (
-                    <Grid item key={index}>
+                    <Grid item key={index} xs={12} md={2.7}>
                       <div className="animate__animated animate__zoomIn">
                         <Stack
                           onClick={() => {
@@ -35,7 +35,7 @@ export default function Resume() {
                           }}
                           sx={{
                             height: "280px",
-                            width: "220px",
+                            width: "100%",
                             background: "#626262",
                             borderRadius: 3,
                             boxShadow: "0 1px 2px gray",
@@ -45,7 +45,7 @@ export default function Resume() {
                           }}
                         >
                           <div className="h-full w-full flex items-center justify-center hover:bg-[#00000085] rounded-[10px] translate-all duration-[.3s]">
-                            <ResumeLayout data={elem} size={"small"} />
+                            <ResumeLayout data={elem} size={true} />
                           </div>
                         </Stack>
                       </div>
@@ -60,7 +60,7 @@ export default function Resume() {
                   </Grid>
                 )}
             {userData && (
-              <Grid item>
+              <Grid item xs={12} md={2.7}>
                 <div className="animate__animated animate__zoomIn">
                   <Stack
                     onClick={() => {
@@ -68,7 +68,7 @@ export default function Resume() {
                     }}
                     sx={{
                       height: "280px",
-                      width: "220px",
+                      width: "100%",
                       background: "#626262",
                       borderRadius: 3,
                       boxShadow: "0 1px 2px gray",

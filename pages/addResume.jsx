@@ -26,7 +26,7 @@ import toast, { Toaster } from "react-hot-toast";
 import ReactToPrint from "react-to-print";
 
 export default function AddResume() {
-  const { resumes, setresumes, printRef } = useGlobalContext();
+  const { resumes, setresumes, printRef, isxs } = useGlobalContext();
   const router = useRouter();
   const resumeData = {
     _id: Math.random().toString(36).substr(2, 8),
@@ -594,9 +594,20 @@ export default function AddResume() {
     router.push("/resume");
   };
   return (
-    <div className="w-full flex flex-row items-starts justify-between relative gap-5">
+    <div
+      className="w-full flex  items-starts justify-between relative gap-5"
+      style={{
+        flexDirection: isxs ? "column" : "row",
+      }}
+    >
       <Toaster position="top-center" />
-      <div className="max-h-[90vh] w-[100%] sticky top-0 overflow-y-auto pt-2">
+      <div
+        style={{
+          position: isxs ? "relative" : "sticky",
+          maxHeight: isxs ? "100%" : "90vh",
+        }}
+        className=" w-[100%] top-0 overflow-y-auto pt-2"
+      >
         <Grid container sx={{ width: "100%" }} spacing={2}>
           {inputArray.map((elem, index) => {
             if (
@@ -606,6 +617,7 @@ export default function AddResume() {
               return (
                 <Grid
                   key={index}
+                  xs={12}
                   md={elem.width == "2" ? 6 : elem.width == "3" ? 4 : 12}
                   item
                 >
@@ -622,7 +634,7 @@ export default function AddResume() {
               );
             } else if (elem.mode == "expandable") {
               return (
-                <Grid key={index} md={12} item>
+                <Grid key={index} xs={12} md={12} item>
                   <Button
                     sx={{
                       color: "white",
@@ -1069,8 +1081,13 @@ export default function AddResume() {
           </div>
         </div>
       </div>
-      <div ref={printRef}>
+      <div>
         <ResumeLayout data={inputDatas} />
+      </div>
+      <div style={{ display: "none" }}>
+        <div ref={printRef}>
+          <ResumeLayout data={inputDatas} notRes={true} />
+        </div>
       </div>
     </div>
   );

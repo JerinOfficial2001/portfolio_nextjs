@@ -6,7 +6,7 @@ import ReactToPrint from "react-to-print";
 
 export default function ViewResume() {
   const router = useRouter();
-  const { resumes, printRef } = useGlobalContext();
+  const { resumes, printRef, isxs, isMd } = useGlobalContext();
   const particularResume = resumes?.find((elem) => elem._id == router.query.id);
   const [isClient, setisClient] = useState(false);
   useEffect(() => {
@@ -16,13 +16,30 @@ export default function ViewResume() {
   return (
     <>
       {isClient && (
-        <div className="relative w-[100%] flex flex-row items-start justify-between ">
+        <div
+          className="relative w-[100%] flex items-start justify-between "
+          style={{
+            flexDirection: isxs ? "column-reverse" : "row",
+            alignItems: isxs ? "center" : "center",
+            justifyContent: isxs ? "center" : "space-between",
+          }}
+        >
           <div className="w-[70%]">
-            <div ref={printRef}>
+            <div>
               <ResumeLayout data={particularResume} />
+              <div style={{ display: "none" }}>
+                <div ref={printRef}>
+                  <ResumeLayout data={particularResume} notRes={true} />
+                </div>
+              </div>
             </div>
           </div>
-          <div className="sticky top-0 h-[70vh] flex items-center justify-center">
+          <div
+            style={{
+              height: isxs ? "100%" : "70vh",
+            }}
+            className="sticky top-0  flex items-center justify-center"
+          >
             <ReactToPrint
               trigger={() => {
                 return (
