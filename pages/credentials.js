@@ -44,11 +44,11 @@ export default function Credentials() {
     queryFn: () => GetCredentialsByID(id),
     enabled: !!id && !!profiles,
   });
-  useEffect(() => {
-    if (profilesErr || profileErr || credentialErr) {
-      router.push("/");
-    }
-  }, [profilesErr, profileErr, credentialErr]);
+  // useEffect(() => {
+  //   if (profilesErr || profileErr || credentialErr) {
+  //     router.push("/");
+  //   }
+  // }, [profilesErr, profileErr, credentialErr]);
   return (
     <Stack
       sx={{

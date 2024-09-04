@@ -50,12 +50,12 @@ export default function Homepage() {
     queryFn: () => GetCredentialsByID(homepage),
     enabled: !!homepage && !!DATA,
   });
-  useEffect(() => {
-    if (usersErr || profileErr || credentialErr) {
-      console.log(usersErr, profileErr, credentialErr, error);
-      router.push("/");
-    }
-  }, [usersErr, profileErr, credentialErr]);
+  // useEffect(() => {
+  //   if (usersErr || profileErr || credentialErr) {
+  //     console.log(usersErr, profileErr, credentialErr, error);
+  //     router.push("/");
+  //   }
+  // }, [usersErr, profileErr, credentialErr]);
 
   useEffect(() => {
     if (cachedCookie) {

@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { getDecryptedCookie } from "./EncryteCookies";
 import { useRouter } from "next/router";
 import { useMediaQuery, useTheme } from "@mui/material";
@@ -9,6 +15,9 @@ export const useGlobalContext = () => {
   return result;
 };
 export default function GlobalContextProvider({ children }) {
+  const printRef = useRef();
+
+  const [resumes, setresumes] = useState([]);
   const [userData, setuserData] = useState(null);
   const [profiles, setprofiles] = useState([]);
   const [direction, setdirection] = useState(false);
@@ -38,6 +47,7 @@ export default function GlobalContextProvider({ children }) {
   return (
     <GlobalContext.Provider
       value={{
+        printRef,
         isLg,
         isMd,
         isXl,
@@ -52,6 +62,8 @@ export default function GlobalContextProvider({ children }) {
         customStyle,
         windowPathName,
         setwindowPathName,
+        resumes,
+        setresumes,
       }}
     >
       {children}

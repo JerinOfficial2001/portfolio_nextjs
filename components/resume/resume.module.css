@@ -1,6 +1,10 @@
 .text {
   font-size: 13px;
 }
+.smallText {
+  font-size: 5px;
+}
+
 .link {
   color: blue;
   font-size: 13px;

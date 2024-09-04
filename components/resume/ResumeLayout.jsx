@@ -2,56 +2,153 @@ import React from "react";
 import styles from "./resume.module.css";
 import { Divider } from "@mui/material";
 
-export default function ResumeLayout({ data }) {
+export default function ResumeLayout({ data, size }) {
+  const SkillsComponent = (arr) => {
+    return (
+      <>
+        {arr.map((elem, index) => {
+          const isLastItem = index === arr.length - 1;
+          return (
+            <p
+              key={index}
+              className={`${size == "small" ? styles.smallText : styles.text}`}
+            >
+              {elem} {!isLastItem && ", "}
+            </p>
+          );
+        })}
+      </>
+    );
+  };
   return (
     <div
-      className={`w-full h-full bg-white flex items-center justify-start p-8 flex-col`}
+      className={`w-full h-full bg-white flex items-center justify-start p-[${
+        size == "small" ? "20px" : "70px"
+      }] flex-col`}
     >
-      <h1 className={`font-[800] text-[25px]`}>{data?.name}</h1>
+      <h1 className={`font-[800] text-[${size == "small" ? "10px" : "25px"}]`}>
+        {data?.name}
+      </h1>
       <div className={`w-full flex items-center justify-center gap-1`}>
-        <p className={`${styles.text} font-bold`}>{data?.role}</p>|
-        <p className={`${styles.text} font-bold`}>Porfolio</p>
-        <a className={`${styles.link}`} href="/">
+        <p
+          className={`${
+            size == "small"
+              ? styles.smallText
+              : size == "small"
+              ? styles.smallText
+              : styles.text
+          } font-bold`}
+        >
+          {data?.role}
+        </p>
+        <span className={`${size == "small" ? styles.smallText : ""}`}>|</span>
+        <p
+          className={`${
+            size == "small" ? styles.smallText : styles.text
+          } font-bold`}
+        >
+          Porfolio
+        </p>
+        <a
+          className={`${size == "small" ? styles.smallText : styles.link}`}
+          href="/"
+        >
           {data?.portfolio_link}
         </a>
       </div>
       <div className={`w-full flex items-center justify-center gap-1`}>
-        <p className={`${styles.text} font-bold`}>Mail :</p>
-        <a className={`${styles.link} font-semibold`} href="/">
+        <p
+          className={`${
+            size == "small" ? styles.smallText : styles.text
+          } font-bold`}
+        >
+          Mail :
+        </p>
+        <a
+          className={`${
+            size == "small" ? styles.smallText : styles.link
+          } font-semibold`}
+          href="/"
+        >
           {data?.mail}
         </a>
-        |<p className={`${styles.text}`}>+91 {data?.phone}</p>|
-        <p className={`${styles.text} font-bold`}>LinkedIn :</p>
-        <a href="/" className={`${styles.link} font-semibold`}>
+        <span className={`${size == "small" ? styles.smallText : ""}`}>|</span>
+        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+          +91 {data?.phone}
+        </p>
+        <span className={`${size == "small" ? styles.smallText : ""}`}>|</span>
+        <p
+          className={`${
+            size == "small" ? styles.smallText : styles.text
+          } font-bold`}
+        >
+          LinkedIn :
+        </p>
+        <a
+          href="/"
+          className={`${
+            size == "small" ? styles.smallText : styles.link
+          } font-semibold`}
+        >
           {data?.linkedIn}
         </a>
       </div>
       <div className={`w-full flex items-center justify-center gap-1`}>
-        <p className={`${styles.text} font-bold`}>GitHub :</p>
-        <a className={`${styles.link} font-semibold`} href="/">
+        <p
+          className={`${
+            size == "small" ? styles.smallText : styles.text
+          } font-bold`}
+        >
+          GitHub :
+        </p>
+        <a
+          className={`${
+            size == "small" ? styles.smallText : styles.link
+          } font-semibold`}
+          href="/"
+        >
           {data?.git}
         </a>
-        |<p className={`${styles.text}`}>{data?.district}</p>,
-        <p className={`${styles.text}`}>{data?.state}</p>,
-        <p className={`${styles.text}`}>{data?.country}</p>
+        <span className={`${size == "small" ? styles.smallText : ""}`}>|</span>
+        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+          {data?.district}
+        </p>
+        <span className={`${size == "small" ? styles.smallText : ""}`}>,</span>
+        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+          {data?.state}
+        </p>
+        <span className={`${size == "small" ? styles.smallText : ""}`}>,</span>
+        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+          {data?.country}
+        </p>
       </div>
       {/* //*Objective */}
       <div
         className={`w-full flex items-start justify-center gap-1 flex-col mt-2`}
       >
-        <p className={`${styles.title} font-bold uppercase`}>
+        <p
+          className={`${
+            size == "small" ? styles.smallText : styles.title
+          } font-bold uppercase`}
+        >
           Career objective
         </p>
         <Divider
           sx={{ width: "100%", borderWidth: "1.5px", borderColor: "black" }}
         />
-        <p className={`${styles.text}`}>{data?.about}</p>
+        <p className={`${size == "small" ? styles.smallText : styles.text}`}>
+          {data?.about}
+        </p>
       </div>
       {/* //*Education */}
       <div
         className={`w-full flex items-start justify-center gap-1 flex-col mt-2`}
       >
-        <p className={`${styles.title} font-bold uppercase text-[15px]`}>
+        <p
+          className={`${
+            size == "small" ? styles.smallText : styles.title
+          } font-bold uppercase text-[15px]`}
+        >
           Education
         </p>
         <Divider
@@ -59,20 +156,49 @@ export default function ResumeLayout({ data }) {
         />
         {data?.education.map((elem, index) => {
           return (
-            <div className="w-full" key={index}>
+            <div className={`w-full mb-${size == "small" ? 0 : 2}`} key={index}>
               <div className="w-full flex flex-row items-center justify-between">
-                <p className={`${styles.text} font-bold`}>{elem.department}</p>
-                <p className={`${styles.text} font-bold`}>
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  } font-bold`}
+                >
+                  {elem.department}
+                </p>
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  } font-bold`}
+                >
                   {elem.from.slice(0, 4)}-{elem.to.slice(0, 4)}
                 </p>
               </div>
               <div className="w-full flex flex-row items-center justify-start gap-2">
-                <p className={`${styles.text}`}>{elem.institution}</p>|
-                <p className={`${styles.text} font-bold`}>
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  }`}
+                >
+                  {elem.institution}
+                </p>
+                <span className={`${size == "small" ? styles.smallText : ""}`}>
+                  |
+                </span>
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  } font-bold`}
+                >
                   {elem.percentage.includes(".") ? "CGPA" : "Percentage"}
                 </p>
-                -
-                <p className={`${styles.text}`}>
+                <span className={`${size == "small" ? styles.smallText : ""}`}>
+                  -
+                </span>
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  }`}
+                >
                   {elem.percentage.includes(".")
                     ? elem.percentage + "/10"
                     : elem.percentage + "%"}
@@ -86,38 +212,65 @@ export default function ResumeLayout({ data }) {
       <div
         className={`w-full flex items-start justify-center gap-1 flex-col mt-2`}
       >
-        <p className={`${styles.title} font-bold uppercase text-[15px]`}>
+        <p
+          className={`${
+            size == "small" ? styles.smallText : styles.title
+          } font-bold uppercase text-[15px]`}
+        >
           Skills
         </p>
         <Divider
           sx={{ width: "100%", borderWidth: "1.5px", borderColor: "black" }}
         />
 
-        <ul className="list-disc ml-5">
+        <ul
+          className={`list-disc ml-5 ${
+            size == "small" ? styles.smallText : ""
+          }`}
+        >
           <li>
             <div className="w-full flex flex-row items-center justify-start gap-2">
-              <p className={`${styles.text} font-bold`}>Technical Skills</p>-
-              <p className={`${styles.text}`}>Skill 1</p>,
-              <p className={`${styles.text}`}>Skill 2</p>,
-              <p className={`${styles.text}`}>Skill 3</p>,
-              <p className={`${styles.text}`}>Skill 4</p>
+              <p
+                className={`${
+                  size == "small" ? styles.smallText : styles.text
+                } font-bold`}
+              >
+                Technical Skills
+              </p>
+              <span className={`${size == "small" ? styles.smallText : ""}`}>
+                -
+              </span>
+              {SkillsComponent(data?.skills?.technical)}
             </div>
           </li>
           <li>
             <div className="w-full flex flex-row items-center justify-start gap-1">
-              <p className={`${styles.text} font-bold`}>Soft Skills</p>-
-              <p className={`${styles.text}`}>Skill 1</p>,
-              <p className={`${styles.text}`}>Skill 2</p>,
-              <p className={`${styles.text}`}>Skill 3</p>,
-              <p className={`${styles.text}`}>Skill 4</p>
+              <p
+                className={`${
+                  size == "small" ? styles.smallText : styles.text
+                } font-bold`}
+              >
+                Soft Skills
+              </p>
+              <span className={`${size == "small" ? styles.smallText : ""}`}>
+                -
+              </span>
+              {SkillsComponent(data?.skills?.soft)}
             </div>
           </li>
           <li>
             <div className="w-full flex flex-row items-center justify-start gap-1">
-              <p className={`${styles.text} font-bold`}>Languages</p>-
-              <p className={`${styles.text}`}>Language 1</p>,
-              <p className={`${styles.text}`}>Language 2</p>,
-              <p className={`${styles.text}`}>Language 3</p>
+              <p
+                className={`${
+                  size == "small" ? styles.smallText : styles.text
+                } font-bold`}
+              >
+                Languages
+              </p>
+              <span className={`${size == "small" ? styles.smallText : ""}`}>
+                -
+              </span>
+              {SkillsComponent(data?.skills?.language)}
             </div>
           </li>
         </ul>
@@ -126,68 +279,94 @@ export default function ResumeLayout({ data }) {
       <div
         className={`w-full flex items-start justify-center gap-1 flex-col mt-2`}
       >
-        <p className={`${styles.title} font-bold uppercase text-[15px]`}>
+        <p
+          className={`${
+            size == "small" ? styles.smallText : styles.title
+          } font-bold uppercase text-[15px]`}
+        >
           Experience
         </p>
         <Divider
           sx={{ width: "100%", borderWidth: "1.5px", borderColor: "black" }}
         />
-        <div className="w-full flex flex-row items-center justify-between">
-          <p className={`${styles.text} font-bold`}>Role</p>
-          <p className={`${styles.text} font-bold`}>Year</p>
-        </div>
-        <div className="w-full flex flex-row items-center justify-start gap-1">
-          <p className={`${styles.text} font-bold`}>Company name</p>|
-          <p className={`${styles.text}`}>Place</p>,
-          <p className={`${styles.text}`}>State</p>
-        </div>
-        <ul className="list-disc ml-5">
-          <li>
-            <p className={`${styles.text}`}>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit
-              ullam at nesciunt atque quibusdam possimus qui distinctio
-            </p>
-          </li>
-          <li>
-            <div className={`${styles.text} w-full flex gap-1`}>
-              <span className={`${styles.text} font-bold`}>
-                Learned Skill :
-              </span>
-              <p className={`${styles.text}`}>Skill 1</p>,
-              <p className={`${styles.text}`}>Skill 2</p>,
-              <p className={`${styles.text}`}>Skill 3</p>,
-              <p className={`${styles.text}`}>Skill 4</p>
+        {data.experience.map((elem, index) => {
+          return (
+            <div key={index} className="w-full mb-3">
+              <div className="w-full flex flex-row items-center justify-between">
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  } font-bold`}
+                >
+                  {elem.role}
+                </p>
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  } font-bold`}
+                >
+                  {elem.from.slice(0, 4)}-{elem.to.slice(0, 4)}
+                </p>
+              </div>
+              <div className="w-full flex flex-row items-center justify-start gap-1">
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  } font-bold`}
+                >
+                  {elem.company_name}
+                </p>
+                <span className={`${size == "small" ? styles.smallText : ""}`}>
+                  |
+                </span>
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  }`}
+                >
+                  {elem.place}
+                </p>
+                <span className={`${size == "small" ? styles.smallText : ""}`}>
+                  ,
+                </span>
+                <p
+                  className={`${
+                    size == "small" ? styles.smallText : styles.text
+                  }`}
+                >
+                  {elem.state}{" "}
+                </p>
+              </div>
+              <ul className="list-disc ml-5">
+                <li>
+                  <p
+                    className={`${
+                      size == "small" ? styles.smallText : styles.text
+                    }`}
+                  >
+                    {elem.description}
+                  </p>
+                </li>
+                <li>
+                  <div
+                    className={`${
+                      size == "small" ? styles.smallText : styles.text
+                    } w-full flex gap-1`}
+                  >
+                    <span
+                      className={`${
+                        size == "small" ? styles.smallText : styles.text
+                      } font-bold`}
+                    >
+                      Learned Skill :
+                    </span>
+                    {SkillsComponent(elem.skills)}
+                  </div>
+                </li>
+              </ul>
             </div>
-          </li>
-        </ul>
-        <div className="w-full flex flex-row items-center justify-between">
-          <p className={`${styles.text} font-bold`}>Role</p>
-          <p className={`${styles.text} font-bold`}>Year</p>
-        </div>
-        <div className="w-full flex flex-row items-center justify-start gap-1">
-          <p className={`${styles.text} font-bold`}>Company name</p>|
-          <p className={`${styles.text}`}>Place</p>,
-          <p className={`${styles.text}`}>State</p>
-        </div>
-        <ul className="list-disc ml-5">
-          <li>
-            <p className={`${styles.text}`}>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit
-              ullam at nesciunt atque quibusdam possimus qui distinctio
-            </p>
-          </li>
-          <li>
-            <div className={`${styles.text} w-full flex gap-1`}>
-              <span className={`${styles.text} font-bold`}>
-                Learned Skill :
-              </span>
-              <p className={`${styles.text}`}>Skill 1</p>,
-              <p className={`${styles.text}`}>Skill 2</p>,
-              <p className={`${styles.text}`}>Skill 3</p>,
-              <p className={`${styles.text}`}>Skill 4</p>
-            </div>
-          </li>
-        </ul>
+          );
+        })}
       </div>
     </div>
   );

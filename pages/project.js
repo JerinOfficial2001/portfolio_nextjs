@@ -61,6 +61,8 @@ export default function Project() {
         });
       }
       setisLoading(false);
+      setisApploading(false);
+      setisWebLoading(false);
     });
   };
 
@@ -125,7 +127,6 @@ export default function Project() {
       ),
     },
   ];
-
   return (
     <>
       {!openModel && <Toaster position="top-center" />}

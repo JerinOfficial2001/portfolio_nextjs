@@ -20,7 +20,8 @@ export const GetProfileByID = async (id) => {
     if (data.status == "ok") {
       return data.data;
     } else {
-      toast.error(data.message);
+      // toast.error(data.message);
+      return null;
     }
   } catch (error) {
     console.log("GetProfile ERR", error);
@@ -44,7 +45,8 @@ export const GetAllProfile = async () => {
     if (data.status == "ok") {
       return data.data;
     } else {
-      toast.error(data.message);
+      // toast.error(data.message);
+      return [];
     }
   } catch (error) {
     console.log("GetProfile ERR", error);
@@ -63,7 +65,8 @@ export const GetProfileByUserID = async (UserID) => {
         return null;
       }
     } else {
-      toast.error(data.message);
+      // toast.error(data.message);
+      return null;
     }
   } catch (error) {
     console.log("GetProfile ERR", error);

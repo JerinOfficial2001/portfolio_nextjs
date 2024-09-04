@@ -31,8 +31,6 @@ export default function SkillsContainer({ data, handleFormData }) {
             background: "#a5a5a5",
           },
         },
-        mt: 1,
-        mb: 2,
       }}
     >
       {data?.map((text, index) => (
@@ -42,8 +40,8 @@ export default function SkillsContainer({ data, handleFormData }) {
           color="info"
           sx={{ color: "white" }}
           onDelete={() => {
-            const newData = elem.value.filter((i) => i !== text);
-            handleFormData("skills", newData);
+            const newData = data.filter((i) => i !== text);
+            handleFormData(newData);
           }}
         />
       ))}
