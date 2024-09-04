@@ -34,7 +34,7 @@ export default function Resume() {
                             });
                           }}
                           sx={{
-                            height: "280px",
+                            height: { xs: "400px", md: "280px" },
                             width: "100%",
                             background: "#626262",
                             borderRadius: 3,
@@ -67,7 +67,7 @@ export default function Resume() {
                       router.push("/addResume");
                     }}
                     sx={{
-                      height: "280px",
+                      height: { xs: "400px", md: "280px" },
                       width: "100%",
                       background: "#626262",
                       borderRadius: 3,

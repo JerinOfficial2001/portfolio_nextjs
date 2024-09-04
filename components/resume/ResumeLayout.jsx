@@ -285,7 +285,7 @@ export default function ResumeLayout({ data, size, notRes }) {
         />
         {data.experience.map((elem, index) => {
           return (
-            <div key={index} className="w-full mb-3">
+            <div key={index} className={`w-full mb-${isResponsive ? 0 : 3}`}>
               <div className="w-full flex flex-row items-center justify-between">
                 <p
                   className={`${
@@ -327,7 +327,11 @@ export default function ResumeLayout({ data, size, notRes }) {
                   {elem.state}{" "}
                 </p>
               </div>
-              <ul className="list-disc ml-5">
+              <ul
+                className={`list-disc ml-5 ${
+                  isResponsive ? styles.smallText : ""
+                }`}
+              >
                 <li>
                   <p
                     className={`${
